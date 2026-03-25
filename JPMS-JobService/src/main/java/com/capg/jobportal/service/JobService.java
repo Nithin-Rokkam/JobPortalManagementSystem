@@ -1,22 +1,27 @@
 package com.capg.jobportal.service;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+/*
+ * ================================================================
+ * AUTHOR: Kushagra Varshney
+ * CLASS: JobService
+ * DESCRIPTION:
+ * This service contains business logic for job management including
+ * job creation, retrieval, search, update, deletion, and admin-level
+ * operations. It also handles pagination and filtering.
+ * ================================================================
+ */
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
-import com.capg.jobportal.Exceptions.ForbiddenException;
-import com.capg.jobportal.Exceptions.InvalidJobTypeException;
-import com.capg.jobportal.Exceptions.ResourceNotFoundException;
-import com.capg.jobportal.dto.JobRequestDTO;
-import com.capg.jobportal.dto.JobResponseDTO;
-import com.capg.jobportal.dto.PagedResponse;
+import com.capg.jobportal.Exceptions.*;
+import com.capg.jobportal.dto.*;
 import com.capg.jobportal.entity.Job;
 import com.capg.jobportal.enums.JobStatus;
 import com.capg.jobportal.enums.JobType;
@@ -25,17 +30,30 @@ import com.capg.jobportal.repository.JobRepository;
 @Service
 public class JobService {
 
-    @Autowired
-    private JobRepository jobRepository;
+    /*
+     * Logger instance for tracking business logic execution
+     */
+    private static final Logger logger = LogManager.getLogger(JobService.class);
 
-    // -----------------------------------------------
-    // POST /api/jobs — RECRUITER only
-    // -----------------------------------------------
+    private final JobRepository jobRepository;
+
+    public JobService(JobRepository jobRepository) {
+        this.jobRepository = jobRepository;
+    }
+
+    
+    /* ================================================================
+     * METHOD: postJob
+     * DESCRIPTION:
+     * Allows a recruiter to create and post a new job.
+     * ================================================================ */
     public JobResponseDTO postJob(JobRequestDTO dto, Long postedBy, String userRole) {
 
-        // Only RECRUITER can post jobs
+        logger.info("Recruiter [{}] posting job: {}", postedBy, dto.getTitle());
+
         if (!userRole.equals("RECRUITER")) {
-        	throw new ForbiddenException("Only recruiters can post jobs");
+            logger.warn("Unauthorized role '{}' tried to post job", userRole);
+            throw new ForbiddenException("Only recruiters can post jobs");
         }
 
         Job job = convertToEntity(dto);
@@ -43,80 +61,103 @@ public class JobService {
         job.setStatus(JobStatus.ACTIVE);
 
         Job saved = jobRepository.save(job);
+
+        logger.info("Job [{}] created successfully", saved.getId());
+
         return convertToResponseDTO(saved);
     }
+    
 
-    // -----------------------------------------------
-    // GET /api/jobs — Public — PAGINATED
-    // page=0 means first page, size=10 means 10 jobs per page
-    // -----------------------------------------------
+    /* ================================================================
+     * METHOD: getAllJobs
+     * DESCRIPTION:
+     * Retrieves all active jobs with pagination support.
+     * ================================================================ */
     public PagedResponse<JobResponseDTO> getAllJobs(int page, int size) {
 
-        Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
+        logger.debug("Fetching jobs — page: {}, size: {}", page, size);
 
+        Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
         Page<Job> jobPage = jobRepository.findByStatusNot(JobStatus.DELETED, pageable);
+
+        logger.info("Fetched {} jobs", jobPage.getNumberOfElements());
 
         return buildPagedResponse(jobPage);
     }
 
-    // -----------------------------------------------
-    // GET /api/jobs/{id} — Public
-    // -----------------------------------------------
+    
+    /* ================================================================
+     * METHOD: getJobById
+     * DESCRIPTION:
+     * Fetches job details using job ID.
+     * ================================================================ */
     public JobResponseDTO getJobById(Long id) {
 
+        logger.debug("Fetching job [{}]", id);
+
         Job job = jobRepository.findByIdAndStatusNot(id, JobStatus.DELETED)
-                .orElseThrow(() -> new ResourceNotFoundException(
-                        "Job not found with id: " + id));
+                .orElseThrow(() -> {
+                    logger.warn("Job [{}] not found", id);
+                    return new ResourceNotFoundException("Job not found with id: " + id);
+                });
 
         return convertToResponseDTO(job);
     }
 
-    // -----------------------------------------------
-    // GET /api/jobs/search — Public — PAGINATED
-    // -----------------------------------------------
+    
+    /* ================================================================
+     * METHOD: searchJobs
+     * DESCRIPTION:
+     * Searches jobs based on filters such as title, location,
+     * job type, and experience with pagination.
+     * ================================================================ */
     public PagedResponse<JobResponseDTO> searchJobs(String title, String location,
-                                                     String jobType, Integer experienceYears,
-                                                     int page, int size) {
+                                                    String jobType, Integer experienceYears,
+                                                    int page, int size) {
+
+        logger.info("Searching jobs — title: {}, location: {}", title, location);
 
         Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
 
-        // Convert String → JobType enum safely
         JobType jobTypeEnum = null;
+
         if (jobType != null && !jobType.isEmpty()) {
             try {
                 jobTypeEnum = JobType.valueOf(jobType.toUpperCase());
-            } catch (IllegalArgumentException e) {
-            	 throw new InvalidJobTypeException(
-                         "Invalid job type: " + jobType +
-                         ". Valid values are: FULL_TIME, PART_TIME, REMOTE, CONTRACT");
+            } catch (Exception e) {
+                logger.warn("Invalid job type: {}", jobType);
+                throw new InvalidJobTypeException("Invalid job type: " + jobType);
             }
         }
-        
-        
+
         Page<Job> jobPage = jobRepository.searchJobs(
                 title, location, jobTypeEnum, experienceYears, pageable);
+
+        logger.info("Search returned {} results", jobPage.getTotalElements());
 
         return buildPagedResponse(jobPage);
     }
 
-    // -----------------------------------------------
-    // PUT /api/jobs/{id} — RECRUITER + owner only
-    // -----------------------------------------------
+    
+    /* ================================================================
+     * METHOD: updateJob
+     * DESCRIPTION:
+     * Updates job details if the requester is the owner recruiter.
+     * ================================================================ */
     public JobResponseDTO updateJob(Long id, JobRequestDTO dto,
-                                    Long currentUserId, String currentUserRole) {
+                                   Long currentUserId, String currentUserRole) {
 
-        // Only RECRUITER role allowed
+        logger.info("Updating job [{}] by user [{}]", id, currentUserId);
+
         if (!currentUserRole.equals("RECRUITER")) {
-        	throw new ForbiddenException("Only recruiters can update jobs");
+            throw new ForbiddenException("Only recruiters can update jobs");
         }
 
         Job job = jobRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException(
-                        "Job not found with id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Job not found"));
 
-        // Ownership check — recruiter must own this job
         if (!job.getPostedBy().equals(currentUserId)) {
-        	throw new ForbiddenException("You can only update your own jobs");
+            throw new ForbiddenException("Not your job");
         }
 
         job.setTitle(dto.getTitle());
@@ -130,94 +171,113 @@ public class JobService {
         job.setDeadline(dto.getDeadline());
 
         Job updated = jobRepository.save(job);
+
+        logger.info("Job [{}] updated successfully", id);
+
         return convertToResponseDTO(updated);
     }
+    
 
-    // -----------------------------------------------
-    // DELETE /api/jobs/{id} — RECRUITER + owner only
-    // Soft delete — status = DELETED, record stays in DB
-    // -----------------------------------------------
-    public void deleteJob(Long id, Long currentUserId, String currentUserRole) {
+    /* ================================================================
+     * METHOD: deleteJob
+     * DESCRIPTION:
+     * Performs soft delete of job if requester is owner recruiter.
+     * ================================================================ */
+    public void deleteJob(Long id, Long userId, String role) {
 
-        // Only RECRUITER role allowed
-        if (!currentUserRole.equals("RECRUITER")) {
-        	throw new ForbiddenException("Only recruiters can delete jobs");
+        logger.info("Deleting job [{}] by user [{}]", id, userId);
+
+        if (!role.equals("RECRUITER")) {
+            throw new ForbiddenException("Only recruiters can delete jobs");
         }
 
         Job job = jobRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException(
-                        "Job not found with id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Job not found"));
 
-        // Ownership check — recruiter must own this job
-        if (!job.getPostedBy().equals(currentUserId)) {
-        	throw new ForbiddenException("You can only delete your own jobs");
+        if (!job.getPostedBy().equals(userId)) {
+            throw new ForbiddenException("Not your job");
         }
 
-        // Soft delete — never physically remove from DB
         job.setStatus(JobStatus.DELETED);
         jobRepository.save(job);
+
+        logger.info("Job [{}] soft deleted", id);
     }
 
-    // -----------------------------------------------
-    // GET /api/jobs/my-jobs — RECRUITER only — PAGINATED
-    // -----------------------------------------------
-    public PagedResponse<JobResponseDTO> getMyJobs(Long postedBy,
-                                                    String userRole,
-                                                    int page, int size) {
+    
+    /* ================================================================
+     * METHOD: getMyJobs
+     * DESCRIPTION:
+     * Retrieves jobs posted by a recruiter with pagination.
+     * ================================================================ */
+    public PagedResponse<JobResponseDTO> getMyJobs(Long userId, String role, int page, int size) {
 
-        // Only RECRUITER can see their own jobs
-        if (!userRole.equals("RECRUITER")) {
-        	throw new ForbiddenException("Only recruiters can access this endpoint");
+        logger.info("Fetching jobs for recruiter [{}]", userId);
+
+        if (!role.equals("RECRUITER")) {
+            throw new ForbiddenException("Access denied");
         }
 
         Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
 
-        Page<Job> jobPage = jobRepository.findByPostedByAndStatusNot(
-                postedBy, JobStatus.DELETED, pageable);
+        Page<Job> jobPage =
+                jobRepository.findByPostedByAndStatusNot(userId, JobStatus.DELETED, pageable);
 
         return buildPagedResponse(jobPage);
     }
+
     
-    
+    /* ================================================================
+     * METHOD: getAllJobsForAdmin
+     * DESCRIPTION:
+     * Retrieves all jobs including deleted ones for admin usage.
+     * ================================================================ */
     public List<JobResponseDTO> getAllJobsForAdmin() {
+
+        logger.info("Admin fetching all jobs");
+
         List<Job> jobs = jobRepository.findAll();
         List<JobResponseDTO> result = new ArrayList<>();
+
         for (Job job : jobs) {
-            result.add(convertToResponseDTO(job));  // reuse existing private helper
+            result.add(convertToResponseDTO(job));
         }
+
         return result;
     }
-    
 
+    
+    /* ================================================================
+     * METHOD: deleteJobByAdmin
+     * DESCRIPTION:
+     * Allows admin to soft delete any job without ownership check.
+     * ================================================================ */
     public void deleteJobByAdmin(Long id) {
-        Job job = jobRepository.findById(id).orElse(null);
-        if (job == null) {
-            throw new ResourceNotFoundException("Job not found with id: " + id);
-        }
+
+        logger.info("Admin deleting job [{}]", id);
+
+        Job job = jobRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Job not found"));
+
         job.setStatus(JobStatus.DELETED);
         jobRepository.save(job);
     }
     
 
-    // -----------------------------------------------
-    // PRIVATE HELPER — builds PagedResponse from Page<Job>
-    // -----------------------------------------------
+    /* ================================================================
+     * PRIVATE HELPER METHODS
+     * ================================================================ */
+
     private PagedResponse<JobResponseDTO> buildPagedResponse(Page<Job> jobPage) {
         return new PagedResponse<>(
-                jobPage.getContent()
-                       .stream()
-                       .map(this::convertToResponseDTO)
-                       .toList(),
-                jobPage.getNumber(),       // current page number
-                jobPage.getTotalPages(),   // total pages available
-                jobPage.getTotalElements(), // total records in DB
-                jobPage.isLast()           // is this the last page?
+                jobPage.getContent().stream().map(this::convertToResponseDTO).toList(),
+                jobPage.getNumber(),
+                jobPage.getTotalPages(),
+                jobPage.getTotalElements(),
+                jobPage.isLast()
         );
     }
 
-    // -----------------------------------------------
-    // PRIVATE HELPER — RequestDTO → Entity
-    // -----------------------------------------------
     private Job convertToEntity(JobRequestDTO dto) {
         Job job = new Job();
         job.setTitle(dto.getTitle());
@@ -232,9 +292,6 @@ public class JobService {
         return job;
     }
 
-    // -----------------------------------------------
-    // PRIVATE HELPER — Entity → ResponseDTO
-    // -----------------------------------------------
     private JobResponseDTO convertToResponseDTO(Job job) {
         JobResponseDTO dto = new JobResponseDTO();
         dto.setId(job.getId());
