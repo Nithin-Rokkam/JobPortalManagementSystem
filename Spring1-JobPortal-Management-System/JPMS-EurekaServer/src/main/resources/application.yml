@@ -1,0 +1,29 @@
+server:
+  port: 8761
+
+spring:
+  application:
+    name: eureka-server
+
+eureka:
+  instance:
+    hostname: eureka-server          # matches the Docker container name in docker-compose.yml
+
+  client:
+    register-with-eureka: false      # this IS the registry — it does not register itself
+    fetch-registry: false            # no need to fetch its own registry
+
+  server:
+    wait-time-in-ms-when-sync-empty: 0    # don't wait during startup — faster dev experience
+    enable-self-preservation: false        # disable in dev (prevents stale instance warnings)
+                                           # set to TRUE in production
+
+# Actuator — Docker healthcheck hits /actuator/health
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info
+  endpoint:
+    health:
+      show-details: always
