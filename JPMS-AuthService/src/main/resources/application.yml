@@ -6,8 +6,7 @@ spring:
     name: auth-service
 
   datasource:
-#    url: jdbc:mysql://auth-db:3306/auth_db?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
-    url: jdbc:mysql://localhost:3306/auth_db?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+    url: jdbc:mysql://jobportal-db:3306/jobportal_db?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
     username: ${AUTH_SERVICE_DB_USERNAME}
     password: ${AUTH_SERVICE_DB_PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -16,6 +15,7 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
+    defer-datasource-initialization: true
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQLDialect
@@ -39,8 +39,7 @@ spring:
 eureka:
   client:
     service-url:
-#      defaultZone: http://eureka-server:8761/eureka
-       defaultZone: http://localhost:8761/eureka/
+      defaultZone: http://eureka-server:8761/eureka/
   instance:
     prefer-ip-address: true
 

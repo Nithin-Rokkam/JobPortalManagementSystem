@@ -6,8 +6,7 @@ spring:
     name: job-service
 
   datasource:
-#    url: jdbc:mysql://job-db:3306/job_db?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
-    url: jdbc:mysql://localhost:3306/job_db?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+    url: jdbc:mysql://jobportal-db:3306/jobportal_db?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
     username: ${JOB_SERVICE_DB_USERNAME}
     password: ${JOB_SERVICE_DB_PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -16,6 +15,11 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
+    defer-datasource-initialization: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+        format_sql: true
 
   autoconfigure:
     exclude:
@@ -35,8 +39,7 @@ rabbitmq:
 eureka:
   client:
     service-url:
-#      defaultZone: http://eureka-server:8761/eureka
-      defaultZone: http://localhost:8761/eureka/
+      defaultZone: http://eureka-server:8761/eureka/
   instance:
     prefer-ip-address: true
 

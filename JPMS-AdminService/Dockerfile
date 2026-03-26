@@ -9,5 +9,5 @@ FROM eclipse-temurin:17-jre
 ENV TZ=UTC
 WORKDIR /app
 COPY --from=builder /app/target/*.jar app.jar
-EXPOSE 8085
+EXPOSE 8084
 ENTRYPOINT ["java", "-jar", "app.jar"]

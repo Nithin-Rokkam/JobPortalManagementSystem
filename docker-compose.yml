@@ -1,0 +1,184 @@
+version: "3.8"
+
+services:
+
+  # ===============================
+  # EUREKA SERVER
+  # ===============================
+  eureka-server:
+    build: ./JPMS-EurekaServer
+    container_name: eureka-server
+    ports:
+      - "8761:8761"
+    networks:
+      - jobportal-network
+
+  # ===============================
+  # API GATEWAY
+  # ===============================
+  api-gateway:
+    build: ./JPMS-ApiGateWay
+    container_name: api-gateway
+    ports:
+      - "9090:9090"
+    env_file:
+      - .env
+    environment:
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka/
+      EUREKA_INSTANCE_PREFER_IP_ADDRESS: "true"
+    depends_on:
+      - eureka-server
+    networks:
+      - jobportal-network
+
+  # ===============================
+  # MYSQL DATABASE
+  # ===============================
+  jobportal-db:
+    image: mysql:8
+    container_name: jobportal-db
+    volumes:
+      - mysql-data:/var/lib/mysql
+    env_file:
+      - .env
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: jobportal_db
+    ports:
+      - "3307:3306"
+    networks:
+      - jobportal-network
+
+  # ===============================
+  # RABBITMQ
+  # ===============================
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - jobportal-network
+
+  # ===============================
+  # AUTH SERVICE
+  # ===============================
+  auth-service:
+    build: ./JPMS-AuthService
+    container_name: auth-service
+    ports:
+      - "8081:8081"
+    env_file:
+      - .env
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://jobportal-db:3306/jobportal_db
+      SPRING_RABBITMQ_HOST: rabbitmq
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka/
+      EUREKA_INSTANCE_PREFER_IP_ADDRESS: "true"
+    depends_on:
+      - jobportal-db
+      - rabbitmq
+      - eureka-server
+    networks:
+      - jobportal-network
+
+  # ===============================
+  # JOB SERVICE
+  # ===============================
+  job-service:
+    build: ./JPMS-JobService
+    container_name: job-service
+    ports:
+      - "8082:8082"
+    env_file:
+      - .env
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://jobportal-db:3306/jobportal_db
+      SPRING_RABBITMQ_HOST: rabbitmq
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka/
+      EUREKA_INSTANCE_PREFER_IP_ADDRESS: "true"
+    depends_on:
+      - jobportal-db
+      - rabbitmq
+      - eureka-server
+    networks:
+      - jobportal-network
+
+  # ===============================
+  # APPLICATION SERVICE
+  # ===============================
+  application-service:
+    build: ./JPMS-ApplicationService
+    container_name: application-service
+    ports:
+      - "8083:8083"
+    env_file:
+      - .env
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://jobportal-db:3306/jobportal_db
+      SPRING_RABBITMQ_HOST: rabbitmq
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka/
+      EUREKA_INSTANCE_PREFER_IP_ADDRESS: "true"
+    depends_on:
+      - jobportal-db
+      - rabbitmq
+      - eureka-server
+    networks:
+      - jobportal-network
+
+  # ===============================
+  # ADMIN SERVICE
+  # ===============================
+  admin-service:
+    build: ./JPMS-AdminService
+    container_name: admin-service
+    ports:
+      - "8084:8084"
+    env_file:
+      - .env
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://jobportal-db:3306/jobportal_db
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka/
+      EUREKA_INSTANCE_PREFER_IP_ADDRESS: "true"
+    depends_on:
+      - jobportal-db
+      - eureka-server
+      - auth-service
+      - job-service
+      - application-service
+    networks:
+      - jobportal-network
+
+  # ===============================
+  # NOTIFICATION SERVICE
+  # ===============================
+  notification-service:
+    build: ./JPMS-NotificationService
+    container_name: notification-service
+    ports:
+      - "8085:8085"
+    env_file:
+      - .env
+    environment:
+      SPRING_RABBITMQ_HOST: rabbitmq
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka/
+      EUREKA_INSTANCE_PREFER_IP_ADDRESS: "true"
+    depends_on:
+      - rabbitmq
+      - eureka-server
+    networks:
+      - jobportal-network
+
+# ===============================
+# VOLUMES
+# ===============================
+volumes:
+  mysql-data:
+
+# ===============================
+# NETWORK
+# ===============================
+networks:
+  jobportal-network:
+    driver: bridge
