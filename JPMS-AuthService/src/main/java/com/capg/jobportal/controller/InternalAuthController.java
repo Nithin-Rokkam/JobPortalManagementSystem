@@ -2,22 +2,26 @@ package com.capg.jobportal.controller;
 
 import java.util.List;
 
-
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
+import com.capg.jobportal.dto.UserInfoResponse;
 import com.capg.jobportal.dto.UserProfileResponse;
 import com.capg.jobportal.service.AuthService;
 
+import io.swagger.v3.oas.annotations.Hidden;
 
 /*
  * ================================================================
- * AUTHOR: Kushagra Varshney
+ * AUTHOR: Nithin Kumar Rokkam
  * CLASS: InternalAuthController
  * DESCRIPTION:
  * This controller provides internal APIs for user management
@@ -29,6 +33,7 @@ import com.capg.jobportal.service.AuthService;
  * (e.g., AdminService) and is NOT exposed to end users via API Gateway.
  * ================================================================
  */
+@Hidden
 @RestController
 @RequestMapping("/api/internal")
 public class InternalAuthController {
@@ -129,5 +134,23 @@ public class InternalAuthController {
         logger.info("Token invalidated for user [{}]", id);
 
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+    
+    
+    @GetMapping("/users/job-seeker-emails")
+    public ResponseEntity<List<String>> getJobSeekerEmails() {
+        List<String> emails = authService.getJobSeekerEmails();
+        return new ResponseEntity<>(emails, HttpStatus.OK);
+    }
+    
+    
+    @GetMapping("/users/{id}/info")
+    public ResponseEntity<UserInfoResponse> getUserInfo(@PathVariable Long id) {
+        UserProfileResponse profile = authService.getProfile(id);
+        UserInfoResponse info = new UserInfoResponse();
+        info.setId(profile.getId());
+        info.setName(profile.getName());
+        info.setEmail(profile.getEmail());
+        return ResponseEntity.ok(info);
     }
 }

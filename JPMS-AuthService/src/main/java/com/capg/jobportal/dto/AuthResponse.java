@@ -1,5 +1,24 @@
 package com.capg.jobportal.dto;
 
+
+/*
+ * ================================================================
+ * AUTHOR: Nithin Kumar Rokkam
+ * CLASS: AuthResponse
+ * DESCRIPTION:
+ * This DTO represents the response returned after successful
+ * authentication (login/register/refresh).
+ *
+ * It contains:
+ * - JWT access token and refresh token
+ * - User details (id, name, email, role)
+ * - Optional message for status communication
+ *
+ * PURPOSE:
+ * Provides a structured response for authentication-related APIs,
+ * enabling secure communication between client and server.
+ * ================================================================
+ */
 public class AuthResponse {
 	
 	private String message;

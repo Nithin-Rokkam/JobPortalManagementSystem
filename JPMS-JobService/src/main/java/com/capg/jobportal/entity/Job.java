@@ -18,6 +18,31 @@ import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 
+
+/*
+ * ================================================================
+ * AUTHOR: Nithin Kumar Rokkam
+ * CLASS: Job
+ * DESCRIPTION:
+ * This entity represents the "jobs" table in the database.
+ * It stores all details related to job postings created by recruiters.
+ *
+ * KEY FEATURES:
+ * - Maps job-related attributes such as title, company, salary, etc.
+ * - Uses ENUM types for jobType and status for better consistency
+ * - Maintains audit fields (createdAt, updatedAt)
+ * - Tracks the recruiter (postedBy) who created the job
+ *
+ * LIFECYCLE METHODS:
+ * - @PrePersist → Automatically sets createdAt and updatedAt
+ *   when a new job record is inserted.
+ * - @PreUpdate → Updates updatedAt timestamp whenever the job is modified.
+ *
+ * PURPOSE:
+ * Acts as a persistence model for storing and managing job data
+ * in the database using JPA/Hibernate.
+ * ================================================================
+ */
 @Entity
 @Table(name = "jobs")
 public class Job {

@@ -16,15 +16,24 @@ import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import org.springframework.data.domain.*;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import com.capg.jobportal.Exceptions.*;
-import com.capg.jobportal.dto.*;
+import com.capg.jobportal.Exceptions.ForbiddenException;
+import com.capg.jobportal.Exceptions.InvalidJobTypeException;
+import com.capg.jobportal.Exceptions.ResourceNotFoundException;
+import com.capg.jobportal.dto.JobRequestDTO;
+import com.capg.jobportal.dto.JobResponseDTO;
+import com.capg.jobportal.dto.PagedResponse;
 import com.capg.jobportal.entity.Job;
 import com.capg.jobportal.enums.JobStatus;
 import com.capg.jobportal.enums.JobType;
+import com.capg.jobportal.event.JobPostedEvent;
 import com.capg.jobportal.repository.JobRepository;
 
 @Service
@@ -36,10 +45,23 @@ public class JobService {
     private static final Logger logger = LogManager.getLogger(JobService.class);
 
     private final JobRepository jobRepository;
+    
+    private final RabbitTemplate rabbitTemplate;
 
-    public JobService(JobRepository jobRepository) {
+    @Value("${rabbitmq.exchange}")
+    private String exchange;
+
+    @Value("${rabbitmq.routing-key}")
+    private String routingKey;
+
+    public JobService(JobRepository jobRepository , RabbitTemplate rabbitTemplate) {
         this.jobRepository = jobRepository;
+        this.rabbitTemplate = rabbitTemplate;
     }
+    
+    
+    
+    
 
     
     /* ================================================================
@@ -61,6 +83,20 @@ public class JobService {
         job.setStatus(JobStatus.ACTIVE);
 
         Job saved = jobRepository.save(job);
+        
+     // Publish event to RabbitMQ after job is saved
+        JobPostedEvent event = new JobPostedEvent(
+                saved.getId(),
+                saved.getPostedBy(), 
+                saved.getTitle(),
+                saved.getCompanyName(),
+                saved.getLocation(),
+                saved.getJobType().name(),
+                saved.getSalary(),
+                saved.getExperienceYears(),
+                saved.getDescription()
+        );
+        rabbitTemplate.convertAndSend(exchange, routingKey, event);
 
         logger.info("Job [{}] created successfully", saved.getId());
 

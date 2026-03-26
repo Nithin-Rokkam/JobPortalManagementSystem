@@ -10,6 +10,27 @@ import com.capg.jobportal.dto.UserResponse;
 
 import java.util.List;
 
+
+
+/*
+ * ================================================================
+ * AUTHOR: Nithin Kumar Rokkam
+ * INTERFACE: AuthServiceClient
+ * DESCRIPTION:
+ * This Feign client enables communication between the Admin
+ * Service and the Auth Service.
+ *
+ * It supports user management operations such as:
+ * - Fetching all users
+ * - Deleting users
+ * - Banning and unbanning users
+ * - Invalidating user tokens
+ *
+ * PURPOSE:
+ * Allows centralized admin control over user accounts while
+ * maintaining separation of concerns across microservices.
+ * ================================================================
+ */
 @FeignClient(name = "auth-service")
 public interface AuthServiceClient {
 

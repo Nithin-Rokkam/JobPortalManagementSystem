@@ -3,6 +3,27 @@ package com.capg.jobportal.dto;
 
 import java.util.List;
 
+
+/*
+ * ================================================================
+ * AUTHOR: Nithin Kumar Rokkam
+ * CLASS: PagedResponse<T>
+ * DESCRIPTION:
+ * This generic DTO is used to represent paginated responses for
+ * API endpoints that return large datasets (e.g., job listings).
+ *
+ * It includes:
+ * - List of data (content)
+ * - Current page number
+ * - Total pages available
+ * - Total number of elements
+ * - Indicator if this is the last page
+ *
+ * PURPOSE:
+ * Provides a standardized structure for pagination, improving
+ * API usability and enabling efficient data handling on the client side.
+ * ================================================================
+ */
 public class PagedResponse<T> {
 
     private List<T> content;

@@ -2,19 +2,7 @@ package com.capg.jobportal.controller;
 
 import java.util.List;
 
-/*
- * ================================================================
- * AUTHOR: Kushagra Varshney
- * CLASS: InternalJobController
- * DESCRIPTION:
- * This controller provides internal APIs for job management operations
- * such as fetching all jobs and deleting jobs by admin.
- *
- * NOTE:
- * This controller is intended for internal microservice communication
- * (e.g., AdminService) and is NOT exposed to end users via API Gateway.
- * ================================================================
- */
+
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -26,6 +14,23 @@ import org.springframework.web.bind.annotation.*;
 import com.capg.jobportal.dto.JobResponseDTO;
 import com.capg.jobportal.service.JobService;
 
+import io.swagger.v3.oas.annotations.Hidden;
+
+
+/*
+ * ================================================================
+ * AUTHOR: Nithin Kumar Rokkam
+ * CLASS: InternalJobController
+ * DESCRIPTION:
+ * This controller provides internal APIs for job management operations
+ * such as fetching all jobs and deleting jobs by admin.
+ *
+ * NOTE:
+ * This controller is intended for internal microservice communication
+ * (e.g., AdminService) and is NOT exposed to end users via API Gateway.
+ * ================================================================
+ */
+@Hidden
 @RestController
 @RequestMapping("/api/internal")
 public class InternalJobController {

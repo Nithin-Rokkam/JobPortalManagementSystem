@@ -2,6 +2,25 @@ package com.capg.jobportal.dto;
 
 import java.time.LocalDate;
 
+
+/*
+ * ================================================================
+ * AUTHOR: Nithin Kumar Rokkam
+ * CLASS: JobClientResponse
+ * DESCRIPTION:
+ * This DTO represents job details received from the Job Service
+ * via Feign client communication.
+ *
+ * It includes:
+ * - Basic job information (id, title, status)
+ * - Recruiter reference (postedBy)
+ * - Application deadline
+ *
+ * PURPOSE:
+ * Acts as a data transfer object for inter-service communication
+ * between Application Service and Job Service.
+ * ================================================================
+ */
 public class JobClientResponse {
 
 	private Long id;

@@ -4,6 +4,26 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+
+/*
+ * ================================================================
+ * AUTHOR: Nithin Kumar Rokkam
+ * CLASS: JobResponseDTO
+ * DESCRIPTION:
+ * This DTO is used to send job-related data from the backend to
+ * clients (job seekers or recruiters).
+ *
+ * It includes complete job information such as:
+ * - Job details (title, company, location, salary, etc.)
+ * - Job metadata (status, deadline)
+ * - Creator information (postedBy)
+ * - Audit fields (createdAt, updatedAt)
+ *
+ * PURPOSE:
+ * Acts as a response object to provide structured job data to the
+ * presentation layer while hiding internal entity implementation.
+ * ================================================================
+ */
 public class JobResponseDTO {
 
     private Long id;

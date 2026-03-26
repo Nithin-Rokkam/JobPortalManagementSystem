@@ -3,6 +3,27 @@ package com.capg.jobportal.dto;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+
+/*
+ * ================================================================
+ * AUTHOR: Nithin Kumar Rokkam
+ * CLASS: JobRequestDTO
+ * DESCRIPTION:
+ * This DTO is used to capture job-related input data from clients
+ * (typically recruiters) when creating or updating a job posting.
+ *
+ * It contains all necessary job details such as:
+ * - Job title, company name, and location
+ * - Salary and experience requirements
+ * - Job type and required skills
+ * - Job description and status
+ * - Application deadline
+ *
+ * PURPOSE:
+ * Acts as a request payload to transfer job data from the client
+ * layer to the service layer in a structured and validated format.
+ * ================================================================
+ */
 public class JobRequestDTO {
 
     private String title;

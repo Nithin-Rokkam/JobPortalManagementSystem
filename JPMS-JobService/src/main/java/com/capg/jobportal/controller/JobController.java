@@ -25,6 +25,12 @@ import com.capg.jobportal.dto.JobResponseDTO;
 import com.capg.jobportal.dto.PagedResponse;
 import com.capg.jobportal.service.JobService;
 
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
+@Tag(name = "Job APIs", description = "Job Management APIs")
 @RestController
 @RequestMapping("/api/jobs")
 public class JobController {
@@ -49,10 +55,15 @@ public class JobController {
      * DESCRIPTION:
      * Allows a recruiter to post a new job listing.
      * ================================================================ */
+    @Operation(summary = "Post a new job")
     @PostMapping
     public ResponseEntity<JobResponseDTO> postJob(
             @RequestBody JobRequestDTO dto,
+
+            @Parameter(description = "User ID from Gateway", required = true)
             @RequestHeader("X-User-Id") Long userId,
+
+            @Parameter(description = "User Role from Gateway", required = true)
             @RequestHeader("X-User-Role") String userRole) {
 
         logger.info("Recruiter [{}] posting job: {}", userId, dto.getTitle());
@@ -70,6 +81,7 @@ public class JobController {
      * DESCRIPTION:
      * Fetches all jobs with pagination support for public users.
      * ================================================================ */
+    @Operation(summary = "Get all jobs with pagination")
     @GetMapping
     public ResponseEntity<PagedResponse<JobResponseDTO>> getAllJobs(
             @RequestParam(defaultValue = "0") int page,
@@ -90,6 +102,7 @@ public class JobController {
      * DESCRIPTION:
      * Fetches job details based on job ID.
      * ================================================================ */
+    @Operation(summary = "Get job by ID")
     @GetMapping("/{id}")
     public ResponseEntity<JobResponseDTO> getJobById(@PathVariable Long id) {
 
@@ -109,6 +122,7 @@ public class JobController {
      * Searches jobs based on filters like title, location, job type,
      * and experience with pagination support.
      * ================================================================ */
+    @Operation(summary = "Search jobs with filters")
     @GetMapping("/search")
     public ResponseEntity<PagedResponse<JobResponseDTO>> searchJobs(
             @RequestParam(required = false) String title,
@@ -135,11 +149,16 @@ public class JobController {
      * DESCRIPTION:
      * Allows a recruiter to update a job they own.
      * ================================================================ */
+    @Operation(summary = "Update job by recruiter")
     @PutMapping("/{id}")
     public ResponseEntity<JobResponseDTO> updateJob(
             @PathVariable Long id,
             @RequestBody JobRequestDTO dto,
+
+            @Parameter(description = "User ID from Gateway", required = true)
             @RequestHeader("X-User-Id") Long userId,
+
+            @Parameter(description = "User Role from Gateway", required = true)
             @RequestHeader("X-User-Role") String userRole) {
 
         logger.info("Recruiter [{}] updating job [{}]", userId, id);
@@ -157,10 +176,15 @@ public class JobController {
      * DESCRIPTION:
      * Allows a recruiter to delete (soft delete) a job they own.
      * ================================================================ */
+    @Operation(summary = "Delete job by recruiter")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteJob(
             @PathVariable Long id,
+
+            @Parameter(description = "User ID from Gateway", required = true)
             @RequestHeader("X-User-Id") Long userId,
+
+            @Parameter(description = "User Role from Gateway", required = true)
             @RequestHeader("X-User-Role") String userRole) {
 
         logger.info("Recruiter [{}] deleting job [{}]", userId, id);
@@ -178,10 +202,16 @@ public class JobController {
      * DESCRIPTION:
      * Fetches jobs posted by a specific recruiter with pagination.
      * ================================================================ */
+    @Operation(summary = "Get jobs posted by recruiter")
     @GetMapping("/my-jobs")
     public ResponseEntity<PagedResponse<JobResponseDTO>> getMyJobs(
+
+            @Parameter(description = "User ID from Gateway", required = true)
             @RequestHeader("X-User-Id") Long userId,
+
+            @Parameter(description = "User Role from Gateway", required = true)
             @RequestHeader("X-User-Role") String userRole,
+
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
 

@@ -6,26 +6,35 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.capg.jobportal.client.AuthServiceClient;
 import com.capg.jobportal.client.JobServiceClient;
 import com.capg.jobportal.dao.ApplicationRepository;
-import com.capg.jobportal.dto.*;
+import com.capg.jobportal.dto.ApplicationResponse;
+import com.capg.jobportal.dto.ApplicationStats;
+import com.capg.jobportal.dto.JobClientResponse;
+import com.capg.jobportal.dto.RecruiterApplicationResponse;
+import com.capg.jobportal.dto.StatusUpdateRequest;
+import com.capg.jobportal.dto.UserInfoResponse;
 import com.capg.jobportal.entity.Application;
 import com.capg.jobportal.enums.ApplicationStatus;
-import com.capg.jobportal.exception.*;
+import com.capg.jobportal.event.JobAppliedEvent;
+import com.capg.jobportal.exception.DuplicateApplicationException;
+import com.capg.jobportal.exception.ForbiddenException;
+import com.capg.jobportal.exception.InvalidStatusTransitionException;
+import com.capg.jobportal.exception.ResourceNotFoundException;
 import com.capg.jobportal.util.CloudinaryUtil;
 
 
 /*
  * ================================================================
- * AUTHOR: Kushagra Varshney
+ * AUTHOR: Nithin Kumar Rokkam
  * CLASS: ApplicationService
  * DESCRIPTION:
  * This service handles all business logic related to job applications
@@ -46,12 +55,25 @@ public class ApplicationService {
     private final JobServiceClient jobServiceClient;
     private final CloudinaryUtil cloudinaryUtil;
 
+    private final RabbitTemplate rabbitTemplate;
+    private final AuthServiceClient authServiceClient;
+
+    @Value("${rabbitmq.exchange}")
+    private String exchange;
+
+    @Value("${rabbitmq.routing-key}")
+    private String routingKey;
+
     public ApplicationService(ApplicationRepository applicationRepository,
-                              JobServiceClient jobServiceClient,
-                              CloudinaryUtil cloudinaryUtil) {
+                               JobServiceClient jobServiceClient,
+                               CloudinaryUtil cloudinaryUtil,
+                               RabbitTemplate rabbitTemplate,
+                               AuthServiceClient authServiceClient) {
         this.applicationRepository = applicationRepository;
         this.jobServiceClient = jobServiceClient;
         this.cloudinaryUtil = cloudinaryUtil;
+        this.rabbitTemplate = rabbitTemplate;
+        this.authServiceClient = authServiceClient;
     }
     
 
@@ -115,6 +137,24 @@ public class ApplicationService {
         application.setStatus(ApplicationStatus.APPLIED);
 
         Application saved = applicationRepository.save(application);
+        
+     // 🆕 Publish event to RabbitMQ after saving
+        try {
+            UserInfoResponse seeker = authServiceClient.getUserInfo(seekerId);
+
+            JobAppliedEvent event = new JobAppliedEvent();
+            event.setJobId(jobId);
+            event.setJobTitle(job.getTitle());
+            event.setSeekerId(seekerId);
+            event.setSeekerName(seeker.getName());
+            event.setSeekerEmail(seeker.getEmail());
+            event.setRecruiterId(job.getPostedBy());
+
+            rabbitTemplate.convertAndSend(exchange, routingKey, event);
+        } catch (Exception e) {
+            // Don't fail the application if notification fails
+            System.err.println("Failed to publish job applied event: " + e.getMessage());
+        }
 
         logger.info("Application [{}] created successfully", saved.getId());
 

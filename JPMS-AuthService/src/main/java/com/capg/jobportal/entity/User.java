@@ -16,6 +16,35 @@ import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 
+
+
+/*
+ * ================================================================
+ * AUTHOR: Nithin Kumar Rokkam
+ * CLASS: User
+ * DESCRIPTION:
+ * This entity represents the "users" table in the database.
+ * It stores all details related to users of the platform,
+ * including both job seekers and recruiters.
+ *
+ * KEY FEATURES:
+ * - Stores user credentials (email, password)
+ * - Maintains user role (e.g., JOB_SEEKER, RECRUITER, ADMIN)
+ * - Tracks account status using UserStatus enum
+ * - Supports profile-related data (profile picture, resume)
+ * - Handles authentication tokens (refreshToken)
+ * - Includes audit fields (createdAt, updatedAt)
+ *
+ * LIFECYCLE METHODS:
+ * - @PrePersist → Automatically sets createdAt and updatedAt
+ *   when a new user record is created.
+ * - @PreUpdate → Updates updatedAt whenever the user record is modified.
+ *
+ * PURPOSE:
+ * Acts as the persistence model for managing user data,
+ * authentication, and profile-related information using JPA/Hibernate.
+ * ================================================================
+ */
 @Entity
 @Table(name = "users")
 public class User {

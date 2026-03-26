@@ -5,6 +5,36 @@ import java.time.LocalDateTime;
 
 import com.capg.jobportal.enums.ApplicationStatus;
 
+
+
+/*
+ * ================================================================
+ * AUTHOR: Nithin Kumar Rokkam
+ * CLASS: Application
+ * DESCRIPTION:
+ * This entity represents the "applications" table in the database.
+ * It stores details of job applications submitted by users
+ * (job seekers) for specific jobs.
+ *
+ * KEY FEATURES:
+ * - Maintains relationship between user (userId) and job (jobId)
+ * - Stores resume URL and optional cover letter
+ * - Tracks application status using ApplicationStatus enum
+ * - Includes recruiter feedback via recruiterNote
+ * - Enforces unique constraint (user_id + job_id) to prevent
+ *   duplicate applications
+ *
+ * LIFECYCLE METHODS:
+ * - @PrePersist → Automatically sets appliedAt and updatedAt
+ *   when a new application is created
+ * - @PreUpdate → Updates updatedAt when the application is modified
+ *
+ * PURPOSE:
+ * Acts as the persistence model for managing job applications,
+ * ensuring data integrity, tracking application progress, and
+ * supporting recruiter review workflows.
+ * ================================================================
+ */
 @Entity
 @Table(
     name = "applications",

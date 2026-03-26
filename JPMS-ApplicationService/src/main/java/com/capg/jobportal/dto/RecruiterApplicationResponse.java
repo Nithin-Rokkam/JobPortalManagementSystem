@@ -5,6 +5,30 @@ import java.time.LocalDateTime;
 import com.capg.jobportal.entity.Application;
 import com.capg.jobportal.enums.ApplicationStatus;
 
+
+/*
+ * ================================================================
+ * AUTHOR: Nithin Kumar Rokkam
+ * CLASS: RecruiterApplicationResponse
+ * DESCRIPTION:
+ * This DTO represents application details specifically for
+ * recruiters viewing applicants.
+ *
+ * It includes:
+ * - Application details
+ * - Resume and cover letter
+ * - Application status
+ * - Recruiter-specific note/feedback
+ * - Timestamps
+ *
+ * KEY FEATURE:
+ * - Includes a static factory method to map Application entity
+ *   into recruiter-specific response format.
+ *
+ * PURPOSE:
+ * Provides enhanced application data tailored for recruiters.
+ * ================================================================
+ */
 public class RecruiterApplicationResponse {
 
     private Long id;

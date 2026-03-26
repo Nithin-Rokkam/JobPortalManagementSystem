@@ -6,6 +6,28 @@ import com.capg.jobportal.entity.Application;
 import com.capg.jobportal.enums.ApplicationStatus;
 
 
+
+/*
+ * ================================================================
+ * AUTHOR: Nithin Kumar Rokkam
+ * CLASS: ApplicationResponse
+ * DESCRIPTION:
+ * This DTO represents the response data for a job application.
+ *
+ * It includes:
+ * - Application details (id, userId, jobId)
+ * - Resume and cover letter information
+ * - Current application status
+ * - Timestamps (appliedAt, updatedAt)
+ *
+ * KEY FEATURE:
+ * - Contains a static factory method (fromEntity) to convert
+ *   Application entity into response DTO.
+ *
+ * PURPOSE:
+ * Provides a structured response for job application-related APIs.
+ * ================================================================
+ */
 public class ApplicationResponse {
 
 	private Long id;

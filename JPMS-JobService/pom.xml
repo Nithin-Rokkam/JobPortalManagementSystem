@@ -1,4 +1,4 @@
-﻿<project xmlns="http://maven.apache.org/POM/4.0.0"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
          https://maven.apache.org/xsd/maven-4.0.0.xsd">
@@ -22,7 +22,7 @@
 
     <dependencies>
 
-        <!-- WEB -->
+        <!-- ================= WEB ================= -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
@@ -34,13 +34,13 @@
             </exclusions>
         </dependency>
 
-        <!-- LOG4J2 -->
+        <!-- ================= LOG4J2 ================= -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-log4j2</artifactId>
         </dependency>
 
-        <!-- SECURITY -->
+        <!-- ================= SECURITY ================= -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
@@ -52,7 +52,7 @@
             </exclusions>
         </dependency>
 
-        <!-- JPA -->
+        <!-- ================= JPA ================= -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
@@ -64,13 +64,21 @@
             </exclusions>
         </dependency>
 
-        <!-- ACTUATOR -->
+        <!-- ================= ACTUATOR ================= -->
+        <!-- FIXED: Added exclusion to prevent Logback -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-logging</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
-        <!-- AMQP -->
+        <!-- ================= AMQP ================= -->
+        <!-- KEEP ONLY ONE (with exclusion) -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-amqp</artifactId>
@@ -82,7 +90,7 @@
             </exclusions>
         </dependency>
 
-        <!-- EUREKA -->
+        <!-- ================= EUREKA ================= -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
@@ -94,7 +102,7 @@
             </exclusions>
         </dependency>
 
-        <!-- FEIGN -->
+        <!-- ================= FEIGN ================= -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-openfeign</artifactId>
@@ -106,13 +114,13 @@
             </exclusions>
         </dependency>
 
-        <!-- RESILIENCE -->
+        <!-- ================= RESILIENCE ================= -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-circuitbreaker-resilience4j</artifactId>
         </dependency>
 
-        <!-- DATABASE -->
+        <!-- ================= DATABASE ================= -->
         <dependency>
             <groupId>com.mysql</groupId>
             <artifactId>mysql-connector-j</artifactId>
@@ -124,7 +132,14 @@
             <artifactId>ojdbc11</artifactId>
         </dependency>
 
-        <!-- ================= TEST DEPENDENCIES ================= -->
+        <!-- ================= SWAGGER ================= -->
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+            <version>2.5.0</version>
+        </dependency>
+
+        <!-- ================= TEST ================= -->
 
         <!-- JUnit + Spring Boot Test -->
         <dependency>
@@ -149,6 +164,7 @@
 
     </dependencies>
 
+    <!-- ================= SPRING CLOUD ================= -->
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -161,6 +177,7 @@
         </dependencies>
     </dependencyManagement>
 
+    <!-- ================= BUILD ================= -->
     <build>
         <plugins>
             <plugin>

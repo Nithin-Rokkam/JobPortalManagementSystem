@@ -31,17 +31,48 @@ spring:
           predicates:
             - Path=/api/admin/**
 
+        - id: auth-swagger
+          uri: lb://auth-service
+          predicates:
+            - Path=/auth-docs/**
+          filters:
+            - RewritePath=/auth-docs/(?<segment>.*), /${segment}
+
+        - id: swagger-ui-direct
+          uri: lb://auth-service
+          predicates:
+            - Path=/swagger-ui/**
+
+        - id: api-docs-direct
+          uri: lb://auth-service
+          predicates:
+            - Path=/v3/api-docs/**
+
+        - id: auth-service-internal
+          uri: lb://auth-service
+          predicates:
+            - Path=/api/internal/users/**
+
+        - id: job-service-internal
+          uri: lb://job-service
+          predicates:
+            - Path=/api/internal/jobs/**
+
+        - id: application-service-internal
+          uri: lb://application-service
+          predicates:
+            - Path=/api/internal/applications/**
+
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:8761/eureka/
+#      defaultZone: http://eureka-server:8761/eureka/
+       defaultZone: http://localhost:8761/eureka/
   instance:
     prefer-ip-address: true
-    hostname: localhost
-    ip-address: 127.0.0.1
 
 jwt:
-  secret: jobportal_super_secret_key_must_be_at_least_32_characters_long
+  secret: ${API_GATEWAY_JWT_SECRET}
 
 management:
   endpoints:

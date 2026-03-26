@@ -1,5 +1,25 @@
 package com.capg.jobportal.dto;
 
+
+/*
+ * ================================================================
+ * AUTHOR: Nithin Kumar Rokkam
+ * CLASS: ApplicationStats
+ * DESCRIPTION:
+ * This DTO represents aggregated statistics of job applications.
+ *
+ * It includes counts for:
+ * - Total applications
+ * - Applied
+ * - Under review
+ * - Shortlisted
+ * - Rejected
+ *
+ * PURPOSE:
+ * Used for analytics and reporting purposes, especially for
+ * admin dashboards and internal service communication.
+ * ================================================================
+ */
 public class ApplicationStats {
 	
 	private long totalApplications;

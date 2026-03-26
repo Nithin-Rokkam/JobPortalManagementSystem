@@ -1,5 +1,25 @@
 package com.capg.jobportal.dto;
 
+
+
+/*
+ * ================================================================
+ * AUTHOR: Nithin Kumar Rokkam
+ * CLASS: UserResponse
+ * DESCRIPTION:
+ * This DTO represents user information returned to the client
+ * or other services.
+ *
+ * It includes:
+ * - Basic user details (id, name, email, phone)
+ * - Role and account status
+ * - Profile-related data (profile picture, resume)
+ *
+ * PURPOSE:
+ * Provides a safe and structured representation of user data
+ * without exposing sensitive fields like password.
+ * ================================================================
+ */
 public class UserResponse {
 
 	private Long id;

@@ -2,6 +2,26 @@ package com.capg.jobportal.dto;
 
 import java.time.LocalDateTime;
 
+
+/*
+ * ================================================================
+ * AUTHOR: Nithin Kumar Rokkam
+ * CLASS: ErrorResponse
+ * DESCRIPTION:
+ * This DTO (Data Transfer Object) represents a standardized error
+ * response returned by the application when an exception occurs.
+ *
+ * It encapsulates essential error details such as:
+ * - HTTP status code
+ * - Error type
+ * - Error message
+ * - Timestamp of the error
+ *
+ * PURPOSE:
+ * Ensures consistent and structured error handling across all APIs,
+ * making it easier for clients to understand and debug issues.
+ * ================================================================
+ */
 public class ErrorResponse {
 	
 	private int status;

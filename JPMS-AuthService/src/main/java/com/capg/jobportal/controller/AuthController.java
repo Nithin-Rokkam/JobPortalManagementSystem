@@ -3,8 +3,6 @@ package com.capg.jobportal.controller;
 import java.io.IOException;
 import java.util.Map;
 
-
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -22,23 +20,34 @@ import com.capg.jobportal.service.AuthService;
 import jakarta.validation.Valid;
 
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 /*
  * ================================================================
- * AUTHOR: Kushagra Varshney
+ * AUTHOR: Nithin Kumar Rokkam
  * CLASS: AuthController
  * DESCRIPTION:
- * This controller handles all authentication-related APIs including
- * user registration, login, token refresh, logout, and profile
- * management such as uploading profile picture, resume, and fetching
- * user profile details.
+ * This controller handles all authentication-related APIs including:
+ * - User Registration
+ * - Login & Token Generation
+ * - Token Refresh & Logout
+ * - Profile Management (Picture, Resume, Profile Fetch)
+ *
+ * NOTE:
+ * All APIs are exposed via API Gateway.
+ * User identity is passed through headers (X-User-Id) from Gateway.
  * ================================================================
  */
+
+@Tag(name = "Auth APIs", description = "Authentication and User Profile APIs")
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
 
     /*
-     * Logger instance for tracking API calls and debugging
+     * Logger instance for tracking API activity
      */
     private static final Logger logger = LogManager.getLogger(AuthController.class);
 
@@ -47,16 +56,16 @@ public class AuthController {
     public AuthController(AuthService authService) {
         this.authService = authService;
     }
-    
 
     /* ================================================================
      * METHOD: register
      * DESCRIPTION:
-     * Registers a new user by validating input data and delegating
-     * the request to the AuthService.
+     * Registers a new user in the system.
      * ================================================================ */
+    @Operation(summary = "Register new user")
     @PostMapping("/register")
-    public ResponseEntity<AuthResponse> register(@Valid @RequestBody RegisterRequest request) {
+    public ResponseEntity<AuthResponse> register(
+            @Valid @RequestBody RegisterRequest request) {
 
         logger.info("Register request for email: {}", request.getEmail());
 
@@ -66,16 +75,16 @@ public class AuthController {
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
-    
 
     /* ================================================================
      * METHOD: login
      * DESCRIPTION:
-     * Authenticates user credentials and returns access and refresh
-     * tokens upon successful authentication.
+     * Authenticates user and generates JWT access & refresh tokens.
      * ================================================================ */
+    @Operation(summary = "Login user and generate JWT tokens")
     @PostMapping("/login")
-    public ResponseEntity<AuthResponse> login(@Valid @RequestBody LoginRequest request) {
+    public ResponseEntity<AuthResponse> login(
+            @Valid @RequestBody LoginRequest request) {
 
         logger.info("Login attempt for email: {}", request.getEmail());
 
@@ -86,15 +95,15 @@ public class AuthController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    
     /* ================================================================
      * METHOD: refresh
      * DESCRIPTION:
-     * Generates a new access token using a valid refresh token
-     * provided by the user.
+     * Generates a new access token using refresh token.
      * ================================================================ */
+    @Operation(summary = "Refresh access token")
     @PostMapping("/refresh")
-    public ResponseEntity<AuthResponse> refresh(@RequestBody Map<String, String> body) {
+    public ResponseEntity<AuthResponse> refresh(
+            @RequestBody Map<String, String> body) {
 
         logger.info("Token refresh requested");
 
@@ -106,15 +115,15 @@ public class AuthController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    
     /* ================================================================
      * METHOD: logout
      * DESCRIPTION:
-     * Logs out the user by invalidating the refresh token stored
-     * in the database.
+     * Logs out the user by invalidating refresh token.
      * ================================================================ */
+    @Operation(summary = "Logout user")
     @PostMapping("/logout")
-    public ResponseEntity<Map<String, String>> logout(@RequestBody Map<String, String> body) {
+    public ResponseEntity<Map<String, String>> logout(
+            @RequestBody Map<String, String> body) {
 
         logger.info("Logout request received");
 
@@ -126,17 +135,20 @@ public class AuthController {
         return new ResponseEntity<>(Map.of("message", "Logged out successfully"), HttpStatus.OK);
     }
 
-    
     /* ================================================================
      * METHOD: uploadProfilePicture
      * DESCRIPTION:
-     * Uploads the user's profile picture to cloud storage and updates
-     * the profile with the new image URL.
+     * Uploads user profile picture to Cloudinary.
      * ================================================================ */
+    @Operation(summary = "Upload profile picture")
     @PutMapping("/profile/picture")
     public ResponseEntity<Map<String, String>> uploadProfilePicture(
+
             @RequestPart("picture") MultipartFile picture,
-            @RequestHeader("X-User-Id") Long userId) throws IOException {
+
+            @Parameter(description = "User ID from Gateway", required = true)
+            @RequestHeader("X-User-Id") Long userId
+    ) throws IOException {
 
         logger.info("User [{}] uploading profile picture", userId);
 
@@ -147,17 +159,20 @@ public class AuthController {
         return new ResponseEntity<>(Map.of("profilePictureUrl", url), HttpStatus.OK);
     }
 
-    
     /* ================================================================
      * METHOD: uploadResume
      * DESCRIPTION:
-     * Uploads the user's resume file to cloud storage and updates
-     * the user profile with the resume URL.
+     * Uploads user resume to Cloudinary.
      * ================================================================ */
+    @Operation(summary = "Upload resume")
     @PutMapping("/profile/resume")
     public ResponseEntity<Map<String, String>> uploadResume(
+
             @RequestPart("resume") MultipartFile resume,
-            @RequestHeader("X-User-Id") Long userId) throws IOException {
+
+            @Parameter(description = "User ID from Gateway", required = true)
+            @RequestHeader("X-User-Id") Long userId
+    ) throws IOException {
 
         logger.info("User [{}] uploading resume", userId);
 
@@ -168,16 +183,18 @@ public class AuthController {
         return new ResponseEntity<>(Map.of("resumeUrl", url), HttpStatus.OK);
     }
 
-    
     /* ================================================================
      * METHOD: getProfile
      * DESCRIPTION:
-     * Fetches the profile details of the authenticated user based
-     * on the provided user ID.
+     * Fetches profile details of the logged-in user.
      * ================================================================ */
+    @Operation(summary = "Get logged-in user profile")
     @GetMapping("/profile")
     public ResponseEntity<UserProfileResponse> getProfile(
-            @RequestHeader("X-User-Id") Long userId) {
+
+            @Parameter(description = "User ID from Gateway", required = true)
+            @RequestHeader("X-User-Id") Long userId
+    ) {
 
         logger.info("Fetching profile for user [{}]", userId);
 

@@ -4,6 +4,25 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+/*
+ * ================================================================
+ * AUTHOR: Nithin Kumar Rokkam
+ * CLASS: ErrorResponse
+ * DESCRIPTION:
+ * This DTO defines a standard structure for error responses
+ * returned by the application.
+ *
+ * It includes:
+ * - HTTP status code
+ * - Error type
+ * - Detailed error message
+ * - Timestamp of occurrence
+ *
+ * PURPOSE:
+ * Ensures consistent error handling and improves debugging
+ * and client-side error interpretation.
+ * ================================================================
+ */
 public class JobResponse {
 
 	private Long id;

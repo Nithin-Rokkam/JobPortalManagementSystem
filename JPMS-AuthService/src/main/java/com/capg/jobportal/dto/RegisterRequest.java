@@ -7,6 +7,25 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
+
+/*
+ * ================================================================
+ * AUTHOR: Nithin Kumar Rokkam
+ * CLASS: RegisterRequest
+ * DESCRIPTION:
+ * This DTO is used to capture user details during the registration
+ * process.
+ *
+ * It includes:
+ * - Basic user information (name, email, password, phone)
+ * - Role selection (e.g., JOB_SEEKER, RECRUITER)
+ * - Validation annotations to enforce data integrity
+ *
+ * PURPOSE:
+ * Ensures that only valid and complete user data is accepted
+ * during account creation.
+ * ================================================================
+ */
 public class RegisterRequest {
 	
 	@NotBlank(message = "Name is required")

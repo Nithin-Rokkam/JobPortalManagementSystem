@@ -6,19 +6,16 @@ spring:
     name: application-service
 
   datasource:
+#    url: jdbc:mysql://application-db:3306/application_db?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UT
     url: jdbc:mysql://localhost:3306/application_db?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
-    username: root
-    password: "admin123"
+    username: ${APPLICATION_SERVICE_DB_USERNAME}
+    password: ${APPLICATION_SERVICE_DB_PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
     hibernate:
       ddl-auto: update
     show-sql: true
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.MySQLDialect
-        format_sql: true
 
   servlet:
     multipart:
@@ -27,20 +24,31 @@ spring:
 
   autoconfigure:
     exclude:
-      - org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration
       - org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration
+
+  rabbitmq:
+    host: rabbitmq
+    port: 5672
+    username: guest
+    password: guest
+
+rabbitmq:
+  exchange: jobportal.exchange
+  queue: job.applied.queue
+  routing-key: job.applied
 
 eureka:
   client:
     service-url:
+#      defaultZone: http://eureka-server:8761/eureka
       defaultZone: http://localhost:8761/eureka/
   instance:
     prefer-ip-address: true
 
 cloudinary:
-  cloud-name: dq4e4wh8x
-  api-key: 737849634812716
-  api-secret: 9ZSMywgKumxt6aRgAux_aLEAa3g
+  cloud-name: ${APPLICATION_SERVICE_CLOUDINARY_CLOUD_NAME}
+  api-key: ${APPLICATION_SERVICE_CLOUDINARY_API_KEY}
+  api-secret: ${APPLICATION_SERVICE_CLOUDINARY_API_SECRET}
 
 management:
   endpoints:

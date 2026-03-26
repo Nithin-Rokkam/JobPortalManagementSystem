@@ -19,7 +19,7 @@ import java.util.List;
 
 /*
  * ================================================================
- * AUTHOR: Kushagra Varshney
+ * AUTHOR: Nithin Kumar Rokkam
  * CLASS: AdminService
  * DESCRIPTION:
  * This service handles all admin-related business logic including

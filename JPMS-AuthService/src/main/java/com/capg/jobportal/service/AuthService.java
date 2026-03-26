@@ -3,6 +3,7 @@ package com.capg.jobportal.service;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -26,7 +27,7 @@ import com.capg.jobportal.util.CloudinaryUtil;
 
 /*
  * ================================================================
- * AUTHOR: Kushagra Varshney
+ * AUTHOR: Nithin Kumar Rokkam
  * CLASS: AuthService
  * DESCRIPTION:
  * This service handles all authentication-related operations such as
@@ -345,5 +346,14 @@ public class AuthService {
         } else {
             logger.warn("User not found for token invalidation");
         }
+    }
+    
+    
+    public List<String> getJobSeekerEmails() {
+        return userRepository.findByRole(Role.JOB_SEEKER)
+                .stream()
+                .filter(user -> user.getStatus() == UserStatus.ACTIVE)
+                .map(User::getEmail)
+                .collect(Collectors.toList());
     }
 }

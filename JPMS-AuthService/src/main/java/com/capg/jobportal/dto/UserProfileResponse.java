@@ -2,6 +2,29 @@ package com.capg.jobportal.dto;
 
 import com.capg.jobportal.entity.User;
 
+
+/*
+ * ================================================================
+ * AUTHOR: Nithin Kumar Rokkam
+ * CLASS: UserProfileResponse
+ * DESCRIPTION:
+ * This DTO represents user profile details returned to the client.
+ *
+ * It includes:
+ * - Basic user information (id, name, email, role)
+ * - Contact details (phone)
+ * - Account status
+ * - Profile resources (profile picture, resume URL)
+ *
+ * KEY FEATURE:
+ * - Includes a static factory method (fromEntity) to map User
+ *   entity data into a response DTO.
+ *
+ * PURPOSE:
+ * Provides a clean and secure representation of user data without
+ * exposing internal entity structure.
+ * ================================================================
+ */
 public class UserProfileResponse {
 	
 	private Long id;

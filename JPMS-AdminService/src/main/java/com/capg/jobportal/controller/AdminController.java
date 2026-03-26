@@ -3,8 +3,6 @@ package com.capg.jobportal.controller;
 import java.util.List;
 import java.util.Map;
 
-
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -20,9 +18,14 @@ import com.capg.jobportal.model.AuditLog;
 import com.capg.jobportal.service.AdminService;
 
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
+
 /*
  * ================================================================
- * AUTHOR: Kushagra Varshney
+ * AUTHOR: Nithin Kumar Rokkam
  * CLASS: AdminController
  * DESCRIPTION:
  * This controller handles all admin-level operations including
@@ -30,6 +33,7 @@ import com.capg.jobportal.service.AdminService;
  * All endpoints are restricted to ADMIN users only.
  * ================================================================
  */
+@Tag(name = "Admin APIs", description = "Admin Management APIs")
 @RestController
 @RequestMapping("/api/admin")
 public class AdminController {
@@ -65,8 +69,11 @@ public class AdminController {
      * DESCRIPTION:
      * Retrieves all users from the system. Accessible only by ADMIN.
      * ================================================================ */
+    @Operation(summary = "Get all users")
     @GetMapping("/users")
     public ResponseEntity<List<UserResponse>> getAllUsers(
+
+            @Parameter(description = "User Role from Gateway", required = true)
             @RequestHeader("X-User-Role") String role) {
 
         logger.info("Fetching all users");
@@ -84,10 +91,15 @@ public class AdminController {
      * DESCRIPTION:
      * Deletes a user by ID and records the action in audit logs.
      * ================================================================ */
+    @Operation(summary = "Delete user by ID")
     @DeleteMapping("/users/{id}")
     public ResponseEntity<Map<String, String>> deleteUser(
             @PathVariable Long id,
+
+            @Parameter(description = "Admin ID from Gateway", required = true)
             @RequestHeader("X-User-Id") Long adminId,
+
+            @Parameter(description = "User Role from Gateway", required = true)
             @RequestHeader("X-User-Role") String role) {
 
         logger.info("Delete request for user ID: {} by admin ID: {}", id, adminId);
@@ -105,10 +117,15 @@ public class AdminController {
      * DESCRIPTION:
      * Bans a user and prevents further access to the platform.
      * ================================================================ */
+    @Operation(summary = "Ban a user")
     @PutMapping("/users/{id}/ban")
     public ResponseEntity<Map<String, String>> banUser(
             @PathVariable Long id,
+
+            @Parameter(description = "Admin ID from Gateway", required = true)
             @RequestHeader("X-User-Id") Long adminId,
+
+            @Parameter(description = "User Role from Gateway", required = true)
             @RequestHeader("X-User-Role") String role) {
 
         logger.info("Ban request for user ID: {} by admin ID: {}", id, adminId);
@@ -126,10 +143,15 @@ public class AdminController {
      * DESCRIPTION:
      * Restores access for a previously banned user.
      * ================================================================ */
+    @Operation(summary = "Unban a user")
     @PutMapping("/users/{id}/unban")
     public ResponseEntity<Map<String, String>> unbanUser(
             @PathVariable Long id,
+
+            @Parameter(description = "Admin ID from Gateway", required = true)
             @RequestHeader("X-User-Id") Long adminId,
+
+            @Parameter(description = "User Role from Gateway", required = true)
             @RequestHeader("X-User-Role") String role) {
 
         logger.info("Unban request for user ID: {} by admin ID: {}", id, adminId);
@@ -147,8 +169,11 @@ public class AdminController {
      * DESCRIPTION:
      * Retrieves all job listings available in the system.
      * ================================================================ */
+    @Operation(summary = "Get all jobs")
     @GetMapping("/jobs")
     public ResponseEntity<List<JobResponse>> getAllJobs(
+
+            @Parameter(description = "User Role from Gateway", required = true)
             @RequestHeader("X-User-Role") String role) {
 
         logger.info("Fetching all jobs");
@@ -166,10 +191,15 @@ public class AdminController {
      * DESCRIPTION:
      * Deletes a job by ID and records the action in audit logs.
      * ================================================================ */
+    @Operation(summary = "Delete job by ID")
     @DeleteMapping("/jobs/{id}")
     public ResponseEntity<Map<String, String>> deleteJob(
             @PathVariable Long id,
+
+            @Parameter(description = "Admin ID from Gateway", required = true)
             @RequestHeader("X-User-Id") Long adminId,
+
+            @Parameter(description = "User Role from Gateway", required = true)
             @RequestHeader("X-User-Role") String role) {
 
         logger.info("Delete job request for ID: {} by admin ID: {}", id, adminId);
@@ -188,8 +218,11 @@ public class AdminController {
      * Generates a platform-level report including users, jobs,
      * and application statistics.
      * ================================================================ */
+    @Operation(summary = "Get platform report")
     @GetMapping("/reports")
     public ResponseEntity<PlatformReport> getReport(
+
+            @Parameter(description = "User Role from Gateway", required = true)
             @RequestHeader("X-User-Role") String role) {
 
         logger.info("Generating platform report");
@@ -207,8 +240,11 @@ public class AdminController {
      * DESCRIPTION:
      * Retrieves all audit logs for admin monitoring and tracking.
      * ================================================================ */
+    @Operation(summary = "Get audit logs")
     @GetMapping("/audit-logs")
     public ResponseEntity<List<AuditLog>> getAuditLogs(
+
+            @Parameter(description = "User Role from Gateway", required = true)
             @RequestHeader("X-User-Role") String role) {
 
         logger.info("Fetching audit logs");

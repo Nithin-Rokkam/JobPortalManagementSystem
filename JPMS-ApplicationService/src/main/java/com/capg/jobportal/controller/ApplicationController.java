@@ -3,8 +3,6 @@ package com.capg.jobportal.controller;
 import java.io.IOException;
 import java.util.List;
 
-
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -22,9 +20,14 @@ import com.capg.jobportal.service.ApplicationService;
 import jakarta.validation.Valid;
 
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
+
 /*
  * ================================================================
- * AUTHOR: Kushagra Varshney
+ * AUTHOR: Nithin Kumar Rokkam
  * CLASS: ApplicationController
  * DESCRIPTION:
  * This controller manages job application operations including
@@ -33,6 +36,7 @@ import jakarta.validation.Valid;
  * and recruiters with role-based access control.
  * ================================================================
  */
+@Tag(name = "Application APIs", description = "Job Application Management APIs")
 @RestController
 @RequestMapping("/api/applications")
 public class ApplicationController {
@@ -55,6 +59,7 @@ public class ApplicationController {
      * Allows a job seeker to apply for a job by submitting resume
      * and optional cover letter. Supports both new and existing resumes.
      * ================================================================ */
+    @Operation(summary = "Apply for a job")
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<ApplicationResponse> applyForJob(
             @RequestParam("jobId") Long jobId,
@@ -62,7 +67,11 @@ public class ApplicationController {
             @RequestParam(value = "useExistingResume", defaultValue = "false") boolean useExistingResume,
             @RequestParam(value = "existingResumeUrl", required = false) String existingResumeUrl,
             @RequestPart(value = "resume", required = false) MultipartFile resume,
+
+            @Parameter(description = "User ID from Gateway", required = true)
             @RequestHeader("X-User-Id") Long userId,
+
+            @Parameter(description = "User Role from Gateway", required = true)
             @RequestHeader("X-User-Role") String role) throws IOException {
 
         logger.info("User [{}] applying for job [{}]", userId, jobId);
@@ -87,9 +96,14 @@ public class ApplicationController {
      * DESCRIPTION:
      * Retrieves all applications submitted by the logged-in job seeker.
      * ================================================================ */
+    @Operation(summary = "Get my applications")
     @GetMapping("/my-applications")
     public ResponseEntity<List<ApplicationResponse>> getMyApplications(
+
+            @Parameter(description = "User ID from Gateway", required = true)
             @RequestHeader("X-User-Id") Long userId,
+
+            @Parameter(description = "User Role from Gateway", required = true)
             @RequestHeader("X-User-Role") String role) {
 
         logger.info("Fetching applications for user [{}]", userId);
@@ -112,10 +126,15 @@ public class ApplicationController {
      * DESCRIPTION:
      * Retrieves details of a specific application for the job seeker.
      * ================================================================ */
+    @Operation(summary = "Get application by ID")
     @GetMapping("/{id}")
     public ResponseEntity<ApplicationResponse> getApplicationById(
             @PathVariable Long id,
+
+            @Parameter(description = "User ID from Gateway", required = true)
             @RequestHeader("X-User-Id") Long userId,
+
+            @Parameter(description = "User Role from Gateway", required = true)
             @RequestHeader("X-User-Role") String role) {
 
         logger.info("User [{}] fetching application [{}]", userId, id);
@@ -138,10 +157,15 @@ public class ApplicationController {
      * DESCRIPTION:
      * Allows recruiters to fetch all applicants for a specific job.
      * ================================================================ */
+    @Operation(summary = "Get applicants for a job")
     @GetMapping("/job/{jobId}")
     public ResponseEntity<List<RecruiterApplicationResponse>> getApplicantsForJob(
             @PathVariable Long jobId,
+
+            @Parameter(description = "User ID from Gateway", required = true)
             @RequestHeader("X-User-Id") Long userId,
+
+            @Parameter(description = "User Role from Gateway", required = true)
             @RequestHeader("X-User-Role") String role) {
 
         logger.info("Recruiter [{}] fetching applicants for job [{}]", userId, jobId);
@@ -166,11 +190,16 @@ public class ApplicationController {
      * Allows recruiters to update the status of an application
      * (e.g., shortlisted, rejected, under review).
      * ================================================================ */
+    @Operation(summary = "Update application status")
     @PatchMapping("/{id}/status")
     public ResponseEntity<ApplicationResponse> updateApplicationStatus(
             @PathVariable Long id,
             @Valid @RequestBody StatusUpdateRequest request,
+
+            @Parameter(description = "User ID from Gateway", required = true)
             @RequestHeader("X-User-Id") Long userId,
+
+            @Parameter(description = "User Role from Gateway", required = true)
             @RequestHeader("X-User-Role") String role) {
 
         logger.info("Recruiter [{}] updating application [{}] to status '{}'",

@@ -2,6 +2,26 @@ package com.capg.jobportal.dto;
 
 import java.util.List;
 
+
+/*
+ * ================================================================
+ * AUTHOR: Nithin Kumar Rokkam
+ * CLASS: PlatformReport
+ * DESCRIPTION:
+ * This DTO represents a comprehensive report of the platform
+ * for administrative purposes.
+ *
+ * It includes:
+ * - Total users and total jobs
+ * - Application statistics
+ * - List of users
+ * - List of jobs
+ *
+ * PURPOSE:
+ * Used by Admin Service to generate dashboards and reports
+ * providing an overview of platform activity.
+ * ================================================================
+ */
 public class PlatformReport {
 
     private long totalUsers;
