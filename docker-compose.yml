@@ -14,6 +14,17 @@ services:
       - jobportal-network
 
   # ===============================
+  # ZIPKIN (Distributed Tracing)
+  # ===============================
+  zipkin:
+    image: openzipkin/zipkin
+    container_name: zipkin
+    ports:
+      - "9411:9411"
+    networks:
+      - jobportal-network
+
+  # ===============================
   # API GATEWAY
   # ===============================
   api-gateway:
@@ -28,6 +39,7 @@ services:
       EUREKA_INSTANCE_PREFER_IP_ADDRESS: "true"
     depends_on:
       - eureka-server
+      - zipkin
     networks:
       - jobportal-network
 
@@ -80,6 +92,7 @@ services:
       - jobportal-db
       - rabbitmq
       - eureka-server
+      - zipkin
     networks:
       - jobportal-network
 
@@ -102,6 +115,7 @@ services:
       - jobportal-db
       - rabbitmq
       - eureka-server
+      - zipkin
     networks:
       - jobportal-network
 
@@ -124,6 +138,7 @@ services:
       - jobportal-db
       - rabbitmq
       - eureka-server
+      - zipkin
     networks:
       - jobportal-network
 
@@ -147,6 +162,7 @@ services:
       - auth-service
       - job-service
       - application-service
+      - zipkin
     networks:
       - jobportal-network
 
@@ -167,6 +183,7 @@ services:
     depends_on:
       - rabbitmq
       - eureka-server
+      - zipkin
     networks:
       - jobportal-network
 
