@@ -1,10 +1,30 @@
 package com.capg.jobportal.event;
 
+<<<<<<< HEAD
 
 
 
 import java.math.BigDecimal;
 
+=======
+import java.math.BigDecimal;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
+
+/*
+ * ================================================================
+ * AUTHOR: Nithin Kumar Rokkam
+ * CLASS: JobPostedEvent
+ * DESCRIPTION:
+ * RabbitMQ event payload published when a new job is posted.
+ * Lombok generates all boilerplate. Custom all-args constructor
+ * kept for the existing call site in JobService.
+ * ================================================================
+ */
+@Data
+@NoArgsConstructor
+>>>>>>> c719d7d (Added Frontend(Angular), Lambok, Vitest and updated readme)
 public class JobPostedEvent {
 
     private Long jobId;
@@ -17,13 +37,18 @@ public class JobPostedEvent {
     private Integer experienceYears;
     private String description;
 
+<<<<<<< HEAD
     public JobPostedEvent() {
     }
 
+=======
+    /** Kept for backward compatibility with existing JobService call site */
+>>>>>>> c719d7d (Added Frontend(Angular), Lambok, Vitest and updated readme)
     public JobPostedEvent(Long jobId, long recruiterId, String title, String companyName,
                           String location, String jobType,
                           BigDecimal salary, Integer experienceYears,
                           String description) {
+<<<<<<< HEAD
         this.jobId = jobId;
         this.recruiterId = recruiterId;
         this.title = title;
@@ -62,3 +87,16 @@ public class JobPostedEvent {
     public String getDescription() { return description; }
     public void setDescription(String description) { this.description = description; }
 }
+=======
+        this.jobId           = jobId;
+        this.recruiterId     = recruiterId;
+        this.title           = title;
+        this.companyName     = companyName;
+        this.location        = location;
+        this.jobType         = jobType;
+        this.salary          = salary;
+        this.experienceYears = experienceYears;
+        this.description     = description;
+    }
+}
+>>>>>>> c719d7d (Added Frontend(Angular), Lambok, Vitest and updated readme)

@@ -1,12 +1,18 @@
 package com.capg.jobportal.dto;
 
 import java.time.LocalDateTime;
+<<<<<<< HEAD
 
 
+=======
+import lombok.Getter;
+import lombok.Setter;
+>>>>>>> c719d7d (Added Frontend(Angular), Lambok, Vitest and updated readme)
 
 /*
  * ================================================================
  * AUTHOR: Nithin Kumar Rokkam
+<<<<<<< HEAD
  * CLASS: ApplicationStats
  * DESCRIPTION:
  * This DTO represents aggregated statistics of job applications
@@ -22,6 +28,16 @@ import java.time.LocalDateTime;
  * insights into application trends and recruitment progress.
  * ================================================================
  */
+=======
+ * CLASS: ErrorResponse
+ * DESCRIPTION:
+ * DTO for error responses. Uses @Getter/@Setter since it has a
+ * custom constructor that sets the timestamp automatically.
+ * ================================================================
+ */
+@Getter
+@Setter
+>>>>>>> c719d7d (Added Frontend(Angular), Lambok, Vitest and updated readme)
 public class ErrorResponse {
 
     private int status;
@@ -30,6 +46,7 @@ public class ErrorResponse {
     private LocalDateTime timestamp;
 
     public ErrorResponse(int status, String error, String message) {
+<<<<<<< HEAD
         this.status = status;
         this.error = error;
         this.message = message;
@@ -47,4 +64,11 @@ public class ErrorResponse {
 
     public LocalDateTime getTimestamp() { return timestamp; }
     public void setTimestamp(LocalDateTime timestamp) { this.timestamp = timestamp; }
+=======
+        this.status    = status;
+        this.error     = error;
+        this.message   = message;
+        this.timestamp = LocalDateTime.now();
+    }
+>>>>>>> c719d7d (Added Frontend(Angular), Lambok, Vitest and updated readme)
 }

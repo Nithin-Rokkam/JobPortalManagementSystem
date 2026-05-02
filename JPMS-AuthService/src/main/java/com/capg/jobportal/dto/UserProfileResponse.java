@@ -1,13 +1,19 @@
 package com.capg.jobportal.dto;
 
 import com.capg.jobportal.entity.User;
+<<<<<<< HEAD
 
+=======
+import lombok.Data;
+import lombok.NoArgsConstructor;
+>>>>>>> c719d7d (Added Frontend(Angular), Lambok, Vitest and updated readme)
 
 /*
  * ================================================================
  * AUTHOR: Nithin Kumar Rokkam
  * CLASS: UserProfileResponse
  * DESCRIPTION:
+<<<<<<< HEAD
  * This DTO represents user profile details returned to the client.
  *
  * It includes:
@@ -28,6 +34,17 @@ import com.capg.jobportal.entity.User;
 public class UserProfileResponse {
 	
 	private Long id;
+=======
+ * DTO for user profile data. Lombok generates all boilerplate.
+ * Static factory method fromEntity() maps the JPA entity to this DTO.
+ * ================================================================
+ */
+@Data
+@NoArgsConstructor
+public class UserProfileResponse {
+
+    private Long id;
+>>>>>>> c719d7d (Added Frontend(Angular), Lambok, Vitest and updated readme)
     private String name;
     private String email;
     private String role;
@@ -35,6 +52,7 @@ public class UserProfileResponse {
     private String status;
     private String profilePictureUrl;
     private String resumeUrl;
+<<<<<<< HEAD
     
     
     public UserProfileResponse() {
@@ -135,4 +153,25 @@ public class UserProfileResponse {
 		this.resumeUrl = resumeUrl;
 	}
     
+=======
+    private String companyName;
+    private String selectedByCompany;
+    private String createdAt;
+
+    public static UserProfileResponse fromEntity(User user) {
+        UserProfileResponse r = new UserProfileResponse();
+        r.id                = user.getId();
+        r.name              = user.getName();
+        r.email             = user.getEmail();
+        r.role              = user.getRole().name();
+        r.phone             = user.getPhone();
+        r.status            = user.getStatus().name();
+        r.profilePictureUrl = user.getProfilePictureUrl();
+        r.resumeUrl         = user.getResumeUrl();
+        r.companyName       = user.getCompanyName();
+        r.selectedByCompany = user.getSelectedByCompany();
+        r.createdAt         = user.getCreatedAt() != null ? user.getCreatedAt().toString() : null;
+        return r;
+    }
+>>>>>>> c719d7d (Added Frontend(Angular), Lambok, Vitest and updated readme)
 }

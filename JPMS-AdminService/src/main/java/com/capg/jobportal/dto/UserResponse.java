@@ -1,12 +1,18 @@
 package com.capg.jobportal.dto;
 
+<<<<<<< HEAD
 
+=======
+import lombok.Data;
+import lombok.NoArgsConstructor;
+>>>>>>> c719d7d (Added Frontend(Angular), Lambok, Vitest and updated readme)
 
 /*
  * ================================================================
  * AUTHOR: Nithin Kumar Rokkam
  * CLASS: UserResponse
  * DESCRIPTION:
+<<<<<<< HEAD
  * This DTO represents user information returned to the client
  * or other services.
  *
@@ -23,6 +29,17 @@ package com.capg.jobportal.dto;
 public class UserResponse {
 
 	private Long id;
+=======
+ * DTO for user information returned by AdminService.
+ * Lombok generates all boilerplate.
+ * ================================================================
+ */
+@Data
+@NoArgsConstructor
+public class UserResponse {
+
+    private Long id;
+>>>>>>> c719d7d (Added Frontend(Angular), Lambok, Vitest and updated readme)
     private String name;
     private String email;
     private String phone;
@@ -30,6 +47,7 @@ public class UserResponse {
     private String status;
     private String profilePictureUrl;
     private String resumeUrl;
+<<<<<<< HEAD
  
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
@@ -54,4 +72,9 @@ public class UserResponse {
  
     public String getResumeUrl() { return resumeUrl; }
     public void setResumeUrl(String resumeUrl) { this.resumeUrl = resumeUrl; }
+=======
+    private String companyName;
+    private String selectedByCompany;
+    private String createdAt;
+>>>>>>> c719d7d (Added Frontend(Angular), Lambok, Vitest and updated readme)
 }

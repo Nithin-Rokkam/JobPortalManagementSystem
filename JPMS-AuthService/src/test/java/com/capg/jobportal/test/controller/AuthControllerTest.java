@@ -13,6 +13,10 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.http.MediaType;
+<<<<<<< HEAD
+=======
+import org.springframework.mock.web.MockMultipartFile;
+>>>>>>> c719d7d (Added Frontend(Angular), Lambok, Vitest and updated readme)
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.capg.jobportal.controller.AuthController;
@@ -86,6 +90,37 @@ class AuthControllerTest {
     }
 
     @Test
+<<<<<<< HEAD
+=======
+    void uploadProfilePicture_returnsOk() throws Exception {
+        MockMultipartFile picture = new MockMultipartFile(
+                "picture", "photo.jpg", "image/jpeg", "fake-image-data".getBytes());
+        when(authService.updateProfilePicture(eq(1L), any())).thenReturn("https://cloud.com/pic.jpg");
+
+        mockMvc.perform(multipart("/api/auth/profile/picture")
+                .file(picture)
+                .header("X-User-Id", "1")
+                .with(request -> { request.setMethod("PUT"); return request; }))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.profilePictureUrl").value("https://cloud.com/pic.jpg"));
+    }
+
+    @Test
+    void uploadResume_returnsOk() throws Exception {
+        MockMultipartFile resume = new MockMultipartFile(
+                "resume", "resume.pdf", "application/pdf", "fake-pdf-data".getBytes());
+        when(authService.updateProfileResume(eq(1L), any())).thenReturn("https://cloud.com/resume.pdf");
+
+        mockMvc.perform(multipart("/api/auth/profile/resume")
+                .file(resume)
+                .header("X-User-Id", "1")
+                .with(request -> { request.setMethod("PUT"); return request; }))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.resumeUrl").value("https://cloud.com/resume.pdf"));
+    }
+
+    @Test
+>>>>>>> c719d7d (Added Frontend(Angular), Lambok, Vitest and updated readme)
     void getProfile_returnsOk() throws Exception {
         UserProfileResponse profile = new UserProfileResponse();
         profile.setId(1L);
@@ -100,4 +135,29 @@ class AuthControllerTest {
                 .andExpect(jsonPath("$.name").value("Nithin"))
                 .andExpect(jsonPath("$.email").value("nithin@gmail.com"));
     }
+<<<<<<< HEAD
+=======
+
+    @Test
+    void forgotPassword_returnsOk() throws Exception {
+        doNothing().when(authService).forgotPassword(anyString());
+
+        mockMvc.perform(post("/api/auth/forgot-password")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"email\":\"nithin@gmail.com\"}"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.message").value("OTP sent to your email"));
+    }
+
+    @Test
+    void resetPassword_returnsOk() throws Exception {
+        doNothing().when(authService).resetPassword(anyString(), anyString(), anyString());
+
+        mockMvc.perform(post("/api/auth/reset-password")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"email\":\"nithin@gmail.com\",\"otp\":\"123456\",\"newPassword\":\"newpass123\"}"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.message").value("Password reset successfully"));
+    }
+>>>>>>> c719d7d (Added Frontend(Angular), Lambok, Vitest and updated readme)
 }

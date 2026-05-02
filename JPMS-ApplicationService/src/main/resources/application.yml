@@ -40,6 +40,10 @@ rabbitmq:
   exchange: jobportal.exchange
   queue: job.applied.queue
   routing-key: job.applied
+<<<<<<< HEAD
+=======
+  status-routing-key: application.status.changed
+>>>>>>> c719d7d (Added Frontend(Angular), Lambok, Vitest and updated readme)
 
 eureka:
   client:

@@ -1,0 +1,128 @@
+/* ═══════════════════════════════════════════════════════
+   JOBLIX DESIGN SYSTEM — CSS CUSTOM PROPERTIES
+   Light theme is DEFAULT. Dark theme via [data-theme="dark"]
+   ═══════════════════════════════════════════════════════ */
+
+:root {
+  /* ── Brand ─────────────────────────────────────────── */
+  --brand: #2B3FE8;
+  --brand-hover: #1f30c8;
+
+  /* ── Light Theme (default) ─────────────────────────── */
+  --bg-page: #F0F2F0;
+  --bg-surface: #FFFFFF;
+  --bg-surface-2: #F7F8F7;
+  --bg-glass: rgba(255, 255, 255, 0.7);
+
+  --text-primary: #111111;
+  --text-secondary: #6B7280;
+  --text-muted: #9CA3AF;
+  --text-inverse: #FFFFFF;
+
+  --border: #E2E4E2;
+  --border-focus: #2B3FE8;
+
+  --tag-bg: #EEEDFE;
+  --tag-text: #3C3489;
+
+  --search-bg: #FFFFFF;
+  --search-border: #E2E4E2;
+
+  --row-active-bg: #F5F5FF;
+  --row-active-border: #2B3FE8;
+
+  /* ── Semantic Colors ───────────────────────────────── */
+  --accent-success: #10b981;
+  --accent-danger: #ef4444;
+  --accent-warning: #f59e0b;
+
+  /* ── Spacing ───────────────────────────────────────── */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 40px;
+  --space-2xl: 64px;
+  --page-px: 32px;
+
+  /* ── Radius ────────────────────────────────────────── */
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-full: 9999px;
+
+  /* ── Transitions ───────────────────────────────────── */
+  --t-fast: 150ms ease;
+  --t-normal: 250ms ease;
+  --t-slow: 400ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* ── Shadows ───────────────────────────────────────── */
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.10);
+
+  /* ── Legacy aliases (keep for backward compat) ─────── */
+  --bg-primary: var(--bg-page);
+  --bg-secondary: var(--bg-surface);
+  --bg-surface-old: var(--bg-surface-2);
+  --glass-border: var(--border);
+  --royal-blue: var(--brand);
+  --energy-violet: #7c3aed;
+  --glow-blue: rgba(43, 63, 232, 0.12);
+  --shadow-celestial: var(--shadow-md);
+  --inner-glow: none;
+  --bg-elevated: var(--bg-surface);
+  --border-subtle: var(--border);
+  --accent-primary: var(--brand);
+  --accent-secondary: #7c3aed;
+  --text-muted-old: var(--text-muted);
+  --bg-glass-hover: rgba(43, 63, 232, 0.04);
+  --bg-base: var(--bg-page);
+  --glow-primary: 0 0 0 3px rgba(43, 63, 232, 0.15);
+  --glow-danger: 0 0 0 3px rgba(239, 68, 68, 0.15);
+  --glow-success: 0 0 0 3px rgba(16, 185, 129, 0.15);
+  --ease-default: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+}
+
+/* ── Dark Theme ─────────────────────────────────────── */
+[data-theme="dark"] {
+  --bg-page: #0F1117;
+  --bg-surface: #1A1D27;
+  --bg-surface-2: #232636;
+  --bg-glass: rgba(26, 29, 39, 0.8);
+
+  --text-primary: #F1F1F1;
+  --text-secondary: #9CA3AF;
+  --text-muted: #6B7280;
+  --text-inverse: #0F1117;
+
+  --border: #2E3147;
+  --border-focus: #6C7AFF;
+
+  --tag-bg: #3C3489;
+  --tag-text: #CECBF6;
+
+  --search-bg: #1A1D27;
+  --search-border: #2E3147;
+
+  --row-active-bg: #1E2035;
+  --row-active-border: #6C7AFF;
+
+  /* ── Legacy aliases dark ────────────────────────────── */
+  --bg-primary: var(--bg-page);
+  --bg-secondary: var(--bg-surface);
+  --bg-surface-old: var(--bg-surface-2);
+  --glass-border: var(--border);
+  --glow-blue: rgba(108, 122, 255, 0.15);
+  --shadow-celestial: 0 8px 32px rgba(0, 0, 0, 0.5);
+  --inner-glow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  --bg-elevated: var(--bg-surface);
+  --border-subtle: var(--border);
+  --accent-primary: #6C7AFF;
+  --bg-glass-hover: rgba(108, 122, 255, 0.06);
+  --bg-base: var(--bg-page);
+  --glow-primary: 0 0 0 3px rgba(108, 122, 255, 0.2);
+}

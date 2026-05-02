@@ -21,5 +21,10 @@ package com.capg.jobportal.enums;
 public enum UserStatus {
 	ACTIVE,
     INACTIVE,
+<<<<<<< HEAD
     BANNED
+=======
+    BANNED,
+    PENDING_VERIFICATION
+>>>>>>> c719d7d (Added Frontend(Angular), Lambok, Vitest and updated readme)
 }

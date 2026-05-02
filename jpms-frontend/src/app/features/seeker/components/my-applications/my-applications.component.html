@@ -1,0 +1,78 @@
+<div class="my-apps-container animate-fade-in-up">
+  
+  <div class="header-row">
+    <h1 class="heading-celestial">My Applications</h1>
+    <p style="color: var(--text-secondary);">Track and manage your journey.</p>
+  </div>
+
+  <!-- Tabs -->
+  <div class="celestial-tabs">
+    <button *ngFor="let tab of tabs" 
+            class="tab-btn" 
+            [class.active]="activeTab === tab.value" 
+            (click)="activeTab = tab.value">
+      {{ tab.label }}
+    </button>
+  </div>
+
+  <!-- Applications List -->
+  <div class="apps-list" *ngIf="!loading">
+    
+    <div *ngFor="let app of filtered" class="celestial-card app-row animate-fade-in-up" (click)="toggle(app.id)">
+      
+      <div class="app-summary">
+        <div class="company-logo-small">
+          <span>{{ (app.companyName || 'J').charAt(0) }}</span>
+        </div>
+        
+        <div class="app-details">
+          <h3 class="job-title-small">{{ app.jobTitle || 'Job Position' }}</h3>
+          <p class="company-name-small">{{ app.companyName || 'N/A' }}</p>
+        </div>
+
+        <div class="app-meta">
+          <span class="meta-date">Applied {{ app.appliedAt | date:'mediumDate' }}</span>
+          <div class="status-badge" [class]="app.status.toLowerCase()">
+            {{ app.status }}
+          </div>
+        </div>
+
+        <div class="expand-indicator">
+          <svg [style.transform]="expandedId === app.id ? 'rotate(180deg)' : 'rotate(0)'" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Expanded Content -->
+      <div class="app-expanded-content" *ngIf="expandedId === app.id" (click)="$event.stopPropagation()">
+        <div class="dropdown-divider"></div>
+        <div class="expanded-grid">
+          <div *ngIf="app.coverLetter" class="expanded-section">
+            <span class="label-celestial">Cover Letter</span>
+            <p class="section-text">{{ app.coverLetter }}</p>
+          </div>
+          <div class="expanded-section">
+            <span class="label-celestial">Documents</span>
+            <div style="display: flex; gap: 1rem; margin-top: 0.5rem;">
+               <a *ngIf="app.resumeUrl" [href]="app.resumeUrl" target="_blank" class="btn-outline small">VIEW RESUME</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Empty State -->
+    <div *ngIf="!filtered.length" class="empty-state">
+       <p style="color: var(--text-muted);">No applications found for this status.</p>
+    </div>
+
+  </div>
+
+  <!-- Loading -->
+  <div *ngIf="loading" class="apps-list">
+    <div class="celestial-card" style="height: 80px; margin-bottom: 1rem; opacity: 0.5;" *ngFor="let i of [1,2,3,4]"></div>
+  </div>
+
+</div>

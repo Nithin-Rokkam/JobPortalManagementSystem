@@ -1,13 +1,19 @@
 package com.capg.jobportal.dto;
 
 import java.time.LocalDate;
+<<<<<<< HEAD
 
+=======
+import lombok.Data;
+import lombok.NoArgsConstructor;
+>>>>>>> c719d7d (Added Frontend(Angular), Lambok, Vitest and updated readme)
 
 /*
  * ================================================================
  * AUTHOR: Nithin Kumar Rokkam
  * CLASS: JobClientResponse
  * DESCRIPTION:
+<<<<<<< HEAD
  * This DTO represents job details received from the Job Service
  * via Feign client communication.
  *
@@ -46,4 +52,20 @@ public class JobClientResponse {
     
     
 
+=======
+ * DTO for job details received from Job Service via Feign.
+ * Lombok generates all boilerplate.
+ * ================================================================
+ */
+@Data
+@NoArgsConstructor
+public class JobClientResponse {
+
+    private Long id;
+    private String title;
+    private String status;
+    private Long postedBy;
+    private LocalDate deadline;
+    private String companyName;
+>>>>>>> c719d7d (Added Frontend(Angular), Lambok, Vitest and updated readme)
 }

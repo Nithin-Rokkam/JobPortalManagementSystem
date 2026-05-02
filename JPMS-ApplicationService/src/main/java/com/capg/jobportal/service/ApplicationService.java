@@ -24,6 +24,10 @@ import com.capg.jobportal.dto.StatusUpdateRequest;
 import com.capg.jobportal.dto.UserInfoResponse;
 import com.capg.jobportal.entity.Application;
 import com.capg.jobportal.enums.ApplicationStatus;
+<<<<<<< HEAD
+=======
+import com.capg.jobportal.event.ApplicationStatusChangedEvent;
+>>>>>>> c719d7d (Added Frontend(Angular), Lambok, Vitest and updated readme)
 import com.capg.jobportal.event.JobAppliedEvent;
 import com.capg.jobportal.exception.DuplicateApplicationException;
 import com.capg.jobportal.exception.ForbiddenException;
@@ -64,6 +68,12 @@ public class ApplicationService {
     @Value("${rabbitmq.routing-key}")
     private String routingKey;
 
+<<<<<<< HEAD
+=======
+    @Value("${rabbitmq.status-routing-key}")
+    private String statusRoutingKey;
+
+>>>>>>> c719d7d (Added Frontend(Angular), Lambok, Vitest and updated readme)
     public ApplicationService(ApplicationRepository applicationRepository,
                                JobServiceClient jobServiceClient,
                                CloudinaryUtil cloudinaryUtil,
@@ -229,7 +239,21 @@ public class ApplicationService {
 
         List<RecruiterApplicationResponse> response = new ArrayList<>();
         for (Application app : list) {
+<<<<<<< HEAD
             response.add(RecruiterApplicationResponse.fromEntity(app));
+=======
+            RecruiterApplicationResponse dto = RecruiterApplicationResponse.fromEntity(app);
+            try {
+                UserInfoResponse seeker = authServiceClient.getUserInfo(app.getUserId());
+                dto.setSeekerName(seeker.getName());
+                dto.setSeekerEmail(seeker.getEmail());
+            } catch (Exception e) {
+                logger.warn("Failed to fetch user info for userId: " + app.getUserId());
+                dto.setSeekerName("Unknown");
+                dto.setSeekerEmail("unknown@example.com");
+            }
+            response.add(dto);
+>>>>>>> c719d7d (Added Frontend(Angular), Lambok, Vitest and updated readme)
         }
 
         return response;
@@ -268,9 +292,73 @@ public class ApplicationService {
 
         Application updated = applicationRepository.save(app);
 
+<<<<<<< HEAD
         return ApplicationResponse.fromEntity(updated);
     }
 
+=======
+        // 🆕 Publish status change event if SHORTLISTED, SELECTED or REJECTED
+        if (updated.getStatus() == ApplicationStatus.SHORTLISTED || 
+            updated.getStatus() == ApplicationStatus.SELECTED || 
+            updated.getStatus() == ApplicationStatus.REJECTED) {
+            try {
+                UserInfoResponse seeker = authServiceClient.getUserInfo(updated.getUserId());
+                
+                ApplicationStatusChangedEvent event = new ApplicationStatusChangedEvent();
+                event.setApplicationId(updated.getId());
+                event.setJobId(updated.getJobId());
+                event.setJobTitle(job.getTitle());
+                event.setSeekerId(updated.getUserId());
+                event.setSeekerName(seeker.getName());
+                event.setSeekerEmail(seeker.getEmail());
+                event.setNewStatus(updated.getStatus().name());
+
+                rabbitTemplate.convertAndSend(exchange, statusRoutingKey, event);
+                logger.info("Published status change event for application [{}]", updated.getId());
+            } catch (Exception e) {
+                logger.error("Failed to publish status change event: {}", e.getMessage());
+            }
+        }
+
+        // 🆕 When SELECTED: update seeker's selectedByCompany in AuthService
+        if (updated.getStatus() == ApplicationStatus.SELECTED) {
+            try {
+                java.util.Map<String, String> body = new java.util.HashMap<>();
+                body.put("companyName", job.getCompanyName());
+                authServiceClient.updateSelectedByCompany(updated.getUserId(), body);
+                logger.info("Updated selectedByCompany for seeker [{}] to '{}'",
+                        updated.getUserId(), job.getCompanyName());
+            } catch (Exception e) {
+                logger.error("Failed to update selectedByCompany: {}", e.getMessage());
+            }
+        }
+
+        return ApplicationResponse.fromEntity(updated);
+    }
+
+    /* ================================================================
+     * METHOD: deleteApplication
+     * DESCRIPTION:
+     * Allows a recruiter to permanently remove an application.
+     * ================================================================ */
+    public void deleteApplication(Long id, Long recruiterId) {
+        logger.info("Recruiter [{}] deleting application [{}]", recruiterId, id);
+
+        Application app = applicationRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Application not found"));
+
+        JobClientResponse job = jobServiceClient.getJobById(
+                app.getJobId(), String.valueOf(recruiterId), "RECRUITER");
+
+        if (job == null || !job.getPostedBy().equals(recruiterId)) {
+            throw new ForbiddenException("Not allowed to delete this application");
+        }
+
+        applicationRepository.delete(app);
+        logger.info("Application [{}] deleted successfully", id);
+    }
+
+>>>>>>> c719d7d (Added Frontend(Angular), Lambok, Vitest and updated readme)
     
     /* ================================================================
      * METHOD: validateStatusTransition
@@ -287,7 +375,13 @@ public class ApplicationService {
                 (current == ApplicationStatus.APPLIED && next == ApplicationStatus.UNDER_REVIEW) ||
                 (current == ApplicationStatus.UNDER_REVIEW &&
                         (next == ApplicationStatus.SHORTLISTED || next == ApplicationStatus.REJECTED)) ||
+<<<<<<< HEAD
                 (current == ApplicationStatus.SHORTLISTED && next == ApplicationStatus.REJECTED);
+=======
+                (current == ApplicationStatus.SHORTLISTED && 
+                        (next == ApplicationStatus.SELECTED || next == ApplicationStatus.REJECTED)) ||
+                (current == ApplicationStatus.SELECTED && next == ApplicationStatus.REJECTED);
+>>>>>>> c719d7d (Added Frontend(Angular), Lambok, Vitest and updated readme)
 
         if (!valid) {
             throw new InvalidStatusTransitionException("Invalid transition");

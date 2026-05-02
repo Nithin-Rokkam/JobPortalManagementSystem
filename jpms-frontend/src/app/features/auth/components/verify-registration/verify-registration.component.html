@@ -1,0 +1,84 @@
+<div class="verify-page">
+  <div class="verify-card">
+
+    <!-- Icon -->
+    <div class="verify-icon">
+      <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+        <polyline points="22,6 12,13 2,6"></polyline>
+      </svg>
+    </div>
+
+    <!-- Header -->
+    <h1 class="verify-title">Check your inbox</h1>
+    <p class="verify-sub">
+      We sent a 6-digit verification code to<br>
+      <strong class="verify-email">{{ maskedEmail }}</strong>
+    </p>
+
+    <!-- OTP Inputs — 6 explicit static inputs, no *ngFor -->
+    <div class="otp-row">
+      <input id="otp-0" type="text" inputmode="numeric" maxlength="1" class="otp-box"
+             (keydown)="onKeydown($event, 0)" (paste)="onPaste($event)" autocomplete="one-time-code" />
+      <input id="otp-1" type="text" inputmode="numeric" maxlength="1" class="otp-box"
+             (keydown)="onKeydown($event, 1)" (paste)="onPaste($event)" autocomplete="off" />
+      <input id="otp-2" type="text" inputmode="numeric" maxlength="1" class="otp-box"
+             (keydown)="onKeydown($event, 2)" (paste)="onPaste($event)" autocomplete="off" />
+      <input id="otp-3" type="text" inputmode="numeric" maxlength="1" class="otp-box"
+             (keydown)="onKeydown($event, 3)" (paste)="onPaste($event)" autocomplete="off" />
+      <input id="otp-4" type="text" inputmode="numeric" maxlength="1" class="otp-box"
+             (keydown)="onKeydown($event, 4)" (paste)="onPaste($event)" autocomplete="off" />
+      <input id="otp-5" type="text" inputmode="numeric" maxlength="1" class="otp-box"
+             (keydown)="onKeydown($event, 5)" (paste)="onPaste($event)" autocomplete="off" />
+    </div>
+
+    <!-- Inline error message (invalid OTP / attempts remaining) -->
+    <div class="otp-error" *ngIf="errorMsg">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="10"></circle>
+        <line x1="12" y1="8" x2="12" y2="12"></line>
+        <line x1="12" y1="16" x2="12.01" y2="16"></line>
+      </svg>
+      {{ errorMsg }}
+    </div>
+
+    <!-- Verify Button -->
+    <button
+      type="button"
+      class="btn-verify"
+      [disabled]="!otpComplete || loading || attemptsLeft <= 0"
+      [class.btn-verify--loading]="loading"
+      (click)="onVerify()"
+    >
+      <span *ngIf="!loading">Verify Email</span>
+      <span *ngIf="loading" class="btn-spinner">
+        <svg class="spin-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"></circle>
+        </svg>
+        Verifying...
+      </span>
+    </button>
+
+    <!-- Resend -->
+    <div class="resend-row">
+      <span class="resend-label">Didn't receive the code?</span>
+      <button
+        type="button"
+        class="resend-btn"
+        [disabled]="timer > 0 || resendLoading"
+        (click)="onResend()"
+      >
+        <span *ngIf="!resendLoading">
+          {{ timer > 0 ? 'Resend in ' + timer + 's' : 'Resend Code' }}
+        </span>
+        <span *ngIf="resendLoading">Sending...</span>
+      </button>
+    </div>
+
+    <!-- Back link — user's choice to go back at any time -->
+    <a routerLink="/auth/register" class="back-link">
+      ← Back to Register
+    </a>
+
+  </div>
+</div>

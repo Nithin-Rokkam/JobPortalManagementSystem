@@ -1,0 +1,160 @@
+<div class="applicants-ats" (click)="closeDropdowns()">
+  <app-page-header
+    [title]="'Applicants for: ' + jobTitle"
+    [subtitle]="applicants.length + ' Total Candidates'"
+    [breadcrumbs]="[{label:'My Jobs', link:'/recruiter/my-jobs'},{label:'Pipeline'}]">
+  </app-page-header>
+
+  <div class="ats-layout" [class.drawer-open]="selectedApplicant">
+    
+    <!-- Main Candidate Pipeline -->
+    <div class="ats-main">
+      <div class="tabs-container celestial-card inner-glow">
+        <button *ngFor="let tab of tabs" class="ats-tab" [class.ats-tab--active]="activeTab === tab" (click)="activeTab = tab">
+          {{ tab === 'ALL' ? 'All Applicants' : (tab | capitalize) }}
+        </button>
+      </div>
+
+      <div class="candidate-list" *ngIf="!loading">
+        <div class="candidate-card celestial-card" *ngFor="let app of filtered" 
+             [class.selected]="selectedApplicant?.id === app.id"
+             [style.z-index]="openDropdownId === app.id ? 1000 : 1"
+             style="position: relative;"
+             (click)="selectApplicant(app)">
+          
+          <div class="card-left">
+            <div class="avatar-lg" [ngClass]="app.status.toLowerCase()">
+              {{ getInitials(app.seekerName || app.name || 'U') }}
+            </div>
+            <div class="candidate-info">
+              <h3 class="candidate-name">{{ app.seekerName || 'Candidate' }}</h3>
+              <p class="candidate-meta">{{ app.seekerEmail || '—' }}</p>
+              <div class="applied-date">Applied {{ app.appliedAt | timeAgo }}</div>
+            </div>
+          </div>
+
+          <div class="card-right">
+            <!-- Custom Status Dropdown -->
+            <div class="custom-dropdown" (click)="toggleDropdown(app.id, $event)">
+              <div class="dropdown-trigger" [ngClass]="app.status.toLowerCase()">
+                <span class="status-dot"></span>
+                {{ app.status.replace('_', ' ') | titlecase }}
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+              </div>
+              
+              <div class="dropdown-menu" *ngIf="openDropdownId === app.id">
+                <!-- If currently Applied, only option is Under Review -->
+                <div class="dropdown-item" *ngIf="app.status === 'APPLIED'" (click)="onStatusChange(app, 'UNDER_REVIEW', $event)">
+                  <span class="status-dot under_review"></span> Start Review
+                </div>
+                
+                <!-- If Under Review, show Shortlist and Reject -->
+                <ng-container *ngIf="app.status === 'UNDER_REVIEW'">
+                  <div class="dropdown-item" (click)="onStatusChange(app, 'SHORTLISTED', $event)">
+                    <span class="status-dot shortlisted"></span> Shortlist
+                  </div>
+                  <div class="dropdown-item" (click)="onStatusChange(app, 'REJECTED', $event)">
+                    <span class="status-dot rejected"></span> Reject
+                  </div>
+                </ng-container>
+
+                <!-- If Shortlisted, show Select and Reject -->
+                <ng-container *ngIf="app.status === 'SHORTLISTED'">
+                  <div class="dropdown-item" (click)="onStatusChange(app, 'SELECTED', $event)">
+                    <span class="status-dot selected-status"></span> Select
+                  </div>
+                  <div class="dropdown-item" (click)="onStatusChange(app, 'REJECTED', $event)">
+                    <span class="status-dot rejected"></span> Reject
+                  </div>
+                </ng-container>
+                
+                <!-- If Selected, only option is Reject -->
+                <div class="dropdown-item" *ngIf="app.status === 'SELECTED'" (click)="onStatusChange(app, 'REJECTED', $event)">
+                  <span class="status-dot rejected"></span> Reject
+                </div>
+
+                <!-- If Rejected, only option is Remove -->
+                <div class="dropdown-item danger" *ngIf="app.status === 'REJECTED'" (click)="removeApplication(app, $event)">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 8px;">
+                    <polyline points="3 6 5 6 21 6"></polyline>
+                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                  </svg>
+                  Remove Application
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <app-empty-state *ngIf="!filtered.length" message="No applicants found in this stage." icon="🎯"></app-empty-state>
+      </div>
+
+      <div *ngIf="loading" class="candidate-list">
+        <div class="skeleton celestial-card" style="height:100px;" *ngFor="let i of [1,2,3,4]"></div>
+      </div>
+    </div>
+
+    <!-- Right Side Panel / Resume Drawer -->
+    <aside class="ats-drawer celestial-card inner-glow" *ngIf="selectedApplicant">
+      <div class="drawer-header">
+        <div class="drawer-title">
+          <div class="avatar-sm" [ngClass]="selectedApplicant.status.toLowerCase()">
+            {{ getInitials(selectedApplicant.seekerName || selectedApplicant.name || 'U') }}
+          </div>
+          <div>
+            <h3 style="margin: 0; font-size: 1.1rem;">{{ selectedApplicant.seekerName || 'Candidate' }}</h3>
+            <span style="font-size: 0.8rem; color: var(--text-muted)">{{ selectedApplicant.seekerEmail || '—' }}</span>
+          </div>
+        </div>
+        <button class="close-btn" (click)="closePanel()">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+
+      <div class="drawer-content">
+        <div class="cover-letter-section" *ngIf="selectedApplicant.coverLetter">
+          <h4 class="label-celestial" style="margin-bottom: 0.5rem; font-size: 0.8rem;">Cover Letter</h4>
+          <div class="cover-letter-box">
+            {{ selectedApplicant.coverLetter }}
+          </div>
+        </div>
+
+        <div class="resume-section">
+          <h4 class="label-celestial" style="margin-bottom: 0.5rem; font-size: 0.8rem; display: flex; justify-content: space-between; align-items: center;">
+            Resume Preview
+            <a *ngIf="selectedApplicant.resumeUrl" [href]="selectedApplicant.resumeUrl" target="_blank" class="btn-outline small" style="font-size: 0.7rem; padding: 0.2rem 0.5rem;">
+               Open in new tab ↗
+            </a>
+          </h4>
+          
+          <div class="resume-viewer" *ngIf="selectedApplicant.safeResumeUrl; else noResume">
+            <object [data]="selectedApplicant.safeResumeUrl" type="application/pdf" width="100%" height="100%">
+              <div class="pdf-fallback">
+                <p>Your browser does not support inline PDFs.</p>
+                <a [href]="selectedApplicant.resumeUrl" target="_blank" class="btn-celestial">Download Resume</a>
+              </div>
+            </object>
+          </div>
+          <ng-template #noResume>
+            <div class="no-resume-box">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="margin-bottom: 1rem; color: var(--text-muted);">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                <polyline points="14 2 14 8 20 8"></polyline>
+                <line x1="16" y1="13" x2="8" y2="13"></line>
+                <line x1="16" y1="17" x2="8" y2="17"></line>
+                <polyline points="10 9 9 9 8 9"></polyline>
+              </svg>
+              <p>No resume uploaded for this candidate.</p>
+            </div>
+          </ng-template>
+        </div>
+      </div>
+    </aside>
+
+  </div>
+</div>

@@ -1,5 +1,6 @@
 package com.capg.jobportal.event;
 
+<<<<<<< HEAD
 /*
  * ================================================================
  * AUTHOR: Nithin Kumar Rokkam
@@ -21,12 +22,20 @@ package com.capg.jobportal.event;
  * microservice communication.
  * ================================================================
  */
+=======
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+>>>>>>> c719d7d (Added Frontend(Angular), Lambok, Vitest and updated readme)
 public class JobAppliedEvent {
     private Long jobId;
     private String jobTitle;
     private Long seekerId;
     private String seekerName;
     private String seekerEmail;
+<<<<<<< HEAD
     private Long recruiterId;   // postedBy from job
 
     public JobAppliedEvent() {}
@@ -49,3 +58,7 @@ public class JobAppliedEvent {
     public Long getRecruiterId() { return recruiterId; }
     public void setRecruiterId(Long recruiterId) { this.recruiterId = recruiterId; }
 }
+=======
+    private Long recruiterId;
+}
+>>>>>>> c719d7d (Added Frontend(Angular), Lambok, Vitest and updated readme)

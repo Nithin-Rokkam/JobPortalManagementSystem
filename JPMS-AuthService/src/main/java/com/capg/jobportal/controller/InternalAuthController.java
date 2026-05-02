@@ -153,4 +153,27 @@ public class InternalAuthController {
         info.setEmail(profile.getEmail());
         return ResponseEntity.ok(info);
     }
+<<<<<<< HEAD
+=======
+
+    /* ================================================================
+     * METHOD: updateSelectedByCompany
+     * DESCRIPTION:
+     * Called by ApplicationService when a seeker is SELECTED.
+     * Stores the company name on the seeker's profile in the DB.
+     * ================================================================ */
+    @PutMapping("/users/{seekerId}/selected-company")
+    public ResponseEntity<Void> updateSelectedByCompany(
+            @PathVariable Long seekerId,
+            @org.springframework.web.bind.annotation.RequestBody java.util.Map<String, String> body) {
+
+        logger.info("Internal API → Updating selectedByCompany for seeker [{}]", seekerId);
+
+        authService.updateSelectedByCompany(seekerId, body.get("companyName"));
+
+        logger.info("selectedByCompany updated for seeker [{}]", seekerId);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+>>>>>>> c719d7d (Added Frontend(Angular), Lambok, Vitest and updated readme)
 }

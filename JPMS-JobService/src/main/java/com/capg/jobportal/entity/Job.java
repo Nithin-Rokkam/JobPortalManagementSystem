@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 import com.capg.jobportal.enums.JobStatus;
 import com.capg.jobportal.enums.JobType;
 
+<<<<<<< HEAD
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -18,12 +19,19 @@ import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 
+=======
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+>>>>>>> c719d7d (Added Frontend(Angular), Lambok, Vitest and updated readme)
 
 /*
  * ================================================================
  * AUTHOR: Nithin Kumar Rokkam
  * CLASS: Job
  * DESCRIPTION:
+<<<<<<< HEAD
  * This entity represents the "jobs" table in the database.
  * It stores all details related to job postings created by recruiters.
  *
@@ -43,6 +51,15 @@ import jakarta.persistence.Table;
  * in the database using JPA/Hibernate.
  * ================================================================
  */
+=======
+ * JPA entity for the "jobs" table. Lombok @Getter/@Setter generate
+ * all accessors. Lifecycle callbacks are kept manually.
+ * ================================================================
+ */
+@Getter
+@Setter
+@NoArgsConstructor
+>>>>>>> c719d7d (Added Frontend(Angular), Lambok, Vitest and updated readme)
 @Entity
 @Table(name = "jobs")
 public class Job {
@@ -83,7 +100,10 @@ public class Job {
     @Column(name = "deadline")
     private LocalDate deadline;
 
+<<<<<<< HEAD
     // Stores the userId received from gateway header X-User-Id
+=======
+>>>>>>> c719d7d (Added Frontend(Angular), Lambok, Vitest and updated readme)
     @Column(name = "posted_by")
     private Long postedBy;
 
@@ -106,6 +126,7 @@ public class Job {
     protected void onUpdate() {
         this.updatedAt = LocalDateTime.now();
     }
+<<<<<<< HEAD
 
     // Getters and Setters
     public Long getId() { return id; }
@@ -150,3 +171,6 @@ public class Job {
     public LocalDateTime getUpdatedAt() { return updatedAt; }
     public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
 }
+=======
+}
+>>>>>>> c719d7d (Added Frontend(Angular), Lambok, Vitest and updated readme)

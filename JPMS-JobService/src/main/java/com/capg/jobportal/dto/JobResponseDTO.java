@@ -3,6 +3,7 @@ package com.capg.jobportal.dto;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+<<<<<<< HEAD
 
 
 /*
@@ -24,6 +25,13 @@ import java.time.LocalDateTime;
  * presentation layer while hiding internal entity implementation.
  * ================================================================
  */
+=======
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+>>>>>>> c719d7d (Added Frontend(Angular), Lambok, Vitest and updated readme)
 public class JobResponseDTO {
 
     private Long id;
@@ -40,6 +48,7 @@ public class JobResponseDTO {
     private Long postedBy;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+<<<<<<< HEAD
 
     // Getters and Setters
     public Long getId() { return id; }
@@ -84,3 +93,6 @@ public class JobResponseDTO {
     public LocalDateTime getUpdatedAt() { return updatedAt; }
     public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
 }
+=======
+}
+>>>>>>> c719d7d (Added Frontend(Angular), Lambok, Vitest and updated readme)

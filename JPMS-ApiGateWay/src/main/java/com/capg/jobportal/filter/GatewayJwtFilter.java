@@ -85,6 +85,14 @@ public class GatewayJwtFilter implements GlobalFilter, Ordered {
 
         System.out.println("=== FILTER CALLED === Path: " + path + " Method: " + method);
 
+<<<<<<< HEAD
+=======
+        // Allow CORS preflight requests (OPTIONS) to pass through without authentication
+        if ("OPTIONS".equalsIgnoreCase(method)) {
+            System.out.println("=== ALLOWING CORS PREFLIGHT (OPTIONS) ===");
+            return chain.filter(exchange);
+        }
+>>>>>>> c719d7d (Added Frontend(Angular), Lambok, Vitest and updated readme)
         
      // Block all internal endpoints from external access
         if (path.contains("/internal/")) {
@@ -155,6 +163,13 @@ public class GatewayJwtFilter implements GlobalFilter, Ordered {
         if (path.equals("/api/auth/register")) return true;
         if (path.equals("/api/auth/login")) return true;
         if (path.equals("/api/auth/refresh")) return true;
+<<<<<<< HEAD
+=======
+        if (path.equals("/api/auth/forgot-password")) return true;
+        if (path.equals("/api/auth/reset-password")) return true;
+        if (path.equals("/api/auth/verify-registration")) return true;
+        if (path.equals("/api/auth/resend-registration-otp")) return true;
+>>>>>>> c719d7d (Added Frontend(Angular), Lambok, Vitest and updated readme)
 
         if ("GET".equalsIgnoreCase(method)) {
             if (path.equals("/api/jobs")) return true;

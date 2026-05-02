@@ -2,14 +2,21 @@ package com.capg.jobportal.model;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+<<<<<<< HEAD
 
 
+=======
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+>>>>>>> c719d7d (Added Frontend(Angular), Lambok, Vitest and updated readme)
 
 /*
  * ================================================================
  * AUTHOR: Nithin Kumar Rokkam
  * CLASS: AuditLog
  * DESCRIPTION:
+<<<<<<< HEAD
  * This entity represents the "audit_logs" table in the database.
  * It is used to track administrative and system-level actions
  * performed within the platform.
@@ -28,6 +35,16 @@ import java.time.LocalDateTime;
  * monitoring, debugging, and maintaining system accountability.
  * ================================================================
  */
+=======
+ * JPA entity for the "audit_logs" table. Lombok @Getter/@Setter
+ * generate all accessors. Custom constructor and @PrePersist
+ * lifecycle callback are kept manually.
+ * ================================================================
+ */
+@Getter
+@Setter
+@NoArgsConstructor
+>>>>>>> c719d7d (Added Frontend(Angular), Lambok, Vitest and updated readme)
 @Entity
 @Table(name = "audit_logs")
 public class AuditLog {
@@ -53,6 +70,7 @@ public class AuditLog {
         this.createdAt = LocalDateTime.now();
     }
 
+<<<<<<< HEAD
     public AuditLog() {}
 
     public AuditLog(String action, String performedBy, String details) {
@@ -75,4 +93,11 @@ public class AuditLog {
 
     public LocalDateTime getCreatedAt() { return createdAt; }
     public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
+=======
+    public AuditLog(String action, String performedBy, String details) {
+        this.action      = action;
+        this.performedBy = performedBy;
+        this.details     = details;
+    }
+>>>>>>> c719d7d (Added Frontend(Angular), Lambok, Vitest and updated readme)
 }

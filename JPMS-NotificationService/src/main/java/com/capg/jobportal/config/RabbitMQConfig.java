@@ -122,4 +122,52 @@ public class RabbitMQConfig {
                 .to(jobPortalExchange)
                 .with(appliedRoutingKey);
     }
+<<<<<<< HEAD
+=======
+
+    @Bean
+    public Queue passwordResetQueue() {
+        return new Queue("password.reset.queue", true);
+    }
+
+    @Bean
+    public Binding passwordResetBinding(Queue passwordResetQueue, DirectExchange jobPortalExchange) {
+        return BindingBuilder
+                .bind(passwordResetQueue)
+                .to(jobPortalExchange)
+                .with("password.reset");
+    }
+
+    @Bean
+    public Queue registrationOtpQueue() {
+        return new Queue("registration.otp.queue", true);
+    }
+
+    @Bean
+    public Binding registrationOtpBinding(Queue registrationOtpQueue, DirectExchange jobPortalExchange) {
+        return BindingBuilder
+                .bind(registrationOtpQueue)
+                .to(jobPortalExchange)
+                .with("registration.otp");
+    }
+
+    @Value("${rabbitmq.status.queue}")
+    private String statusQueueName;
+
+    @Value("${rabbitmq.status.routing-key}")
+    private String statusRoutingKey;
+
+    @Bean
+    public Queue applicationStatusQueue() {
+        return new Queue(statusQueueName, true);
+    }
+
+    @Bean
+    public Binding statusBinding(Queue applicationStatusQueue, DirectExchange jobPortalExchange) {
+        return BindingBuilder
+                .bind(applicationStatusQueue)
+                .to(jobPortalExchange)
+                .with(statusRoutingKey);
+    }
+>>>>>>> c719d7d (Added Frontend(Angular), Lambok, Vitest and updated readme)
 }

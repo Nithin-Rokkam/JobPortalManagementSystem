@@ -2,7 +2,10 @@ package com.capg.jobportal.controller;
 
 import java.util.List;
 import java.util.Map;
+<<<<<<< HEAD
 
+=======
+>>>>>>> c719d7d (Added Frontend(Angular), Lambok, Vitest and updated readme)
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

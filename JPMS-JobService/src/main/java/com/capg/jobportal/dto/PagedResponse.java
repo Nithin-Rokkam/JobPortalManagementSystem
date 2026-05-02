@@ -1,5 +1,6 @@
 package com.capg.jobportal.dto;
 
+<<<<<<< HEAD
 
 import java.util.List;
 
@@ -24,6 +25,18 @@ import java.util.List;
  * API usability and enabling efficient data handling on the client side.
  * ================================================================
  */
+=======
+import java.util.List;
+import lombok.Getter;
+import lombok.Setter;
+
+/*
+ * Generic paginated response DTO. Uses @Getter/@Setter since it
+ * has a custom all-args constructor used throughout the service.
+ */
+@Getter
+@Setter
+>>>>>>> c719d7d (Added Frontend(Angular), Lambok, Vitest and updated readme)
 public class PagedResponse<T> {
 
     private List<T> content;
@@ -34,6 +47,7 @@ public class PagedResponse<T> {
 
     public PagedResponse(List<T> content, int currentPage,
                          int totalPages, long totalElements, boolean isLast) {
+<<<<<<< HEAD
         this.content = content;
         this.currentPage = currentPage;
         this.totalPages = totalPages;
@@ -56,3 +70,12 @@ public class PagedResponse<T> {
     public boolean isLast() { return isLast; }
     public void setLast(boolean last) { isLast = last; }
 }
+=======
+        this.content       = content;
+        this.currentPage   = currentPage;
+        this.totalPages    = totalPages;
+        this.totalElements = totalElements;
+        this.isLast        = isLast;
+    }
+}
+>>>>>>> c719d7d (Added Frontend(Angular), Lambok, Vitest and updated readme)

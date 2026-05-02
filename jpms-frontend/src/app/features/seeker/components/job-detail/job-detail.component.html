@@ -1,0 +1,146 @@
+<div class="job-detail-container animate-fade-in-up" *ngIf="job">
+  
+  <!-- Job Header Card -->
+  <header class="job-header-card celestial-card inner-glow">
+    <div class="header-main">
+      <div class="company-logo-large">
+        <span>{{ job.companyName.charAt(0) }}</span>
+      </div>
+      <div class="title-section">
+        <h1 class="heading-celestial">{{ job.title }}</h1>
+        <p class="company-subtitle">{{ job.companyName }} • {{ job.location }}</p>
+      </div>
+    </div>
+    <div class="header-actions">
+      <button *ngIf="!alreadyApplied" class="btn-celestial" style="padding: 0.75rem 2rem;" (click)="apply()">Apply for this Position</button>
+      <div *ngIf="alreadyApplied" class="applied-badge">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <polyline points="20 6 9 17 4 12"></polyline>
+        </svg>
+        <span>Application Submitted</span>
+      </div>
+    </div>
+  </header>
+
+  <div class="detail-layout">
+    
+    <!-- Main Content -->
+    <main class="detail-main">
+      
+      <section class="content-section celestial-card">
+        <h2 class="section-title label-celestial">Job Description</h2>
+        <div class="description-text">{{ job.description }}</div>
+      </section>
+
+      <section class="content-section celestial-card">
+        <h2 class="section-title label-celestial">About the Company</h2>
+        <p style="color: var(--text-secondary); line-height: 1.6;">
+          {{ job.companyName }} is a leader in its industry, looking for passionate individuals to join their growing team.
+        </p>
+      </section>
+
+    </main>
+
+    <!-- Sidebar Metadata -->
+    <aside class="detail-sidebar">
+      
+      <div class="celestial-card sidebar-card">
+        <h3 class="label-celestial" style="margin-bottom: 1.25rem;">Role Overview</h3>
+        
+        <div class="meta-item">
+          <span class="meta-label">Employment Type</span>
+          <span class="meta-value">{{ job.jobType.replace('_', ' ') }}</span>
+        </div>
+
+        <div class="meta-item">
+          <span class="meta-label">Experience Level</span>
+          <span class="meta-value">{{ job.experienceYears }}+ Years</span>
+        </div>
+
+        <div class="meta-item" *ngIf="job.salaryMin">
+          <span class="meta-label">Annual Salary</span>
+          <span class="meta-value text-gradient">{{ job.salaryMin | currency:'INR':'symbol':'1.0-0' }} - {{ job.salaryMax | currency:'INR':'symbol':'1.0-0' }}</span>
+        </div>
+
+        <div class="meta-item">
+          <span class="meta-label">Posted On</span>
+          <span class="meta-value">{{ job.createdAt | date:'longDate' }}</span>
+        </div>
+
+        <div class="meta-item" *ngIf="job.deadline">
+          <span class="meta-label">Deadline</span>
+          <span class="meta-value" [class.text-danger]="isDeadlinePassed">
+            {{ job.deadline | date:'mediumDate' }}
+          </span>
+        </div>
+      </div>
+
+      <div class="celestial-card sidebar-card" style="margin-top: 1.5rem;">
+        <h3 class="label-celestial" style="margin-bottom: 1rem;">Share this Job</h3>
+        <div style="display: flex; gap: 0.75rem;">
+           <!-- Mock share buttons -->
+           <button class="btn-outline small" style="flex: 1; font-size: 10px;">LINKEDIN</button>
+           <button class="btn-outline small" style="flex: 1; font-size: 10px;">COPY LINK</button>
+        </div>
+      </div>
+
+    </aside>
+
+  </div>
+
+  <!-- Apply Modal -->
+  <div class="modal-backdrop" *ngIf="showModal" (click)="showModal = false">
+    <div class="modal-box celestial-card inner-glow" (click)="$event.stopPropagation()">
+      <h3 class="modal-title heading-celestial">Apply for {{ job.title }}</h3>
+      <p class="modal-message">Submit your application to {{ job.companyName }}</p>
+
+      <form [formGroup]="applyForm" (ngSubmit)="submitApplication()">
+        <div class="form-group">
+          <label class="label-celestial">Cover Letter</label>
+          <textarea 
+            formControlName="coverLetter" 
+            class="form-input" 
+            rows="5" 
+            placeholder="Why are you a good fit for this role?">
+          </textarea>
+        </div>
+
+        <div class="resume-selection" style="margin-bottom: 2rem;">
+          <label class="label-celestial" style="margin-bottom: 0.5rem; display: block;">Resume</label>
+          
+          <div class="selection-options">
+            <label class="radio-option" [class.disabled]="!user?.resumeUrl">
+              <input type="radio" [value]="true" [(ngModel)]="useExistingResume" [ngModelOptions]="{standalone: true}" [disabled]="!user?.resumeUrl">
+              <span>Use my profile resume {{ !user?.resumeUrl ? '(No resume found in profile)' : '' }}</span>
+            </label>
+            <label class="radio-option">
+              <input type="radio" [value]="false" [(ngModel)]="useExistingResume" [ngModelOptions]="{standalone: true}">
+              <span>Upload new resume</span>
+            </label>
+          </div>
+
+          <div *ngIf="!useExistingResume" class="file-upload-area" style="margin-top: 1rem;">
+            <input type="file" (change)="onFileSelect($event)" accept=".pdf" class="form-input">
+          </div>
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" class="btn-cancel" (click)="showModal = false">Cancel</button>
+          <button type="submit" class="btn-celestial" [disabled]="applyLoading || (!useExistingResume && !selectedFile) || (useExistingResume && !user?.resumeUrl)">
+            {{ applyLoading ? 'Submitting...' : 'Confirm Application' }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+</div>
+
+<!-- Loading State -->
+<div class="job-detail-container" *ngIf="loading">
+  <div class="celestial-card" style="height: 200px; margin-bottom: 2rem; opacity: 0.5;"></div>
+  <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 2rem;">
+    <div class="celestial-card" style="height: 400px; opacity: 0.3;"></div>
+    <div class="celestial-card" style="height: 300px; opacity: 0.3;"></div>
+  </div>
+</div>

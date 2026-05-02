@@ -90,6 +90,23 @@ class AdminServiceTest {
     }
 
     @Test
+<<<<<<< HEAD
+=======
+    void banUser_tokenInvalidationFails_stillSucceeds() {
+        doNothing().when(authServiceClient).banUser(1L);
+        doThrow(new RuntimeException("Token service down"))
+                .when(authServiceClient).invalidateToken(1L);
+        when(auditLogRepository.save(any(AuditLog.class))).thenReturn(new AuditLog());
+
+        adminService.banUser(1L, 99L);
+
+        verify(authServiceClient).banUser(1L);
+        verify(authServiceClient).invalidateToken(1L);
+        verify(auditLogRepository).save(any(AuditLog.class));
+    }
+
+    @Test
+>>>>>>> c719d7d (Added Frontend(Angular), Lambok, Vitest and updated readme)
     void unbanUser_success() {
         doNothing().when(authServiceClient).unbanUser(1L);
         when(auditLogRepository.save(any(AuditLog.class))).thenReturn(new AuditLog());

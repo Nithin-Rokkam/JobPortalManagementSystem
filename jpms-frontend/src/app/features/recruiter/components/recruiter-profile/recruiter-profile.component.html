@@ -1,0 +1,189 @@
+<!-- Loading skeleton -->
+<div class="profile-container" *ngIf="loading">
+  <div class="celestial-card" style="height: 200px; margin-bottom: 20px; opacity: 0.4;"></div>
+  <div class="celestial-card" style="height: 300px; opacity: 0.3;"></div>
+</div>
+
+<!-- Profile content -->
+<div class="profile-container animate-fade-in-up" *ngIf="!loading && profile">
+
+  <!-- ── Header card ─────────────────────────────────── -->
+  <div class="profile-header-card">
+
+    <!-- Avatar -->
+    <div class="profile-avatar-wrap">
+      <div class="profile-avatar">
+        <img *ngIf="profile.profilePictureUrl" [src]="profile.profilePictureUrl" alt="Avatar" />
+        <span *ngIf="!profile.profilePictureUrl">{{ getInitials(profile.name) }}</span>
+      </div>
+    </div>
+
+    <!-- Name + role -->
+    <div class="profile-header-info">
+      <h1 class="profile-name">{{ profile.name }}</h1>
+      <span class="profile-role-badge">{{ profile.role }}</span>
+      <p class="profile-email">{{ profile.email }}</p>
+      <p *ngIf="profile.companyName" class="profile-company">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+          <polyline points="9 22 9 12 15 12 15 22"></polyline>
+        </svg>
+        {{ profile.companyName }}
+      </p>
+    </div>
+
+    <!-- View / Edit toggle -->
+    <div class="profile-mode-toggle">
+      <button
+        class="mode-toggle-btn"
+        [class.active]="profileMode === 'view'"
+        (click)="profileMode = 'view'"
+      >
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+          <circle cx="12" cy="12" r="3"></circle>
+        </svg>
+        View
+      </button>
+      <button
+        class="mode-toggle-btn"
+        [class.active]="profileMode === 'edit'"
+        (click)="profileMode = 'edit'"
+      >
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+          <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+        </svg>
+        Edit
+      </button>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════
+       VIEW MODE
+       ══════════════════════════════════════════════════ -->
+  <div *ngIf="profileMode === 'view'" class="profile-view-grid animate-fade-in-up">
+
+    <div class="profile-card">
+      <h3 class="profile-card__title">Personal Information</h3>
+      <div class="info-row">
+        <span class="info-label">Full Name</span>
+        <span class="info-value">{{ profile.name }}</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Email Address</span>
+        <span class="info-value">{{ profile.email }}</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Phone Number</span>
+        <span class="info-value">{{ profile.phone || '—' }}</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Role</span>
+        <span class="info-value">{{ profile.role }}</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Member Since</span>
+        <span class="info-value">{{ profile.createdAt | date:'longDate' }}</span>
+      </div>
+      <div *ngIf="profile.companyName" class="info-row">
+        <span class="info-label">Company</span>
+        <span class="info-value company-highlight">{{ profile.companyName }}</span>
+      </div>
+    </div>
+
+    <div class="profile-card">
+      <h3 class="profile-card__title">Account Security</h3>
+      <p style="font-size: 14px; color: var(--text-secondary); margin-bottom: 20px; line-height: 1.6;">
+        Keep your account secure by using a strong password and keeping your details up to date.
+      </p>
+      <button class="btn-danger-outline" (click)="logout()">Sign Out</button>
+    </div>
+
+  </div>
+
+  <!-- ══════════════════════════════════════════════════
+       EDIT MODE
+       ══════════════════════════════════════════════════ -->
+  <div *ngIf="profileMode === 'edit'" class="profile-grid animate-fade-in-up">
+
+    <div class="celestial-card info-card">
+      <h3 class="label-celestial" style="margin-bottom: 20px;">Personal Details</h3>
+
+      <div class="detail-row">
+        <span class="d-label">Email</span>
+        <span class="d-value">{{ profile.email }}</span>
+      </div>
+      <div class="detail-row">
+        <span class="d-label">Phone</span>
+        <span class="d-value">{{ profile.phone || 'Not provided' }}</span>
+      </div>
+      <div *ngIf="profile.companyName" class="detail-row">
+        <span class="d-label">Company</span>
+        <span class="d-value company-highlight">{{ profile.companyName }}</span>
+      </div>
+      <div class="detail-row">
+        <span class="d-label">Joined</span>
+        <span class="d-value">{{ profile.createdAt | date:'mediumDate' }}</span>
+      </div>
+
+      <!-- Editable company name section -->
+      <div class="company-edit-section">
+        <div class="d-label" style="margin-bottom: 8px;">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align: middle; margin-right: 4px;">
+            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+            <polyline points="9 22 9 12 15 12 15 22"></polyline>
+          </svg>
+          Company Name
+        </div>
+        <div class="company-edit-row">
+          <input
+            type="text"
+            class="company-input"
+            [(ngModel)]="companyNameInput"
+            placeholder="e.g. Acme Technologies"
+            maxlength="200"
+          />
+          <button
+            class="btn-celestial"
+            (click)="onSaveCompany()"
+            [disabled]="savingCompany || !companyNameInput.trim()"
+          >
+            {{ savingCompany ? 'Saving...' : 'Save' }}
+          </button>
+        </div>
+        <p class="company-edit-hint">This will be visible to seekers and admins.</p>
+      </div>
+
+      <!-- Profile picture upload -->
+      <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--border);">
+        <div class="d-label" style="margin-bottom: 10px;">Profile Picture</div>
+        <div class="avatar-edit-row">
+          <div class="avatar-edit-preview">
+            <img *ngIf="profile.profilePictureUrl" [src]="profile.profilePictureUrl" alt="Avatar" />
+            <span *ngIf="!profile.profilePictureUrl">{{ getInitials(profile.name) }}</span>
+          </div>
+          <div>
+            <input #picInput type="file" accept="image/*" hidden (change)="onPictureSelect($event)" />
+            <button class="btn-celestial" (click)="picInput.click()" [disabled]="uploadingPic">
+              {{ uploadingPic ? 'Uploading...' : 'Change Photo' }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="celestial-card info-card">
+      <h3 class="label-celestial" style="margin-bottom: 20px;">Account Security</h3>
+      <p style="font-size: 14px; color: var(--text-secondary); margin-bottom: 20px; line-height: 1.6;">
+        Keep your account secure by using a strong password.
+      </p>
+      <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+        <button class="btn-outline small">Change Password</button>
+        <button class="btn-danger-outline" style="flex: 1;" (click)="logout()">Sign Out</button>
+      </div>
+    </div>
+
+  </div>
+
+</div>

@@ -2,6 +2,7 @@ package com.capg.jobportal.dto;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+<<<<<<< HEAD
 
 
 /*
@@ -24,6 +25,13 @@ import java.time.LocalDate;
  * layer to the service layer in a structured and validated format.
  * ================================================================
  */
+=======
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+>>>>>>> c719d7d (Added Frontend(Angular), Lambok, Vitest and updated readme)
 public class JobRequestDTO {
 
     private String title;
@@ -36,6 +44,7 @@ public class JobRequestDTO {
     private String description;
     private String status;
     private LocalDate deadline;
+<<<<<<< HEAD
 
     // Getters and Setters
     public String getTitle() { return title; }
@@ -68,3 +77,6 @@ public class JobRequestDTO {
     public LocalDate getDeadline() { return deadline; }
     public void setDeadline(LocalDate deadline) { this.deadline = deadline; }
 }
+=======
+}
+>>>>>>> c719d7d (Added Frontend(Angular), Lambok, Vitest and updated readme)

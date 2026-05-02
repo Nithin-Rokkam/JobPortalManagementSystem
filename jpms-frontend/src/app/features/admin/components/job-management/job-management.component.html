@@ -1,0 +1,56 @@
+<div class="job-mgmt">
+  <app-page-header title="Job Management" subtitle="Manage all platform job postings" [breadcrumbs]="[{label:'Jobs'}]"></app-page-header>
+
+  <div class="filters">
+    <input type="text" [(ngModel)]="search" placeholder="Search by title or company..." class="search-input" />
+    <select [(ngModel)]="statusFilter" class="filter-select">
+      <option value="">All Status</option>
+      <option value="ACTIVE">Active</option>
+      <option value="CLOSED">Closed</option>
+      <option value="DRAFT">Draft</option>
+    </select>
+  </div>
+
+  <div class="table-wrap" *ngIf="!loading && filtered.length">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Job Title</th>
+          <th>Company</th>
+          <th>Recruiter ID</th>
+          <th>Status</th>
+          <th>Posted</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let j of filtered">
+          <td class="td-bold">{{ j.title }}</td>
+          <td class="td-muted">{{ j.companyName }}</td>
+          <td class="td-mono">{{ j.postedBy }}</td>
+          <td><app-badge [status]="j.status"></app-badge></td>
+          <td class="td-muted">{{ j.createdAt | timeAgo }}</td>
+          <td>
+            <button class="action-btn action-btn--danger" (click)="confirmDeleteId = j.id" title="Delete">🗑️</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="loading">
+    <div class="skeleton" style="height:48px;border-radius:8px;margin-bottom:8px" *ngFor="let i of [1,2,3,4,5]"></div>
+  </div>
+
+  <app-empty-state *ngIf="!loading && !filtered.length" message="No jobs found" icon="💼"></app-empty-state>
+</div>
+
+<app-confirm-modal
+  *ngIf="confirmDeleteId"
+  title="Delete Job"
+  message="This will permanently remove the job posting. This action cannot be undone."
+  confirmLabel="Delete"
+  [isDanger]="true"
+  (confirmed)="deleteJob()"
+  (cancelled)="confirmDeleteId = null">
+</app-confirm-modal>

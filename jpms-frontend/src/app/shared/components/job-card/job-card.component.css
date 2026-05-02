@@ -1,0 +1,169 @@
+.job-card-inner {
+  background: var(--bg-surface);
+  border: 0.5px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 14px 20px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: border-color var(--t-fast), background var(--t-fast);
+}
+
+.job-card-inner:hover {
+  border-color: var(--brand);
+  background: var(--row-active-bg);
+}
+
+.job-card-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.company-logo {
+  width: 40px;
+  height: 40px;
+  background: var(--bg-surface-2);
+  border: 0.5px solid var(--border);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  color: var(--brand);
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+.header-main {
+  flex: 1;
+  min-width: 0;
+}
+
+.job-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.company-name {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin: 2px 0 0;
+}
+
+/* Job type badge */
+.job-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 10px;
+  border-radius: var(--radius-full);
+  font-size: 11px;
+  font-weight: 500;
+  background: var(--tag-bg);
+  color: var(--tag-text);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.job-badge.full_time {
+  background: var(--tag-bg);
+  color: var(--tag-text);
+}
+
+.job-badge.part_time {
+  background: rgba(124, 58, 237, 0.10);
+  color: #6d28d9;
+}
+
+.job-badge.remote {
+  background: rgba(16, 185, 129, 0.10);
+  color: #047857;
+}
+
+.job-badge.contract {
+  background: rgba(245, 158, 11, 0.10);
+  color: #b45309;
+}
+
+[data-theme="dark"] .job-badge.part_time {
+  color: #a78bfa;
+}
+
+[data-theme="dark"] .job-badge.remote {
+  color: #34d399;
+}
+
+[data-theme="dark"] .job-badge.contract {
+  color: #fbbf24;
+}
+
+.job-card-details {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  color: var(--text-secondary);
+  font-size: 13px;
+}
+
+.detail-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.job-card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 10px;
+  border-top: 0.5px solid var(--border);
+}
+
+.footer-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.posted-date {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.bookmark-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 5px;
+  color: var(--text-secondary);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 150ms, background 150ms;
+}
+
+.bookmark-btn:hover {
+  color: var(--brand);
+  background: rgba(43, 63, 232, 0.08);
+}
+
+.bookmark-btn--saved {
+  color: var(--brand);
+}
+
+.bookmark-btn--saved:hover {
+  color: var(--accent-danger);
+  background: rgba(239, 68, 68, 0.08);
+}
+
+.btn-celestial.small {
+  padding: 6px 14px;
+  font-size: 12px;
+}

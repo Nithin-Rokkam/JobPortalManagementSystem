@@ -1,6 +1,7 @@
 package com.capg.jobportal.dto;
 
 import com.capg.jobportal.enums.ApplicationStatus;
+<<<<<<< HEAD
 
 import jakarta.validation.constraints.NotNull;
 
@@ -47,4 +48,18 @@ public class StatusUpdateRequest {
     
     
 
+=======
+import jakarta.validation.constraints.NotNull;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+public class StatusUpdateRequest {
+
+    @NotNull(message = "New status is required")
+    private ApplicationStatus newStatus;
+
+    private String recruiterNote;
+>>>>>>> c719d7d (Added Frontend(Angular), Lambok, Vitest and updated readme)
 }

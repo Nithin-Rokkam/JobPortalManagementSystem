@@ -1,11 +1,17 @@
 package com.capg.jobportal.dto;
 
+<<<<<<< HEAD
+=======
+import lombok.Data;
+import lombok.NoArgsConstructor;
+>>>>>>> c719d7d (Added Frontend(Angular), Lambok, Vitest and updated readme)
 
 /*
  * ================================================================
  * AUTHOR: Nithin Kumar Rokkam
  * CLASS: AuthResponse
  * DESCRIPTION:
+<<<<<<< HEAD
  * This DTO represents the response returned after successful
  * authentication (login/register/refresh).
  *
@@ -23,11 +29,24 @@ public class AuthResponse {
 	
 	private String message;
 	private String accessToken;
+=======
+ * DTO for authentication responses. Lombok generates getters/setters.
+ * Custom constructors are kept for the two existing call sites.
+ * ================================================================
+ */
+@Data
+@NoArgsConstructor
+public class AuthResponse {
+
+    private String message;
+    private String accessToken;
+>>>>>>> c719d7d (Added Frontend(Angular), Lambok, Vitest and updated readme)
     private String refreshToken;
     private String role;
     private Long userId;
     private String name;
     private String email;
+<<<<<<< HEAD
  
   
     public AuthResponse() {
@@ -41,6 +60,17 @@ public class AuthResponse {
     
     
     public AuthResponse(String accessToken, String refreshToken, String role, Long userId, String name, String email) {
+=======
+
+    /** Used for simple message-only responses (e.g. registration) */
+    public AuthResponse(String message) {
+        this.message = message;
+    }
+
+    /** Used for full login/refresh responses */
+    public AuthResponse(String accessToken, String refreshToken, String role,
+                        Long userId, String name, String email) {
+>>>>>>> c719d7d (Added Frontend(Angular), Lambok, Vitest and updated readme)
         this.accessToken = accessToken;
         this.refreshToken = refreshToken;
         this.role = role;
@@ -48,6 +78,7 @@ public class AuthResponse {
         this.name = name;
         this.email = email;
     }
+<<<<<<< HEAD
     
     
 
@@ -109,4 +140,6 @@ public class AuthResponse {
 		this.email = email;
 	}
     
+=======
+>>>>>>> c719d7d (Added Frontend(Angular), Lambok, Vitest and updated readme)
 }

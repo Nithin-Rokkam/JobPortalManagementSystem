@@ -26,5 +26,9 @@ public enum ApplicationStatus {
     APPLIED,
     UNDER_REVIEW,
     SHORTLISTED,
+<<<<<<< HEAD
+=======
+    SELECTED,
+>>>>>>> c719d7d (Added Frontend(Angular), Lambok, Vitest and updated readme)
     REJECTED
 }

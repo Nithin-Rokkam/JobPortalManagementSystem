@@ -1,11 +1,29 @@
 package com.capg.jobportal.event;
 
+<<<<<<< HEAD
+=======
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+/*
+ * ================================================================
+ * AUTHOR: Nithin Kumar Rokkam
+ * CLASS: JobAppliedEvent
+ * DESCRIPTION:
+ * RabbitMQ event published when a seeker applies for a job.
+ * Lombok generates all boilerplate.
+ * ================================================================
+ */
+@Data
+@NoArgsConstructor
+>>>>>>> c719d7d (Added Frontend(Angular), Lambok, Vitest and updated readme)
 public class JobAppliedEvent {
     private Long jobId;
     private String jobTitle;
     private Long seekerId;
     private String seekerName;
     private String seekerEmail;
+<<<<<<< HEAD
     private Long recruiterId;   // postedBy from job
 
     public JobAppliedEvent() {}
@@ -28,3 +46,7 @@ public class JobAppliedEvent {
     public Long getRecruiterId() { return recruiterId; }
     public void setRecruiterId(Long recruiterId) { this.recruiterId = recruiterId; }
 }
+=======
+    private Long recruiterId;
+}
+>>>>>>> c719d7d (Added Frontend(Angular), Lambok, Vitest and updated readme)

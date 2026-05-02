@@ -134,6 +134,16 @@
             <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
 
+<<<<<<< HEAD
+=======
+        <!-- ================= LOMBOK ================= -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+>>>>>>> c719d7d (Added Frontend(Angular), Lambok, Vitest and updated readme)
         <!-- ================= CLOUDINARY ================= -->
         <dependency>
             <groupId>com.cloudinary</groupId>
@@ -141,6 +151,15 @@
             <version>1.36.0</version>
         </dependency>
 
+<<<<<<< HEAD
+=======
+        <!-- ================= AMQP (RabbitMQ) ================= -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-amqp</artifactId>
+        </dependency>
+
+>>>>>>> c719d7d (Added Frontend(Angular), Lambok, Vitest and updated readme)
         <!-- ================= SWAGGER ================= -->
         <dependency>
             <groupId>org.springdoc</groupId>
@@ -183,7 +202,68 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
+<<<<<<< HEAD
         </plugins>
     </build>
 
 </project>
+=======
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <argLine>@{argLine} -Dnet.bytebuddy.experimental=true</argLine>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.8.14</version>
+                <configuration>
+                    <excludes>
+                        <exclude>com/capg/jobportal/JpmsAuthServiceApplication.class</exclude>
+                        <exclude>com/capg/jobportal/security/**</exclude>
+                        <exclude>com/capg/jobportal/dao/**</exclude>
+                        <exclude>com/capg/jobportal/util/CloudinaryUtil.class</exclude>
+                    </excludes>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>prepare-agent</id>
+                        <goals><goal>prepare-agent</goal></goals>
+                    </execution>
+                    <execution>
+                        <id>report</id>
+                        <phase>test</phase>
+                        <goals><goal>report</goal></goals>
+                    </execution>
+                    <execution>
+                        <id>check</id>
+                        <goals><goal>check</goal></goals>
+                        <configuration>
+                            <rules>
+                                <rule>
+                                    <element>BUNDLE</element>
+                                    <limits>
+                                        <limit>
+                                            <counter>LINE</counter>
+                                            <value>COVEREDRATIO</value>
+                                            <minimum>1.00</minimum>
+                                        </limit>
+                                        <limit>
+                                            <counter>BRANCH</counter>
+                                            <value>COVEREDRATIO</value>
+                                            <minimum>1.00</minimum>
+                                        </limit>
+                                    </limits>
+                                </rule>
+                            </rules>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
+>>>>>>> c719d7d (Added Frontend(Angular), Lambok, Vitest and updated readme)

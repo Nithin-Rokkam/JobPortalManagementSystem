@@ -1,0 +1,119 @@
+<div class="post-job-container animate-fade-in-up">
+  
+  <div class="header-row">
+    <h1 class="heading-celestial">Post a New Opportunity</h1>
+    <p style="color: var(--text-secondary);">Fill in the details to find your next star hire.</p>
+  </div>
+
+  <!-- Progress Bar -->
+  <div class="celestial-stepper">
+    <div class="step" [class.active]="step >= 1" [class.done]="step > 1">
+      <div class="step-dot">1</div>
+      <span class="step-label">Basic Info</span>
+    </div>
+    <div class="step-line"></div>
+    <div class="step" [class.active]="step >= 2" [class.done]="step > 2">
+      <div class="step-dot">2</div>
+      <span class="step-label">Description</span>
+    </div>
+    <div class="step-line"></div>
+    <div class="step" [class.active]="step >= 3">
+      <div class="step-dot">3</div>
+      <span class="step-label">Review</span>
+    </div>
+  </div>
+
+  <!-- Step 1: Basics -->
+  <div class="celestial-card form-section" *ngIf="step === 1" [formGroup]="step1Form">
+    <div class="form-grid">
+      <div class="form-group">
+        <label class="label-celestial">Job Title</label>
+        <input type="text" formControlName="title" placeholder="e.g. Senior Backend Engineer" class="form-input">
+        <span class="error-text" *ngIf="step1Form.get('title')?.touched && step1Form.get('title')?.errors?.['required']">Title is required</span>
+      </div>
+      <div class="form-group">
+        <label class="label-celestial">Company Name</label>
+        <input type="text" formControlName="companyName" placeholder="Your Company" class="form-input">
+        <span class="error-text" *ngIf="step1Form.get('companyName')?.touched && step1Form.get('companyName')?.errors?.['required']">Company name is required</span>
+      </div>
+      <div class="form-group">
+        <label class="label-celestial">Location</label>
+        <input type="text" formControlName="location" placeholder="Remote or City" class="form-input">
+        <span class="error-text" *ngIf="step1Form.get('location')?.touched && step1Form.get('location')?.errors?.['required']">Location is required</span>
+      </div>
+      <div class="form-group">
+        <label class="label-celestial">Employment Type</label>
+        <select formControlName="jobType" class="form-input">
+          <option value="" disabled selected>Select Job Type</option>
+          <option *ngFor="let jt of jobTypes" [value]="jt">{{ jobTypeLabels[jt] }}</option>
+        </select>
+        <span class="error-text" *ngIf="step1Form.get('jobType')?.touched && step1Form.get('jobType')?.errors?.['required']">Please select an employment type</span>
+      </div>
+    </div>
+    <div class="form-footer">
+      <button class="btn-celestial" (click)="nextStep()">Continue to Details</button>
+    </div>
+  </div>
+
+  <!-- Step 2: Details -->
+  <div class="celestial-card form-section" *ngIf="step === 2" [formGroup]="step2Form">
+    <div class="form-group">
+      <label class="label-celestial">Job Description</label>
+      <textarea formControlName="description" rows="10" placeholder="Detailed job description..." class="form-input"></textarea>
+      <span class="error-text" *ngIf="step2Form.get('description')?.touched && step2Form.get('description')?.errors?.['required']">Description is required</span>
+      <span class="error-text" *ngIf="step2Form.get('description')?.touched && step2Form.get('description')?.errors?.['minlength']">Description must be at least 100 characters (Currently: {{ step2Form.get('description')?.value?.length || 0 }})</span>
+    </div>
+    <div class="form-grid">
+       <div class="form-group">
+         <label class="label-celestial">Experience (Years)</label>
+         <input type="number" formControlName="experienceYears" class="form-input">
+         <span class="error-text" *ngIf="step2Form.get('experienceYears')?.touched && step2Form.get('experienceYears')?.errors?.['min']">Experience cannot be negative</span>
+       </div>
+       <div class="form-group">
+         <label class="label-celestial">Salary Range (Annual)</label>
+         <div style="display: flex; gap: 1rem; align-items: center;">
+           <input type="number" formControlName="salaryMin" placeholder="Min (e.g. 800000)" class="form-input">
+           <span style="color: var(--text-muted)">-</span>
+           <input type="number" formControlName="salaryMax" placeholder="Max (e.g. 1500000)" class="form-input">
+         </div>
+       </div>
+       <div class="form-group">
+         <label class="label-celestial">Application Deadline</label>
+         <input type="date" formControlName="deadline" [min]="today" class="form-input">
+         <span class="error-text" *ngIf="step2Form.get('deadline')?.touched && step2Form.get('deadline')?.errors?.['required']">Deadline is required</span>
+       </div>
+    </div>
+    <div class="form-footer">
+      <button class="btn-outline" (click)="prevStep()">Back</button>
+      <button class="btn-celestial" (click)="nextStep()">Review Posting</button>
+    </div>
+  </div>
+
+  <!-- Step 3: Review -->
+  <div class="celestial-card form-section" *ngIf="step === 3">
+    <div class="review-preview">
+       <h2 class="heading-celestial" style="font-size: 1.5rem; margin-bottom: 1rem;">{{ previewData.title }}</h2>
+       <p style="color: var(--text-secondary); margin-bottom: 2rem;">{{ previewData.companyName }} • {{ previewData.location }}</p>
+        <div class="meta-row">
+           <div class="meta-badge">{{ jobTypeLabels[previewData.jobType] }}</div>
+           <div class="meta-badge">{{ previewData.experienceYears }}+ Years Exp</div>
+           <div class="meta-badge" *ngIf="previewData.salaryMin">₹{{ previewData.salaryMin | number }} - ₹{{ previewData.salaryMax | number }}</div>
+        </div>
+        <div class="meta-row" style="margin-top: -1rem; margin-bottom: 2rem;">
+           <div class="meta-badge" style="border-color: var(--royal-blue); color: var(--royal-blue);">Deadline: {{ previewData.deadline | date:'mediumDate' }}</div>
+        </div>
+       <div class="dropdown-divider"></div>
+       <div style="color: var(--text-secondary); line-height: 1.6; max-height: 200px; overflow-y: auto;">
+         {{ previewData.description }}
+       </div>
+    </div>
+    <div class="form-footer">
+      <button class="btn-outline" (click)="prevStep()">Back</button>
+      <button class="btn-celestial" [disabled]="loading" (click)="submit()">
+        <span *ngIf="!loading">Publish Job Posting</span>
+        <span *ngIf="loading">Publishing...</span>
+      </button>
+    </div>
+  </div>
+
+</div>

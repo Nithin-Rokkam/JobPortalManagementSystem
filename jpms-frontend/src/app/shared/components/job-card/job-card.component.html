@@ -1,0 +1,61 @@
+<div class="celestial-card job-card-inner inner-glow" [routerLink]="['/seeker/jobs', job.id]">
+  
+  <div class="job-card-header">
+    <div class="company-logo">
+      <span>{{ job.companyName.charAt(0) }}</span>
+    </div>
+    <div class="header-main">
+      <h3 class="job-title">{{ job.title }}</h3>
+      <p class="company-name">{{ job.companyName }}</p>
+    </div>
+    <div class="job-badge" [class]="job.jobType.toLowerCase()">
+      {{ job.jobType.replace('_', ' ') }}
+    </div>
+  </div>
+
+  <div class="job-card-details">
+    <div class="detail-item">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+        <circle cx="12" cy="10" r="3"></circle>
+      </svg>
+      <span>{{ job.location }}</span>
+    </div>
+    <div class="detail-item">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+        <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+      </svg>
+      <span>{{ job.experienceYears }}+ Years</span>
+    </div>
+    <div class="detail-item" *ngIf="job.salaryMin">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="12" y1="1" x2="12" y2="23"></line>
+        <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+      </svg>
+      <span>{{ job.salaryMin | currency:'INR':'symbol':'1.0-0' }} - {{ job.salaryMax | currency:'INR':'symbol':'1.0-0' }}</span>
+    </div>
+  </div>
+
+  <div class="job-card-footer">
+    <span class="posted-date">Posted {{ job.createdAt | date:'mediumDate' }}</span>
+    <div class="footer-actions">
+      <!-- Bookmark — only shown for seekers -->
+      <button
+        *ngIf="isSeeker"
+        class="bookmark-btn"
+        [class.bookmark-btn--saved]="isSaved"
+        (click)="onToggleSave($event)"
+        [title]="isSaved ? 'Remove from saved' : 'Save job'"
+        [attr.aria-label]="isSaved ? 'Remove from saved jobs' : 'Save job'"
+      >
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+             [attr.fill]="isSaved ? 'currentColor' : 'none'">
+          <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+        </svg>
+      </button>
+      <button *ngIf="showApplyButton" class="btn-celestial small" (click)="onApply($event)">Apply Now</button>
+    </div>
+  </div>
+
+</div>

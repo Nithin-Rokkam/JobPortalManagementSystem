@@ -1,0 +1,11 @@
+<div class="page-header">
+  <nav class="breadcrumb" *ngIf="breadcrumbs.length">
+    <ng-container *ngFor="let crumb of breadcrumbs; let last = last">
+      <a *ngIf="crumb.link && !last" [routerLink]="crumb.link" class="breadcrumb__link">{{ crumb.label }}</a>
+      <span *ngIf="!crumb.link || last" class="breadcrumb__current">{{ crumb.label }}</span>
+      <span *ngIf="!last" class="breadcrumb__sep">›</span>
+    </ng-container>
+  </nav>
+  <h1 class="page-header__title">{{ title }}</h1>
+  <p class="page-header__subtitle" *ngIf="subtitle">{{ subtitle }}</p>
+</div>

@@ -1,0 +1,87 @@
+<nav class="celestial-navbar inner-glow">
+  <div class="nav-container">
+    
+    <!-- Logo -->
+    <div class="nav-brand" [routerLink]="logoRoute">
+      <img src="https://res.cloudinary.com/dq4e4wh8x/image/upload/v1777353013/Joblix_image_ehuhua.png"
+           alt="Joblix" class="nav-logo-img" width="32" height="32" />
+      <span class="brand-text">JOBLIX</span>
+    </div>
+
+    <!-- Navigation Links -->
+    <div class="nav-links">
+      <!-- Explore Jobs — routes to the correct browse path based on role -->
+      <a *ngIf="!user"
+         routerLink="/auth/login"
+         class="nav-link">Explore Jobs</a>
+      <a *ngIf="user?.role === 'JOB_SEEKER'"
+         routerLink="/seeker/browse"
+         routerLinkActive="active"
+         class="nav-link">Explore Jobs</a>
+      <a *ngIf="user?.role === 'RECRUITER'"
+         routerLink="/recruiter/browse"
+         routerLinkActive="active"
+         class="nav-link">Explore Jobs</a>
+      <a *ngIf="user?.role === 'ADMIN'"
+         routerLink="/admin/browse"
+         routerLinkActive="active"
+         class="nav-link">Explore Jobs</a>
+
+      <a *ngIf="user?.role === 'RECRUITER'" routerLink="/recruiter/post-job" routerLinkActive="active" class="nav-link">Post Job</a>
+      <a *ngIf="user?.role === 'JOB_SEEKER'" routerLink="/seeker/applications" routerLinkActive="active" class="nav-link">My Applications</a>
+    </div>
+
+    <!-- Right Side Actions -->
+    <div class="nav-actions">
+      
+      <!-- Theme Toggle -->
+      <button class="theme-toggle" (click)="toggleTheme()" [attr.aria-label]="isDark ? 'Switch to light mode' : 'Switch to dark mode'" title="Toggle theme">
+        <!-- Sun icon (shown in dark mode) -->
+        <svg *ngIf="isDark" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="5"></circle>
+          <line x1="12" y1="1" x2="12" y2="3"></line>
+          <line x1="12" y1="21" x2="12" y2="23"></line>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+          <line x1="1" y1="12" x2="3" y2="12"></line>
+          <line x1="21" y1="12" x2="23" y2="12"></line>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+        </svg>
+        <!-- Moon icon (shown in light mode) -->
+        <svg *ngIf="!isDark" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+      </button>
+
+      <!-- Guest -->
+      <ng-container *ngIf="!user">
+        <a routerLink="/auth/login" class="nav-link" style="font-weight: 700;">Sign In</a>
+        <button routerLink="/auth/register" class="btn-celestial" style="padding: 0.5rem 1.25rem; font-size: 0.75rem;">Get Started</button>
+      </ng-container>
+
+      <!-- Authenticated -->
+      <div *ngIf="user" class="user-menu" (click)="showDropdown = !showDropdown">
+        <div class="avatar-celestial">
+          <img *ngIf="user.profilePictureUrl" [src]="user.profilePictureUrl" alt="Avatar">
+          <span *ngIf="!user.profilePictureUrl">{{ getInitials(user.name) }}</span>
+        </div>
+        
+        <!-- Dropdown -->
+        <div *ngIf="showDropdown" class="celestial-dropdown animate-fade-in-up">
+          <div class="dropdown-header">
+            <div style="font-weight: 700; font-size: 0.875rem;">{{ user.name }}</div>
+            <div style="font-size: 0.75rem; color: var(--text-secondary);">{{ user.email }}</div>
+          </div>
+          <div class="dropdown-divider"></div>
+          <a [routerLink]="profileRoute" class="dropdown-item">View Profile</a>
+          <a routerLink="/settings" class="dropdown-item">Settings</a>
+          <div class="dropdown-divider"></div>
+          <button (click)="logout()" class="dropdown-item text-danger">Sign Out</button>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</nav>

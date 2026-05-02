@@ -1,0 +1,205 @@
+<!-- Loading skeleton -->
+<div class="profile-container" *ngIf="loading">
+  <div class="celestial-card" style="height: 200px; margin-bottom: 20px; opacity: 0.4;"></div>
+  <div class="celestial-card" style="height: 300px; opacity: 0.3;"></div>
+</div>
+
+<!-- Profile content -->
+<div class="profile-container animate-fade-in-up" *ngIf="!loading && profile">
+
+  <!-- ── Header card ─────────────────────────────────── -->
+  <div class="profile-header-card">
+
+    <!-- Avatar -->
+    <div class="profile-avatar-wrap">
+      <div class="profile-avatar">
+        <img *ngIf="profile.profilePictureUrl" [src]="profile.profilePictureUrl" alt="Avatar" />
+        <span *ngIf="!profile.profilePictureUrl">{{ getInitials(profile.name) }}</span>
+      </div>
+    </div>
+
+    <!-- Name + role -->
+    <div class="profile-header-info">
+      <h1 class="profile-name">{{ profile.name }}</h1>
+      <span class="profile-role-badge">{{ profile.role?.replace('_', ' ') }}</span>
+      <p class="profile-email">{{ profile.email }}</p>
+    </div>
+
+    <!-- View / Edit toggle -->
+    <div class="profile-mode-toggle">
+      <button
+        class="mode-toggle-btn"
+        [class.active]="profileMode === 'view'"
+        (click)="profileMode = 'view'"
+      >
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+          <circle cx="12" cy="12" r="3"></circle>
+        </svg>
+        View
+      </button>
+      <button
+        class="mode-toggle-btn"
+        [class.active]="profileMode === 'edit'"
+        (click)="profileMode = 'edit'"
+      >
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+          <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+        </svg>
+        Edit
+      </button>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════
+       VIEW MODE — read-only popup-style card
+       ══════════════════════════════════════════════════ -->
+  <div *ngIf="profileMode === 'view'" class="profile-view-grid animate-fade-in-up">
+
+    <!-- Personal info -->
+    <div class="profile-card">
+      <h3 class="profile-card__title">Personal Information</h3>
+      <div class="info-row">
+        <span class="info-label">Full Name</span>
+        <span class="info-value">{{ profile.name }}</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Email Address</span>
+        <span class="info-value">{{ profile.email }}</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Phone Number</span>
+        <span class="info-value">{{ profile.phone || '—' }}</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Role</span>
+        <span class="info-value">{{ profile.role?.replace('_', ' ') }}</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Member Since</span>
+        <span class="info-value">{{ profile.createdAt | date:'longDate' }}</span>
+      </div>
+
+      <!-- Selected by company badge -->
+      <div *ngIf="profile.selectedByCompany" class="selected-badge">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+          <polyline points="22 4 12 14.01 9 11.01"></polyline>
+        </svg>
+        <span>Selected by <strong>{{ profile.selectedByCompany }}</strong></span>
+      </div>
+    </div>
+
+    <!-- Resume -->
+    <div class="profile-card">
+      <h3 class="profile-card__title">Resume / CV</h3>
+      <div *ngIf="profile.resumeUrl" class="resume-view-row">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--brand)" stroke-width="1.5">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+          <polyline points="14 2 14 8 20 8"></polyline>
+          <line x1="16" y1="13" x2="8" y2="13"></line>
+          <line x1="16" y1="17" x2="8" y2="17"></line>
+        </svg>
+        <div class="resume-view-info">
+          <span class="resume-view-name">resume.pdf</span>
+          <a [href]="profile.resumeUrl" target="_blank" class="resume-view-link">Open / Download →</a>
+        </div>
+      </div>
+      <div *ngIf="!profile.resumeUrl" class="resume-empty-view">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+          <polyline points="14 2 14 8 20 8"></polyline>
+        </svg>
+        <span>No resume uploaded yet</span>
+        <button class="btn-link" (click)="profileMode = 'edit'">Upload in Edit mode →</button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ══════════════════════════════════════════════════
+       EDIT MODE — full editable layout
+       ══════════════════════════════════════════════════ -->
+  <div *ngIf="profileMode === 'edit'" class="profile-content-grid animate-fade-in-up">
+
+    <!-- Left: Personal Info (read-only in edit mode too — no name/email edit API) -->
+    <div class="celestial-card info-card-p">
+      <h2 class="label-celestial" style="margin-bottom: 1.5rem;">Professional Information</h2>
+
+      <div class="info-row-p">
+        <div class="info-label-p">Full Name</div>
+        <div class="info-value-p">{{ profile.name }}</div>
+      </div>
+      <div class="info-row-p">
+        <div class="info-label-p">Email Address</div>
+        <div class="info-value-p">{{ profile.email }}</div>
+      </div>
+      <div class="info-row-p">
+        <div class="info-label-p">Phone Number</div>
+        <div class="info-value-p">{{ profile.phone || 'Not provided' }}</div>
+      </div>
+      <div class="info-row-p">
+        <div class="info-label-p">Member Since</div>
+        <div class="info-value-p">{{ profile.createdAt | date:'longDate' }}</div>
+      </div>
+
+      <!-- Profile picture upload -->
+      <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--border);">
+        <div class="info-label-p" style="margin-bottom: 10px;">Profile Picture</div>
+        <div class="avatar-edit-row">
+          <div class="avatar-edit-preview">
+            <img *ngIf="profile.profilePictureUrl" [src]="profile.profilePictureUrl" alt="Avatar" />
+            <span *ngIf="!profile.profilePictureUrl">{{ getInitials(profile.name) }}</span>
+          </div>
+          <div>
+            <input #picInput type="file" accept="image/*" hidden (change)="onPictureSelect($event)" />
+            <button class="btn-celestial" (click)="picInput.click()" [disabled]="uploadingPic">
+              {{ uploadingPic ? 'Uploading...' : 'Change Photo' }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right: Resume & Account -->
+    <div class="profile-side-column">
+
+      <div class="celestial-card resume-card-p">
+        <h2 class="label-celestial" style="margin-bottom: 1.25rem;">Curriculum Vitae</h2>
+
+        <div *ngIf="profile.resumeUrl" class="resume-ready">
+          <div class="resume-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--brand)" stroke-width="2">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+            </svg>
+          </div>
+          <div class="resume-info-p">
+            <span style="font-weight: 600; font-size: 14px;">resume.pdf</span>
+            <a [href]="profile.resumeUrl" target="_blank" style="font-size: 12px; color: var(--brand); text-decoration: none;">Download Copy</a>
+          </div>
+          <input #resumeInput type="file" accept=".pdf" hidden (change)="onResumeSelect($event)" />
+          <button class="btn-outline small" (click)="resumeInput.click()" [disabled]="uploadingResume">
+            {{ uploadingResume ? '...' : 'UPDATE' }}
+          </button>
+        </div>
+
+        <div *ngIf="!profile.resumeUrl" class="resume-empty">
+          <input #resumeInput type="file" accept=".pdf" hidden (change)="onResumeSelect($event)" />
+          <span (click)="resumeInput.click()" style="cursor: pointer;">
+            {{ uploadingResume ? 'Uploading...' : 'Click to upload your resume (.pdf)' }}
+          </span>
+        </div>
+      </div>
+
+      <!-- Account Actions -->
+      <div class="celestial-card" style="margin-top: 16px; padding: 20px;">
+        <h2 class="label-celestial" style="margin-bottom: 14px;">Account Actions</h2>
+        <button class="btn-danger-outline" (click)="logout()">Sign Out</button>
+      </div>
+
+    </div>
+  </div>
+
+</div>

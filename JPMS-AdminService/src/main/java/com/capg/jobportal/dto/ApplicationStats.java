@@ -1,12 +1,18 @@
 package com.capg.jobportal.dto;
 
+<<<<<<< HEAD
 
+=======
+import lombok.Data;
+import lombok.NoArgsConstructor;
+>>>>>>> c719d7d (Added Frontend(Angular), Lambok, Vitest and updated readme)
 
 /*
  * ================================================================
  * AUTHOR: Nithin Kumar Rokkam
  * CLASS: ApplicationStats
  * DESCRIPTION:
+<<<<<<< HEAD
  * This DTO represents aggregated statistics of job applications
  * across the platform.
  *
@@ -20,6 +26,14 @@ package com.capg.jobportal.dto;
  * insights into application trends and recruitment progress.
  * ================================================================
  */
+=======
+ * DTO for aggregated application statistics used in admin reports.
+ * Lombok generates all boilerplate.
+ * ================================================================
+ */
+@Data
+@NoArgsConstructor
+>>>>>>> c719d7d (Added Frontend(Angular), Lambok, Vitest and updated readme)
 public class ApplicationStats {
 
     private long totalApplications;
@@ -27,6 +41,7 @@ public class ApplicationStats {
     private long underReviewCount;
     private long shortlistedCount;
     private long rejectedCount;
+<<<<<<< HEAD
 
     public long getTotalApplications() { return totalApplications; }
     public void setTotalApplications(long totalApplications) { this.totalApplications = totalApplications; }
@@ -42,4 +57,6 @@ public class ApplicationStats {
 
     public long getRejectedCount() { return rejectedCount; }
     public void setRejectedCount(long rejectedCount) { this.rejectedCount = rejectedCount; }
+=======
+>>>>>>> c719d7d (Added Frontend(Angular), Lambok, Vitest and updated readme)
 }

@@ -1,0 +1,60 @@
+<div class="edit-job">
+  <app-page-header title="Edit Job" [breadcrumbs]="[{label:'My Jobs', link:'/recruiter/my-jobs'},{label:'Edit'}]"></app-page-header>
+
+  <div class="form-card" [formGroup]="form">
+    <div class="form-group">
+      <label>Job Title *</label>
+      <input type="text" formControlName="title" class="input" />
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Company Name *</label>
+        <input type="text" formControlName="companyName" class="input" />
+      </div>
+      <div class="form-group">
+        <label>Location *</label>
+        <input type="text" formControlName="location" class="input" />
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Job Type *</label>
+      <div class="type-cards">
+        <div *ngFor="let jt of jobTypes" class="type-card"
+          [class.type-card--selected]="form.get('jobType')?.value === jt"
+          (click)="form.get('jobType')?.setValue(jt)">
+          {{ jobTypeLabels[jt] }}
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Description *</label>
+      <textarea formControlName="description" rows="6" class="textarea"></textarea>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Min Salary (₹)</label>
+        <input type="number" formControlName="salaryMin" class="input" />
+      </div>
+      <div class="form-group">
+        <label>Max Salary (₹)</label>
+        <input type="number" formControlName="salaryMax" class="input" />
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Experience (years)</label>
+        <input type="number" formControlName="experienceYears" min="0" class="input" />
+      </div>
+      <div class="form-group">
+        <label>Application Deadline *</label>
+        <input type="date" formControlName="deadline" [min]="today" class="input" />
+      </div>
+    </div>
+    <div class="form-actions">
+      <a routerLink="/recruiter/my-jobs" class="btn-cancel">Cancel</a>
+      <button class="btn-save" [disabled]="loading" (click)="onSubmit()">
+        {{ loading ? 'Saving...' : 'Save Changes' }}
+      </button>
+    </div>
+  </div>
+</div>

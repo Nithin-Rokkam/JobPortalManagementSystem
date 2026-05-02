@@ -1,0 +1,82 @@
+<div class="browse-container animate-fade-in-up">
+  
+  <!-- Left Side: Filters -->
+  <aside class="filters-sidebar celestial-card">
+    <h3 class="label-celestial" style="margin-bottom: 1.5rem; color: var(--text-primary);">Filter Opportunities</h3>
+    
+    <form [formGroup]="filterForm">
+      
+      <!-- Search Input in Sidebar for context -->
+      <div class="form-group">
+        <label class="label-celestial">Keyword</label>
+        <input type="text" formControlName="title" placeholder="DevOps, Java..." class="form-input">
+      </div>
+
+      <!-- Location -->
+      <div class="form-group">
+        <label class="label-celestial">Location</label>
+        <input type="text" formControlName="location" placeholder="City or Remote" class="form-input">
+      </div>
+
+      <!-- Job Type -->
+      <div class="form-group">
+        <label class="label-celestial">Job Type</label>
+        <div class="role-pills">
+          <button *ngFor="let jt of jobTypes" type="button"
+            class="pill-btn" [class.active]="filterForm.get('jobType')?.value === jt.value"
+            (click)="filterForm.get('jobType')?.setValue(jt.value)">{{ jt.label }}</button>
+        </div>
+      </div>
+
+      <!-- Experience -->
+      <div class="form-group">
+        <label class="label-celestial">Experience</label>
+        <select formControlName="experienceYears" class="form-input">
+          <option *ngFor="let exp of experienceOptions" [value]="exp.value">{{ exp.label }}</option>
+        </select>
+      </div>
+
+      <button *ngIf="hasFilters" class="btn-outline" style="width: 100%; margin-top: 1rem; font-size: 0.75rem; padding: 0.5rem;" (click)="clearFilters()">Reset Filters</button>
+
+    </form>
+  </aside>
+
+  <!-- Right Side: Job Feed -->
+  <section class="job-feed">
+    
+    <div class="feed-header">
+      <h2 class="heading-celestial" style="font-size: 1.25rem;">Available Opportunities</h2>
+      <span style="color: var(--text-muted); font-size: 0.875rem;">Showing {{ totalElements }} results</span>
+    </div>
+
+    <!-- Loading State -->
+    <div class="jobs-list" *ngIf="loading">
+      <div class="celestial-card" style="height: 160px; margin-bottom: 1rem; opacity: 0.5;" *ngFor="let i of [1,2,3]"></div>
+    </div>
+
+    <!-- Results -->
+    <div class="jobs-list stagger" *ngIf="!loading && jobs.length">
+      <div *ngFor="let job of jobs" class="job-card-wrapper animate-fade-in-up">
+         <app-job-card [job]="job" [showApplyButton]="true"></app-job-card>
+      </div>
+    </div>
+
+    <!-- Empty State -->
+    <div *ngIf="!loading && !jobs.length" class="empty-state">
+      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="1">
+        <circle cx="11" cy="11" r="8"></circle>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+      </svg>
+      <p style="margin-top: 1rem; color: var(--text-secondary);">No opportunities match your current filters.</p>
+    </div>
+
+    <!-- Pagination -->
+    <div class="pagination" *ngIf="totalPages > 1">
+      <button class="page-btn" [disabled]="currentPage === 0" (click)="loadJobs(currentPage - 1)">‹</button>
+      <button *ngFor="let p of pages" class="page-btn" [class.active]="p === currentPage" (click)="loadJobs(p)">{{ p + 1 }}</button>
+      <button class="page-btn" [disabled]="currentPage === totalPages - 1" (click)="loadJobs(currentPage + 1)">›</button>
+    </div>
+
+  </section>
+
+</div>

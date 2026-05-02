@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 
 import com.capg.jobportal.entity.Application;
 import com.capg.jobportal.enums.ApplicationStatus;
+<<<<<<< HEAD
 
 
 /*
@@ -29,6 +30,18 @@ import com.capg.jobportal.enums.ApplicationStatus;
  * Provides enhanced application data tailored for recruiters.
  * ================================================================
  */
+=======
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+/*
+ * DTO for recruiter-facing application view. Static factory method
+ * fromEntity() maps the JPA entity; seekerName/seekerEmail are
+ * populated separately via AuthServiceClient.
+ */
+@Data
+@NoArgsConstructor
+>>>>>>> c719d7d (Added Frontend(Angular), Lambok, Vitest and updated readme)
 public class RecruiterApplicationResponse {
 
     private Long id;
@@ -40,6 +53,7 @@ public class RecruiterApplicationResponse {
     private String recruiterNote;
     private LocalDateTime appliedAt;
     private LocalDateTime updatedAt;
+<<<<<<< HEAD
 
     public static RecruiterApplicationResponse fromEntity(Application application) {
         RecruiterApplicationResponse response = new RecruiterApplicationResponse();
@@ -130,3 +144,22 @@ public class RecruiterApplicationResponse {
     
     
 }
+=======
+    private String seekerName;
+    private String seekerEmail;
+
+    public static RecruiterApplicationResponse fromEntity(Application application) {
+        RecruiterApplicationResponse r = new RecruiterApplicationResponse();
+        r.id            = application.getId();
+        r.userId        = application.getUserId();
+        r.jobId         = application.getJobId();
+        r.resumeUrl     = application.getResumeUrl();
+        r.coverLetter   = application.getCoverLetter();
+        r.status        = application.getStatus();
+        r.recruiterNote = application.getRecruiterNote();
+        r.appliedAt     = application.getAppliedAt();
+        r.updatedAt     = application.getUpdatedAt();
+        return r;
+    }
+}
+>>>>>>> c719d7d (Added Frontend(Angular), Lambok, Vitest and updated readme)

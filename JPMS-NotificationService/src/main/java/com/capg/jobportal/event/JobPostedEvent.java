@@ -1,6 +1,7 @@
 package com.capg.jobportal.event;
 
 import java.math.BigDecimal;
+<<<<<<< HEAD
 
 /*
  * ================================================================
@@ -23,6 +24,13 @@ import java.math.BigDecimal;
  * microservice communication.
  * ================================================================
  */
+=======
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+>>>>>>> c719d7d (Added Frontend(Angular), Lambok, Vitest and updated readme)
 public class JobPostedEvent {
     private Long jobId;
     private Long recruiterId;
@@ -33,6 +41,7 @@ public class JobPostedEvent {
     private BigDecimal salary;
     private Integer experienceYears;
     private String description;
+<<<<<<< HEAD
 
     public JobPostedEvent() {}
 
@@ -63,3 +72,6 @@ public class JobPostedEvent {
     public String getDescription() { return description; }
     public void setDescription(String description) { this.description = description; }
 }
+=======
+}
+>>>>>>> c719d7d (Added Frontend(Angular), Lambok, Vitest and updated readme)

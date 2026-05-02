@@ -66,7 +66,11 @@ public class ApplicationController {
             @RequestParam(value = "coverLetter", required = false) String coverLetter,
             @RequestParam(value = "useExistingResume", defaultValue = "false") boolean useExistingResume,
             @RequestParam(value = "existingResumeUrl", required = false) String existingResumeUrl,
+<<<<<<< HEAD
             @RequestPart(value = "resume", required = false) MultipartFile resume,
+=======
+            @RequestParam(value = "resume", required = false) MultipartFile resume,
+>>>>>>> c719d7d (Added Frontend(Angular), Lambok, Vitest and updated readme)
 
             @Parameter(description = "User ID from Gateway", required = true)
             @RequestHeader("X-User-Id") Long userId,
@@ -217,4 +221,22 @@ public class ApplicationController {
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+<<<<<<< HEAD
+=======
+
+    @Operation(summary = "Delete an application")
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteApplication(
+            @PathVariable Long id,
+            @RequestHeader("X-User-Id") Long userId,
+            @RequestHeader("X-User-Role") String role) {
+
+        if (!role.equals("RECRUITER")) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+
+        applicationService.deleteApplication(id, userId);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+>>>>>>> c719d7d (Added Frontend(Angular), Lambok, Vitest and updated readme)
 }

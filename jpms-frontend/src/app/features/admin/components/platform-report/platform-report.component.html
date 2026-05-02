@@ -1,0 +1,36 @@
+<div class="report">
+  <div class="report-header">
+    <app-page-header title="Platform Report" subtitle="Analytics and insights" [breadcrumbs]="[{label:'Reports'}]"></app-page-header>
+    <button class="btn-print" (click)="print()">🖨️ Print</button>
+  </div>
+
+  <div class="stat-row stagger" *ngIf="report">
+    <app-stat-card title="Total Users"        [value]="report.totalUsers"        icon="👥" color="primary"></app-stat-card>
+    <app-stat-card title="Total Jobs"         [value]="report.totalJobs"         icon="💼" color="success"></app-stat-card>
+    <app-stat-card title="Total Applications" [value]="report.totalApplications" icon="📋" color="warning"></app-stat-card>
+    <app-stat-card title="Shortlist Rate"     [value]="shortlistRate"            icon="⭐" color="danger"></app-stat-card>
+  </div>
+
+  <div class="chart-card" *ngIf="barData">
+    <h3>Applications by Status</h3>
+    <canvas baseChart [data]="barData" [options]="barOptions" type="bar" style="max-height:300px"></canvas>
+  </div>
+
+  <div class="insight-row" *ngIf="report">
+    <div class="insight-card">
+      <span class="insight-label">Shortlist Rate</span>
+      <span class="insight-value">{{ shortlistRate }}</span>
+      <span class="insight-sub">of all applications shortlisted</span>
+    </div>
+    <div class="insight-card">
+      <span class="insight-label">Review Conversion</span>
+      <span class="insight-value">{{ reviewConversion }}</span>
+      <span class="insight-sub">under review → shortlisted</span>
+    </div>
+    <div class="insight-card">
+      <span class="insight-label">Application Activity</span>
+      <span class="insight-value">{{ report.totalApplications }}</span>
+      <span class="insight-sub">total applications submitted</span>
+    </div>
+  </div>
+</div>

@@ -4,14 +4,20 @@ import java.time.LocalDateTime;
 
 import com.capg.jobportal.entity.Application;
 import com.capg.jobportal.enums.ApplicationStatus;
+<<<<<<< HEAD
 
 
+=======
+import lombok.Data;
+import lombok.NoArgsConstructor;
+>>>>>>> c719d7d (Added Frontend(Angular), Lambok, Vitest and updated readme)
 
 /*
  * ================================================================
  * AUTHOR: Nithin Kumar Rokkam
  * CLASS: ApplicationResponse
  * DESCRIPTION:
+<<<<<<< HEAD
  * This DTO represents the response data for a job application.
  *
  * It includes:
@@ -31,6 +37,17 @@ import com.capg.jobportal.enums.ApplicationStatus;
 public class ApplicationResponse {
 
 	private Long id;
+=======
+ * DTO for job application responses. Lombok generates all boilerplate.
+ * Static factory method fromEntity() maps the JPA entity to this DTO.
+ * ================================================================
+ */
+@Data
+@NoArgsConstructor
+public class ApplicationResponse {
+
+    private Long id;
+>>>>>>> c719d7d (Added Frontend(Angular), Lambok, Vitest and updated readme)
     private Long userId;
     private Long jobId;
     private String resumeUrl;
@@ -38,6 +55,7 @@ public class ApplicationResponse {
     private ApplicationStatus status;
     private LocalDateTime appliedAt;
     private LocalDateTime updatedAt;
+<<<<<<< HEAD
  
     public static ApplicationResponse fromEntity(Application application) {
         ApplicationResponse response = new ApplicationResponse();
@@ -116,4 +134,19 @@ public class ApplicationResponse {
 		this.updatedAt = updatedAt;
 	}
 
+=======
+
+    public static ApplicationResponse fromEntity(Application application) {
+        ApplicationResponse r = new ApplicationResponse();
+        r.id           = application.getId();
+        r.userId       = application.getUserId();
+        r.jobId        = application.getJobId();
+        r.resumeUrl    = application.getResumeUrl();
+        r.coverLetter  = application.getCoverLetter();
+        r.status       = application.getStatus();
+        r.appliedAt    = application.getAppliedAt();
+        r.updatedAt    = application.getUpdatedAt();
+        return r;
+    }
+>>>>>>> c719d7d (Added Frontend(Angular), Lambok, Vitest and updated readme)
 }

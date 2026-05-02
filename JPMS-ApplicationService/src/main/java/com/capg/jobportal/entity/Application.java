@@ -4,14 +4,21 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 import com.capg.jobportal.enums.ApplicationStatus;
+<<<<<<< HEAD
 
 
+=======
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+>>>>>>> c719d7d (Added Frontend(Angular), Lambok, Vitest and updated readme)
 
 /*
  * ================================================================
  * AUTHOR: Nithin Kumar Rokkam
  * CLASS: Application
  * DESCRIPTION:
+<<<<<<< HEAD
  * This entity represents the "applications" table in the database.
  * It stores details of job applications submitted by users
  * (job seekers) for specific jobs.
@@ -35,6 +42,15 @@ import com.capg.jobportal.enums.ApplicationStatus;
  * supporting recruiter review workflows.
  * ================================================================
  */
+=======
+ * JPA entity for the "applications" table. Lombok @Getter/@Setter
+ * generate all accessors. Lifecycle callbacks are kept manually.
+ * ================================================================
+ */
+@Getter
+@Setter
+@NoArgsConstructor
+>>>>>>> c719d7d (Added Frontend(Angular), Lambok, Vitest and updated readme)
 @Entity
 @Table(
     name = "applications",
@@ -62,7 +78,11 @@ public class Application {
     private String coverLetter;
 
     @Enumerated(EnumType.STRING)
+<<<<<<< HEAD
     @Column(nullable = false)
+=======
+    @Column(name = "status", nullable = false, length = 50)
+>>>>>>> c719d7d (Added Frontend(Angular), Lambok, Vitest and updated readme)
     private ApplicationStatus status = ApplicationStatus.APPLIED;
 
     @Column(name = "recruiter_note", columnDefinition = "TEXT")
@@ -84,6 +104,7 @@ public class Application {
     protected void onUpdate() {
         updatedAt = LocalDateTime.now();
     }
+<<<<<<< HEAD
 
     public Application() {}
 
@@ -111,3 +132,6 @@ public class Application {
     public LocalDateTime getAppliedAt() { return appliedAt; }
     public LocalDateTime getUpdatedAt() { return updatedAt; }
 }
+=======
+}
+>>>>>>> c719d7d (Added Frontend(Angular), Lambok, Vitest and updated readme)

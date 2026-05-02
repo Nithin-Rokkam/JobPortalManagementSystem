@@ -3,10 +3,16 @@ package com.capg.jobportal.dto;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+<<<<<<< HEAD
+=======
+import lombok.Data;
+import lombok.NoArgsConstructor;
+>>>>>>> c719d7d (Added Frontend(Angular), Lambok, Vitest and updated readme)
 
 /*
  * ================================================================
  * AUTHOR: Nithin Kumar Rokkam
+<<<<<<< HEAD
  * CLASS: ErrorResponse
  * DESCRIPTION:
  * This DTO defines a standard structure for error responses
@@ -26,6 +32,19 @@ import java.time.LocalDateTime;
 public class JobResponse {
 
 	private Long id;
+=======
+ * CLASS: JobResponse
+ * DESCRIPTION:
+ * DTO for job data returned by AdminService.
+ * Lombok generates all boilerplate.
+ * ================================================================
+ */
+@Data
+@NoArgsConstructor
+public class JobResponse {
+
+    private Long id;
+>>>>>>> c719d7d (Added Frontend(Angular), Lambok, Vitest and updated readme)
     private String title;
     private String companyName;
     private String location;
@@ -39,6 +58,7 @@ public class JobResponse {
     private Long postedBy;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+<<<<<<< HEAD
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
@@ -81,4 +101,6 @@ public class JobResponse {
 
     public LocalDateTime getUpdatedAt() { return updatedAt; }
     public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
+=======
+>>>>>>> c719d7d (Added Frontend(Angular), Lambok, Vitest and updated readme)
 }

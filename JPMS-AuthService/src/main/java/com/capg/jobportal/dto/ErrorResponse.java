@@ -1,13 +1,19 @@
 package com.capg.jobportal.dto;
 
 import java.time.LocalDateTime;
+<<<<<<< HEAD
 
+=======
+import lombok.Getter;
+import lombok.Setter;
+>>>>>>> c719d7d (Added Frontend(Angular), Lambok, Vitest and updated readme)
 
 /*
  * ================================================================
  * AUTHOR: Nithin Kumar Rokkam
  * CLASS: ErrorResponse
  * DESCRIPTION:
+<<<<<<< HEAD
  * This DTO represents a standardized error response returned
  * by the application when an exception occurs.
  *
@@ -67,4 +73,25 @@ public class ErrorResponse {
 		this.timestamp = timestamp;
 	}
     
+=======
+ * Standardized error response DTO. Custom constructor sets the
+ * timestamp automatically; Lombok generates getters/setters.
+ * ================================================================
+ */
+@Getter
+@Setter
+public class ErrorResponse {
+
+    private int status;
+    private String error;
+    private String message;
+    private LocalDateTime timestamp;
+
+    public ErrorResponse(int status, String error, String message) {
+        this.status    = status;
+        this.error     = error;
+        this.message   = message;
+        this.timestamp = LocalDateTime.now();
+    }
+>>>>>>> c719d7d (Added Frontend(Angular), Lambok, Vitest and updated readme)
 }

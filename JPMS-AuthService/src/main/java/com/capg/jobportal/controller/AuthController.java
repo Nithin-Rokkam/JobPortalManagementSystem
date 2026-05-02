@@ -204,4 +204,112 @@ public class AuthController {
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+<<<<<<< HEAD
+=======
+
+    /* ================================================================
+     * METHOD: updateCompanyName
+     * DESCRIPTION:
+     * Allows a recruiter to update their company name.
+     * ================================================================ */
+    @Operation(summary = "Update recruiter company name")
+    @PutMapping("/profile/company")
+    public ResponseEntity<Map<String, String>> updateCompanyName(
+            @RequestBody Map<String, String> body,
+            @Parameter(description = "User ID from Gateway", required = true)
+            @RequestHeader("X-User-Id") Long userId) {
+
+        String companyName = body.get("companyName");
+        logger.info("User [{}] updating company name to '{}'", userId, companyName);
+        authService.updateCompanyName(userId, companyName);
+        logger.info("Company name updated for user [{}]", userId);
+        return new ResponseEntity<>(Map.of("companyName", companyName != null ? companyName : ""), HttpStatus.OK);
+    }
+
+    /* ================================================================
+     * METHOD: verifyRegistration
+     * DESCRIPTION:
+     * Validates the email verification OTP sent during registration.
+     * Activates the user account on success.
+     * ================================================================ */
+    @Operation(summary = "Verify registration OTP")
+    @PostMapping("/verify-registration")
+    public ResponseEntity<Map<String, String>> verifyRegistration(@RequestBody Map<String, String> body) {
+
+        String email = body.get("email");
+        String otp   = body.get("otp");
+
+        logger.info("Verify registration OTP for email: {}", email);
+
+        authService.verifyRegistrationOtp(email, otp);
+
+        logger.info("Registration verified for email: {}", email);
+
+        return new ResponseEntity<>(Map.of("message", "Email verified successfully. You can now log in."), HttpStatus.OK);
+    }
+
+    /* ================================================================
+     * METHOD: resendRegistrationOtp
+     * DESCRIPTION:
+     * Resends a new OTP to the user's email for account verification.
+     * ================================================================ */
+    @Operation(summary = "Resend registration OTP")
+    @PostMapping("/resend-registration-otp")
+    public ResponseEntity<Map<String, String>> resendRegistrationOtp(@RequestBody Map<String, String> body) {
+
+        String email = body.get("email");
+
+        logger.info("Resend registration OTP for email: {}", email);
+
+        authService.resendRegistrationOtp(email);
+
+        logger.info("Registration OTP resent for email: {}", email);
+
+        return new ResponseEntity<>(Map.of("message", "New OTP sent to your email"), HttpStatus.OK);
+    }
+
+    /* ================================================================
+     * METHOD: forgotPassword
+     * DESCRIPTION:
+     * Accepts user email and triggers OTP generation.
+     * The OTP is sent to the user's email via RabbitMQ/NotificationService.
+     * ================================================================ */
+    @Operation(summary = "Request password reset OTP")
+    @PostMapping("/forgot-password")
+    public ResponseEntity<Map<String, String>> forgotPassword(@RequestBody Map<String, String> body) {
+
+        String email = body.get("email");
+
+        logger.info("Forgot password request for email: {}", email);
+
+        authService.forgotPassword(email);
+
+        logger.info("OTP sent successfully for email: {}", email);
+
+        return new ResponseEntity<>(Map.of("message", "OTP sent to your email"), HttpStatus.OK);
+    }
+
+    /* ================================================================
+     * METHOD: resetPassword
+     * DESCRIPTION:
+     * Validates OTP and resets the user's password.
+     * Requires email, otp, and newPassword in the request body.
+     * ================================================================ */
+    @Operation(summary = "Reset password using OTP")
+    @PostMapping("/reset-password")
+    public ResponseEntity<Map<String, String>> resetPassword(@RequestBody Map<String, String> body) {
+
+        String email = body.get("email");
+        String otp = body.get("otp");
+        String newPassword = body.get("newPassword");
+
+        logger.info("Reset password attempt for email: {}", email);
+
+        authService.resetPassword(email, otp, newPassword);
+
+        logger.info("Password reset successful for email: {}", email);
+
+        return new ResponseEntity<>(Map.of("message", "Password reset successfully"), HttpStatus.OK);
+    }
+>>>>>>> c719d7d (Added Frontend(Angular), Lambok, Vitest and updated readme)
 }
