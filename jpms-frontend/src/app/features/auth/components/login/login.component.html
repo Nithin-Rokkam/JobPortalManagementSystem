@@ -1,0 +1,98 @@
+<div class="centered-container animate-fade-in-up">
+  <div class="celestial-card inner-glow" style="max-width: 448px; width: 100%; padding: 2rem;">
+    
+    <!-- Logo/Icon -->
+    <div style="display: flex; justify-content: center; margin-bottom: 1.5rem;">
+      <div style="background: var(--bg-surface); border: 1px solid var(--glass-border); padding: 0.75rem; border-radius: 12px;">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--royal-blue)" stroke-width="2">
+          <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+          <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+        </svg>
+      </div>
+    </div>
+
+    <!-- Header -->
+    <div style="text-align: center; margin-bottom: 2rem;">
+      <h1 class="heading-celestial" style="font-size: 1.5rem; margin-bottom: 0.5rem;">Welcome Back</h1>
+      <p style="color: var(--text-secondary); font-size: 0.875rem;">Access your professional ecosystem.</p>
+    </div>
+
+    <!-- Form -->
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      
+      <!-- Email Field -->
+      <div class="form-group">
+        <label class="label-celestial">Email Address</label>
+        <input 
+          type="email" 
+          formControlName="email" 
+          placeholder="you@example.com"
+          class="form-input"
+          [class.error]="form.get('email')?.touched && form.get('email')?.invalid"
+        />
+        <span class="error-text" *ngIf="emailError">{{ emailError }}</span>
+      </div>
+
+      <!-- Password Field -->
+      <div class="form-group">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <label class="label-celestial">Password</label>
+          <a routerLink="/auth/forgot-password" style="font-size: 11px; color: var(--royal-blue); text-decoration: none; font-weight: 700;">Forgot Password?</a>
+        </div>
+        <div style="position: relative;">
+          <input 
+            [type]="showPassword ? 'text' : 'password'" 
+            formControlName="password" 
+            placeholder="Enter your password"
+            class="form-input"
+            style="padding-right: 3rem;"
+            [class.error]="form.get('password')?.touched && form.get('password')?.invalid"
+          />
+          <button 
+            type="button" 
+            (click)="showPassword = !showPassword"
+            style="position: absolute; right: 0.75rem; top: 50%; transform: translateY(-50%); background: none; border: none; color: var(--text-muted); cursor: pointer;"
+          >
+            <svg *ngIf="!showPassword" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+              <circle cx="12" cy="12" r="3"></circle>
+            </svg>
+            <svg *ngIf="showPassword" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+              <line x1="1" y1="1" x2="23" y2="23"></line>
+            </svg>
+          </button>
+        </div>
+        <span class="error-text" *ngIf="passwordError">{{ passwordError }}</span>
+      </div>
+
+      <!-- Submit Button -->
+      <button 
+        type="submit" 
+        class="btn-celestial" 
+        style="width: 100%; margin-top: 1rem;"
+        [disabled]="loading"
+      >
+        <span *ngIf="!loading">Sign In</span>
+        <div *ngIf="loading" class="spinner"></div>
+        <span *ngIf="loading">Signing in...</span>
+      </button>
+
+    </form>
+
+    <!-- Footer Link -->
+    <div style="margin-top: 2rem; text-align: center; font-size: 0.875rem; color: var(--text-secondary);">
+      New to the platform? 
+      <a routerLink="/auth/register" style="color: var(--royal-blue); text-decoration: none; font-weight: 700;">Create Account</a>
+    </div>
+
+    <!-- Back to Home -->
+    <a routerLink="/" style="position: absolute; top: 1.5rem; left: 1.5rem; color: var(--text-muted); text-decoration: none;">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="19" y1="12" x2="5" y2="12"></line>
+        <polyline points="12 19 5 12 12 5"></polyline>
+      </svg>
+    </a>
+
+  </div>
+</div>

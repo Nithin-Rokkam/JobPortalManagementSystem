@@ -1,0 +1,70 @@
+.my-jobs {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.page-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 20px;
+}
+
+.btn-post {
+    background: var(--brand);
+    color: #fff;
+    border: none;
+    border-radius: var(--radius-md);
+    padding: 9px 18px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: background var(--t-fast);
+    white-space: nowrap;
+}
+
+.btn-post:hover {
+    background: var(--brand-hover);
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 20px;
+}
+
+.page-btn {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    color: var(--text-secondary);
+    border-radius: var(--radius-sm);
+    font-size: 13px;
+    cursor: pointer;
+    transition: all var(--t-fast);
+}
+
+.page-btn:hover:not(:disabled) {
+    border-color: var(--brand);
+    color: var(--brand);
+}
+
+.page-btn--active {
+    background: var(--brand);
+    color: #fff;
+    border-color: var(--brand);
+}
+
+.page-btn:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+}

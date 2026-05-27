@@ -1,0 +1,6 @@
+<app-loader></app-loader>
+<app-header *ngIf="!isLandingPage"></app-header>
+
+<main [style.padding-top]="isLandingPage ? '0' : '64px'" style="background: var(--bg-page); min-height: 100vh;">
+  <router-outlet></router-outlet>
+</main>

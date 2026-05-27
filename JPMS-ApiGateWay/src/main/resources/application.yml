@@ -1,0 +1,83 @@
+server:
+  port: 9090
+
+spring:
+  application:
+    name: api-gateway
+
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: false
+      routes:
+        - id: auth-service
+          uri: lb://auth-service
+          predicates:
+            - Path=/api/auth/**
+
+        - id: job-service
+          uri: lb://job-service
+          predicates:
+            - Path=/api/jobs/**
+
+        - id: application-service
+          uri: lb://application-service
+          predicates:
+            - Path=/api/applications/**
+
+        - id: admin-service
+          uri: lb://admin-service
+          predicates:
+            - Path=/api/admin/**
+
+        - id: auth-swagger
+          uri: lb://auth-service
+          predicates:
+            - Path=/auth-docs/**
+          filters:
+            - RewritePath=/auth-docs/(?<segment>.*), /${segment}
+
+        - id: swagger-ui-direct
+          uri: lb://auth-service
+          predicates:
+            - Path=/swagger-ui/**
+
+        - id: api-docs-direct
+          uri: lb://auth-service
+          predicates:
+            - Path=/v3/api-docs/**
+
+        - id: auth-service-internal
+          uri: lb://auth-service
+          predicates:
+            - Path=/api/internal/users/**
+
+        - id: job-service-internal
+          uri: lb://job-service
+          predicates:
+            - Path=/api/internal/jobs/**
+
+        - id: application-service-internal
+          uri: lb://application-service
+          predicates:
+            - Path=/api/internal/applications/**
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eureka-server:8761/eureka/
+  instance:
+    prefer-ip-address: true
+
+jwt:
+  secret: ${API_GATEWAY_JWT_SECRET}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info
+  endpoint:
+    health:
+      show-details: always

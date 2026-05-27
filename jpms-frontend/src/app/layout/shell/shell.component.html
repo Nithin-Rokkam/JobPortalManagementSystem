@@ -1,0 +1,12 @@
+<div class="app-shell" style="padding-top: 64px;">
+  <app-sidebar
+    [collapsed]="sidebarCollapsed"
+    (toggleCollapse)="sidebarCollapsed = !sidebarCollapsed">
+  </app-sidebar>
+
+  <div class="app-shell__main">
+    <main [@routeAnimations]="getRouteState(outlet)">
+      <router-outlet #outlet="outlet"></router-outlet>
+    </main>
+  </div>
+</div>

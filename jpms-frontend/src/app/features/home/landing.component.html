@@ -1,0 +1,306 @@
+<!-- ═══════════════════════════════════════════════════
+     JOBLIX LANDING PAGE
+     ═══════════════════════════════════════════════════ -->
+
+<!-- ── Navbar ─────────────────────────────────────── -->
+<nav class="lp-nav">
+  <div class="lp-nav__inner">
+    <!-- Logo -->
+    <a routerLink="/" class="lp-logo">
+      <img src="https://res.cloudinary.com/dq4e4wh8x/image/upload/v1777353013/Joblix_image_ehuhua.png"
+           alt="Joblix" class="lp-logo__img" width="36" height="36" />
+      <span class="lp-logo__text">JOBLIX</span>
+    </a>
+
+    <!-- Nav Links -->
+    <div class="lp-nav__links">
+      <a href="#jobs" class="lp-nav__link">Jobs</a>
+      <a href="#how-it-works" class="lp-nav__link">How it works</a>
+      <a href="#why-joblix" class="lp-nav__link">Why Joblix</a>
+    </div>
+
+    <!-- Right Actions -->
+    <div class="lp-nav__actions">
+      <button class="lp-theme-btn" (click)="toggleTheme()" [title]="isDark ? 'Switch to light' : 'Switch to dark'">
+        <svg *ngIf="isDark" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="5"></circle>
+          <line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+          <line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+        </svg>
+        <svg *ngIf="!isDark" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+      </button>
+      <a routerLink="/auth/login" class="lp-btn lp-btn--ghost">Login</a>
+      <a routerLink="/auth/register" class="lp-btn lp-btn--primary">Register</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ── Hero ───────────────────────────────────────── -->
+<section class="lp-hero">
+  <div class="lp-hero__badge">India's Professional Job Platform</div>
+  <h1 class="lp-hero__title">
+    Find Your Dream Job<br>
+    <span class="lp-hero__title-accent">Now at JOBLIX</span>
+  </h1>
+  <p class="lp-hero__sub">
+    Connect with top companies, explore thousands of opportunities, and take the next step in your career journey.
+  </p>
+  <div class="lp-hero__actions">
+    <a routerLink="/auth/register" class="lp-btn lp-btn--primary lp-btn--lg">Start Your Journey</a>
+    <a routerLink="/seeker/browse" class="lp-btn lp-btn--outline lp-btn--lg">Browse Jobs</a>
+  </div>
+</section>
+
+<!-- ── Feature Strip ──────────────────────────────── -->
+<section class="lp-strip">
+  <div class="lp-strip__inner">
+    <div class="lp-strip__item">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+        <polyline points="22 4 12 14.01 9 11.01"></polyline>
+      </svg>
+      <span>Verified Job Listings</span>
+    </div>
+    <div class="lp-strip__divider"></div>
+    <div class="lp-strip__item">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="11" cy="11" r="8"></circle>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+      </svg>
+      <span>Smart Job Matching</span>
+    </div>
+    <div class="lp-strip__divider"></div>
+    <div class="lp-strip__item">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+        <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+      </svg>
+      <span>Secure & Private</span>
+    </div>
+    <div class="lp-strip__divider"></div>
+    <div class="lp-strip__item">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+        <circle cx="9" cy="7" r="4"></circle>
+        <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+        <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+      </svg>
+      <span>Direct Employer Connect</span>
+    </div>
+  </div>
+</section>
+
+<!-- ── Categories ─────────────────────────────────── -->
+<section class="lp-section" id="jobs">
+  <div class="lp-section__inner">
+    <p class="lp-section__eyebrow">Explore Opportunities</p>
+    <h2 class="lp-section__title">Browse Jobs by Category</h2>
+    <p class="lp-section__sub">Discover the type of roles our platform offers across industries and functions.</p>
+
+    <div class="lp-categories">
+      <a routerLink="/seeker/browse" class="lp-cat">🏠 <span>Remote</span> <span class="lp-cat__arrow">›</span></a>
+      <a routerLink="/seeker/browse" class="lp-cat">🏢 <span>MNC</span> <span class="lp-cat__arrow">›</span></a>
+      <a routerLink="/seeker/browse" class="lp-cat">🚀 <span>Startup</span> <span class="lp-cat__arrow">›</span></a>
+      <a routerLink="/seeker/browse" class="lp-cat">🎓 <span>Fresher</span> <span class="lp-cat__arrow">›</span></a>
+      <a routerLink="/seeker/browse" class="lp-cat">💻 <span>Software & IT</span> <span class="lp-cat__arrow">›</span></a>
+      <a routerLink="/seeker/browse" class="lp-cat">📈 <span>Marketing</span> <span class="lp-cat__arrow">›</span></a>
+      <a routerLink="/seeker/browse" class="lp-cat">⚙️ <span>Engineering</span> <span class="lp-cat__arrow">›</span></a>
+      <a routerLink="/seeker/browse" class="lp-cat">💼 <span>Sales</span> <span class="lp-cat__arrow">›</span></a>
+      <a routerLink="/seeker/browse" class="lp-cat">🏆 <span>Fortune 500</span> <span class="lp-cat__arrow">›</span></a>
+      <a routerLink="/seeker/browse" class="lp-cat">✅ <span>Project Mgmt</span> <span class="lp-cat__arrow">›</span></a>
+      <a routerLink="/seeker/browse" class="lp-cat">👥 <span>HR & Admin</span> <span class="lp-cat__arrow">›</span></a>
+      <a routerLink="/seeker/browse" class="lp-cat">💰 <span>Finance</span> <span class="lp-cat__arrow">›</span></a>
+      <a routerLink="/seeker/browse" class="lp-cat">🎨 <span>Design & UX</span> <span class="lp-cat__arrow">›</span></a>
+      <a routerLink="/seeker/browse" class="lp-cat">⚕️ <span>Healthcare</span> <span class="lp-cat__arrow">›</span></a>
+      <a routerLink="/seeker/browse" class="lp-cat">🎓 <span>Education</span> <span class="lp-cat__arrow">›</span></a>
+      <a routerLink="/seeker/browse" class="lp-cat">📦 <span>Operations</span> <span class="lp-cat__arrow">›</span></a>
+      <a routerLink="/seeker/browse" class="lp-cat">🔐 <span>Cybersecurity</span> <span class="lp-cat__arrow">›</span></a>
+      <a routerLink="/seeker/browse" class="lp-cat">🤖 <span>AI & Data</span> <span class="lp-cat__arrow">›</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- ── How It Works ───────────────────────────────── -->
+<section class="lp-section lp-section--alt" id="how-it-works">
+  <div class="lp-section__inner">
+    <p class="lp-section__eyebrow">Simple Process</p>
+    <h2 class="lp-section__title">How Joblix Works</h2>
+    <p class="lp-section__sub">Three straightforward steps to get you from browsing to hired.</p>
+
+    <div class="lp-steps">
+      <div class="lp-step">
+        <div class="lp-step__num">1</div>
+        <h3 class="lp-step__title">Create Your Profile</h3>
+        <p class="lp-step__desc">Sign up, add your skills, experience, and preferences. Your profile is your digital resume on Joblix.</p>
+      </div>
+      <div class="lp-step">
+        <div class="lp-step__num">2</div>
+        <h3 class="lp-step__title">Explore & Apply</h3>
+        <p class="lp-step__desc">Use filters to find roles that match your goals — by category, location, experience, or company type.</p>
+      </div>
+      <div class="lp-step">
+        <div class="lp-step__num">3</div>
+        <h3 class="lp-step__title">Get Hired</h3>
+        <p class="lp-step__desc">Companies review your profile and reach out. Track applications, schedule interviews, and land your role.</p>
+      </div>
+      <div class="lp-step">
+        <div class="lp-step__num">4</div>
+        <h3 class="lp-step__title">Grow Your Career</h3>
+        <p class="lp-step__desc">Stay updated with new listings, set job alerts, and keep your profile fresh as you grow professionally.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Why Joblix ─────────────────────────────────── -->
+<section class="lp-section" id="why-joblix">
+  <div class="lp-section__inner">
+    <p class="lp-section__eyebrow">Our Advantage</p>
+    <h2 class="lp-section__title">Why Choose Joblix?</h2>
+    <p class="lp-section__sub">We've built Joblix to be the most effective platform for both job seekers and employers.</p>
+
+    <div class="lp-features">
+      <div class="lp-feature">
+        <div class="lp-feature__icon">🎯</div>
+        <h3 class="lp-feature__title">Smart Job Matching</h3>
+        <p class="lp-feature__desc">Our platform intelligently matches your profile and skills with the most relevant opportunities available.</p>
+      </div>
+      <div class="lp-feature">
+        <div class="lp-feature__icon">🔔</div>
+        <h3 class="lp-feature__title">Instant Job Alerts</h3>
+        <p class="lp-feature__desc">Get notified the moment a job matching your preferences is posted — never miss the right opportunity.</p>
+      </div>
+      <div class="lp-feature">
+        <div class="lp-feature__icon">🌐</div>
+        <h3 class="lp-feature__title">Pan-India Reach</h3>
+        <p class="lp-feature__desc">Browse opportunities across all major Indian cities and remote-friendly companies hiring nationwide.</p>
+      </div>
+      <div class="lp-feature">
+        <div class="lp-feature__icon">🤝</div>
+        <h3 class="lp-feature__title">Direct Employer Connect</h3>
+        <p class="lp-feature__desc">Employers can view your profile and contact you directly — cutting recruitment cycles significantly.</p>
+      </div>
+      <div class="lp-feature">
+        <div class="lp-feature__icon">📊</div>
+        <h3 class="lp-feature__title">Application Tracking</h3>
+        <p class="lp-feature__desc">Monitor every application you've submitted — view statuses, follow up, and stay organized effortlessly.</p>
+      </div>
+      <div class="lp-feature">
+        <div class="lp-feature__icon">🔒</div>
+        <h3 class="lp-feature__title">Privacy First</h3>
+        <p class="lp-feature__desc">Control who sees your profile and resume. Your data is secure and you're always in full control.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Testimonials ───────────────────────────────── -->
+<section class="lp-section lp-section--alt">
+  <div class="lp-section__inner">
+    <p class="lp-section__eyebrow">Stories</p>
+    <h2 class="lp-section__title">What Our Users Say</h2>
+    <p class="lp-section__sub">Real experiences shared by people who've used Joblix to grow their careers.</p>
+
+    <div class="lp-testimonials">
+      <div class="lp-testimonial">
+        <div class="lp-testimonial__stars">★★★★★</div>
+        <p class="lp-testimonial__text">"The profile setup was quick and the job recommendations were genuinely relevant to my background. Found a great role within weeks."</p>
+        <div class="lp-testimonial__author">
+          <div class="lp-testimonial__avatar">AP</div>
+          <div>
+            <div class="lp-testimonial__name">Arjun Patel</div>
+            <div class="lp-testimonial__role">Software Engineer</div>
+          </div>
+        </div>
+      </div>
+      <div class="lp-testimonial">
+        <div class="lp-testimonial__stars">★★★★★</div>
+        <p class="lp-testimonial__text">"I appreciated how clean and organized the platform is. Filtering by remote and experience level made my search really efficient."</p>
+        <div class="lp-testimonial__author">
+          <div class="lp-testimonial__avatar">SR</div>
+          <div>
+            <div class="lp-testimonial__name">Sneha Rao</div>
+            <div class="lp-testimonial__role">Product Manager</div>
+          </div>
+        </div>
+      </div>
+      <div class="lp-testimonial">
+        <div class="lp-testimonial__stars">★★★★☆</div>
+        <p class="lp-testimonial__text">"As a fresher, Joblix helped me understand what employers look for and the dedicated fresher category was very useful for my search."</p>
+        <div class="lp-testimonial__author">
+          <div class="lp-testimonial__avatar">MK</div>
+          <div>
+            <div class="lp-testimonial__name">Mehul Kapoor</div>
+            <div class="lp-testimonial__role">Business Analyst</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CTA ────────────────────────────────────────── -->
+<section class="lp-cta">
+  <div class="lp-cta__inner">
+    <h2 class="lp-cta__title">Ready to Take the Next Step?</h2>
+    <p class="lp-cta__sub">Create your free profile today and let the right opportunities find you.</p>
+    <div class="lp-cta__actions">
+      <a routerLink="/auth/register" class="lp-btn lp-btn--primary lp-btn--lg">Create Free Account</a>
+      <a routerLink="/auth/login" class="lp-btn lp-btn--ghost lp-btn--lg">Sign In</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── Footer ─────────────────────────────────────── -->
+<footer class="lp-footer">
+  <div class="lp-footer__top">
+    <div class="lp-footer__brand">
+      <div class="lp-logo">
+        <img src="https://res.cloudinary.com/dq4e4wh8x/image/upload/v1777353013/Joblix_image_ehuhua.png"
+             alt="Joblix" class="lp-logo__img lp-logo__img--sm" width="28" height="28" />
+        <span class="lp-logo__text">JOBLIX</span>
+      </div>
+      <p class="lp-footer__tagline">Your trusted platform for finding professional opportunities across India.</p>
+    </div>
+
+    <div class="lp-footer__cols">
+      <div class="lp-footer__col">
+        <h4 class="lp-footer__col-title">Company</h4>
+        <ul>
+          <li><a href="#">About us</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Sitemap</a></li>
+        </ul>
+      </div>
+      <div class="lp-footer__col">
+        <h4 class="lp-footer__col-title">Support</h4>
+        <ul>
+          <li><a href="#">Help center</a></li>
+          <li><a href="#">Report issue</a></li>
+          <li><a href="#">Grievances</a></li>
+        </ul>
+      </div>
+      <div class="lp-footer__col">
+        <h4 class="lp-footer__col-title">Legal</h4>
+        <ul>
+          <li><a href="#">Privacy policy</a></li>
+          <li><a href="#">Terms & conditions</a></li>
+          <li><a href="#">Trust & safety</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="lp-footer__bottom">
+    <span>© 2026 Joblix. All rights reserved.</span>
+    <div class="lp-footer__legal-links">
+      <a href="#">Privacy</a>
+      <a href="#">Terms</a>
+      <a href="#">Accessibility</a>
+    </div>
+  </div>
+</footer>

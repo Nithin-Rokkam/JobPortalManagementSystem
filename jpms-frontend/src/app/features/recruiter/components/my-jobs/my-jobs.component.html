@@ -1,0 +1,55 @@
+<div class="my-jobs">
+  <div class="page-top">
+    <app-page-header title="My Jobs" subtitle="Manage your job postings" [breadcrumbs]="[{label:'My Jobs'}]"></app-page-header>
+    <a routerLink="/recruiter/post-job" class="btn-post">+ Post New Job</a>
+  </div>
+
+  <div class="table-wrap" *ngIf="!loading && jobs.length">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Job Title</th>
+          <th>Status</th>
+          <th>Posted</th>
+          <th>Deadline</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let job of jobs">
+          <td class="td-title">{{ job.title }}<br><span class="td-company">{{ job.companyName }}</span></td>
+          <td><app-badge [status]="job.status"></app-badge></td>
+          <td class="td-muted">{{ job.createdAt | timeAgo }}</td>
+          <td class="td-muted">{{ job.deadline | date:'mediumDate' }}</td>
+          <td>
+            <div class="actions">
+              <a [routerLink]="['/recruiter/edit-job', job.id]" class="action-btn" title="Edit">✏️</a>
+              <a [routerLink]="['/recruiter/jobs', job.id, 'applicants']" class="action-btn" title="Applicants">👁️</a>
+              <button class="action-btn action-btn--danger" title="Delete" (click)="confirmDelete(job.id)">🗑️</button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="loading" class="table-wrap">
+    <div class="skeleton" style="height:48px;border-radius:8px;margin-bottom:8px" *ngFor="let i of [1,2,3,4,5]"></div>
+  </div>
+
+  <app-empty-state *ngIf="!loading && !jobs.length" message="You haven't posted any jobs yet" icon="📋" actionLabel="Post Your First Job" actionLink="/recruiter/post-job"></app-empty-state>
+
+  <div class="pagination" *ngIf="totalPages > 1">
+    <button *ngFor="let p of pages" class="page-btn" [class.page-btn--active]="p === currentPage" (click)="loadJobs(p)">{{ p + 1 }}</button>
+  </div>
+</div>
+
+<app-confirm-modal
+  *ngIf="confirmDeleteId"
+  title="Delete Job"
+  message="This will permanently delete the job posting. This action cannot be undone."
+  confirmLabel="Delete"
+  [isDanger]="true"
+  (confirmed)="deleteJob()"
+  (cancelled)="confirmDeleteId = null">
+</app-confirm-modal>

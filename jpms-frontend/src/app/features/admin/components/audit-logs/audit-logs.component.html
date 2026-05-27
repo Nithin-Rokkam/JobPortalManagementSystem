@@ -1,0 +1,37 @@
+<div class="audit">
+  <app-page-header title="Audit Logs" subtitle="Track all admin actions" [breadcrumbs]="[{label:'Audit Logs'}]"></app-page-header>
+
+  <input type="text" [(ngModel)]="search" placeholder="Search by action or details..." class="search-input" />
+
+  <div class="table-wrap" *ngIf="!loading && filtered.length">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Action</th>
+          <th>Performed By</th>
+          <th>Details</th>
+          <th>Timestamp</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let log of filtered; let i = index">
+          <td class="td-mono">{{ i + 1 }}</td>
+          <td class="td-action">{{ log.action }}</td>
+          <td class="td-mono">{{ log.performedBy }}</td>
+          <td class="td-muted">{{ log.details }}</td>
+          <td class="td-time">
+            {{ log.createdAt | date:'medium' }}
+            <span class="time-ago">({{ log.createdAt | timeAgo }})</span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="loading">
+    <div class="skeleton" style="height:48px;border-radius:8px;margin-bottom:8px" *ngFor="let i of [1,2,3,4,5]"></div>
+  </div>
+
+  <app-empty-state *ngIf="!loading && !filtered.length" message="No audit logs found" icon="🗂️"></app-empty-state>
+</div>

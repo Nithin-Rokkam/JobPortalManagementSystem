@@ -1,0 +1,75 @@
+<div class="saved-container animate-fade-in-up">
+
+  <app-page-header
+    title="Saved Jobs"
+    subtitle="Jobs you've bookmarked for later"
+    [breadcrumbs]="[{label:'Saved Jobs'}]">
+  </app-page-header>
+
+  <!-- Loading skeletons -->
+  <div *ngIf="loading" class="saved-list">
+    <div class="skeleton" style="height: 100px; border-radius: 12px;"
+         *ngFor="let i of [1,2,3]"></div>
+  </div>
+
+  <!-- Empty state -->
+  <div *ngIf="!loading && jobs.length === 0" class="saved-empty">
+    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+      <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+    </svg>
+    <h3>No saved jobs yet</h3>
+    <p>Browse jobs and click the bookmark icon to save them here.</p>
+    <a routerLink="/seeker/browse" class="btn-primary-link">Browse Jobs →</a>
+  </div>
+
+  <!-- Saved jobs list -->
+  <div *ngIf="!loading && jobs.length > 0" class="saved-list">
+    <div *ngFor="let job of jobs" class="saved-card" [routerLink]="['/seeker/jobs', job.id]">
+
+      <!-- Company logo -->
+      <div class="saved-card__logo">
+        <span>{{ job.companyName.charAt(0) }}</span>
+      </div>
+
+      <!-- Job info -->
+      <div class="saved-card__info">
+        <h3 class="saved-card__title">{{ job.title }}</h3>
+        <p class="saved-card__company">{{ job.companyName }}</p>
+        <div class="saved-card__meta">
+          <span class="saved-card__meta-item">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+              <circle cx="12" cy="10" r="3"></circle>
+            </svg>
+            {{ job.location }}
+          </span>
+          <span class="saved-card__meta-item">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+              <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+            </svg>
+            {{ job.experienceYears }}+ yrs
+          </span>
+          <span class="saved-card__badge">{{ job.jobType | capitalize }}</span>
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div class="saved-card__actions">
+        <span class="saved-card__date">{{ job.createdAt | timeAgo }}</span>
+        <button
+          class="saved-card__unsave"
+          (click)="unsave(job, $event)"
+          title="Remove from saved"
+          aria-label="Remove from saved jobs"
+        >
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2">
+            <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+          </svg>
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+</div>

@@ -1,0 +1,130 @@
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 10px;
+  border-radius: var(--radius-full);
+  font-size: 11px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.badge--applied {
+  background: rgba(43, 63, 232, 0.10);
+  color: var(--brand);
+}
+
+.badge--under_review {
+  background: rgba(245, 158, 11, 0.12);
+  color: #b45309;
+}
+
+.badge--shortlisted {
+  background: rgba(16, 185, 129, 0.12);
+  color: #047857;
+}
+
+.badge--rejected {
+  background: rgba(239, 68, 68, 0.10);
+  color: #b91c1c;
+}
+
+.badge--active {
+  background: rgba(16, 185, 129, 0.12);
+  color: #047857;
+}
+
+.badge--banned {
+  background: rgba(239, 68, 68, 0.10);
+  color: #b91c1c;
+}
+
+.badge--closed {
+  background: var(--bg-surface-2);
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+}
+
+.badge--draft {
+  background: rgba(245, 158, 11, 0.12);
+  color: #b45309;
+}
+
+.badge--full_time {
+  background: var(--tag-bg);
+  color: var(--tag-text);
+}
+
+.badge--part_time {
+  background: rgba(124, 58, 237, 0.10);
+  color: #6d28d9;
+}
+
+.badge--remote {
+  background: rgba(16, 185, 129, 0.12);
+  color: #047857;
+}
+
+.badge--contract {
+  background: rgba(245, 158, 11, 0.12);
+  color: #b45309;
+}
+
+.badge--job_seeker {
+  background: var(--tag-bg);
+  color: var(--tag-text);
+}
+
+.badge--recruiter {
+  background: rgba(124, 58, 237, 0.10);
+  color: #6d28d9;
+}
+
+.badge--admin {
+  background: rgba(239, 68, 68, 0.10);
+  color: #b91c1c;
+}
+
+.badge--selected {
+  background: rgba(16, 185, 129, 0.12);
+  color: #047857;
+}
+
+[data-theme="dark"] .badge--under_review {
+  color: #fbbf24;
+}
+
+[data-theme="dark"] .badge--shortlisted {
+  color: #34d399;
+}
+
+[data-theme="dark"] .badge--rejected {
+  color: #f87171;
+}
+
+[data-theme="dark"] .badge--active {
+  color: #34d399;
+}
+
+[data-theme="dark"] .badge--banned {
+  color: #f87171;
+}
+
+[data-theme="dark"] .badge--part_time {
+  color: #a78bfa;
+}
+
+[data-theme="dark"] .badge--remote {
+  color: #34d399;
+}
+
+[data-theme="dark"] .badge--contract {
+  color: #fbbf24;
+}
+
+[data-theme="dark"] .badge--recruiter {
+  color: #a78bfa;
+}
+
+[data-theme="dark"] .badge--selected {
+  color: #34d399;
+}

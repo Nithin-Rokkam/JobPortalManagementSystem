@@ -1,0 +1,69 @@
+<div class="user-mgmt">
+  <app-page-header title="User Management" subtitle="Manage all platform users" [breadcrumbs]="[{label:'Users'}]"></app-page-header>
+
+  <div class="filters">
+    <input type="text" [(ngModel)]="search" placeholder="Search by name or email..." class="search-input" />
+    <select [(ngModel)]="roleFilter" class="filter-select">
+      <option value="">All Roles</option>
+      <option value="JOB_SEEKER">Job Seeker</option>
+      <option value="RECRUITER">Recruiter</option>
+    </select>
+    <select [(ngModel)]="statusFilter" class="filter-select">
+      <option value="">All Status</option>
+      <option value="ACTIVE">Active</option>
+      <option value="BANNED">Banned</option>
+    </select>
+  </div>
+
+  <div class="table-wrap" *ngIf="!loading && filtered.length">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>User</th>
+          <th>Email</th>
+          <th>Role</th>
+          <th>Status</th>
+          <th>Joined</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let u of filtered" [class.row--banned]="u.status === 'BANNED'">
+          <td>
+            <div class="user-cell">
+              <div class="avatar">{{ getInitials(u.name) }}</div>
+              <span>{{ u.name }}</span>
+            </div>
+          </td>
+          <td class="td-muted">{{ u.email }}</td>
+          <td><app-badge [status]="u.role"></app-badge></td>
+          <td><app-badge [status]="u.status"></app-badge></td>
+          <td class="td-muted">{{ u.createdAt | date:'mediumDate' }}</td>
+          <td>
+            <div class="actions">
+              <button *ngIf="u.status === 'ACTIVE'" class="action-btn action-btn--warn" (click)="confirm('ban', u)" title="Ban">🚫</button>
+              <button *ngIf="u.status === 'BANNED'" class="action-btn action-btn--ok" (click)="confirm('unban', u)" title="Unban">✅</button>
+              <button class="action-btn action-btn--danger" (click)="confirm('delete', u)" title="Delete">🗑️</button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="loading">
+    <div class="skeleton" style="height:48px;border-radius:8px;margin-bottom:8px" *ngFor="let i of [1,2,3,4,5]"></div>
+  </div>
+
+  <app-empty-state *ngIf="!loading && !filtered.length" message="No users found" icon="👥"></app-empty-state>
+</div>
+
+<app-confirm-modal
+  *ngIf="confirmAction"
+  [title]="confirmAction.type === 'delete' ? 'Delete User' : (confirmAction.type === 'ban' ? 'Ban User' : 'Unban User')"
+  [message]="confirmAction.type === 'delete' ? 'This action cannot be undone.' : (confirmAction.type === 'ban' ? confirmAction.user.name + ' will be logged out immediately.' : 'Restore access for ' + confirmAction.user.name + '?')"
+  [confirmLabel]="confirmAction.type === 'delete' ? 'Delete' : (confirmAction.type === 'ban' ? 'Ban' : 'Unban')"
+  [isDanger]="confirmAction.type !== 'unban'"
+  (confirmed)="execute()"
+  (cancelled)="confirmAction = null">
+</app-confirm-modal>

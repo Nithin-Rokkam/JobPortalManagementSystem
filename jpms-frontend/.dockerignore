@@ -1,0 +1,8 @@
+# Exclude large directories not needed in Docker build context
+node_modules/
+dist/
+.angular/
+.git/
+.vscode/
+coverage/
+*.log

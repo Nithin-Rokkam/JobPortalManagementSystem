@@ -1,0 +1,105 @@
+<div class="dashboard-container animate-fade-in-up">
+  
+  <!-- Greeting & Profile Summary -->
+  <div class="greeting-row">
+    <div class="greeting-section">
+      <h1 class="heading-celestial" style="font-size: 2rem;">Recruiter Hub: {{ user?.name }} 💼</h1>
+      <p style="color: var(--text-secondary);">
+        {{ profile?.companyName ? profile.companyName + ' · ' : '' }}Your hiring dashboard is ready.
+      </p>
+    </div>
+  </div>
+
+  <!-- Stats Grid -->
+  <div class="stats-grid stagger">
+    <div class="celestial-card stat-card">
+      <div class="stat-icon" style="background: rgba(74, 108, 247, 0.1); color: var(--royal-blue);">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+          <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+        </svg>
+      </div>
+      <div class="stat-info">
+        <span class="stat-value">{{ counts.total }}</span>
+        <span class="label-celestial">Total Posted</span>
+      </div>
+    </div>
+
+    <div class="celestial-card stat-card">
+      <div class="stat-icon" style="background: rgba(16, 185, 129, 0.1); color: var(--accent-success);">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+          <polyline points="22 4 12 14.01 9 11.01"></polyline>
+        </svg>
+      </div>
+      <div class="stat-info">
+        <span class="stat-value">{{ counts.active }}</span>
+        <span class="label-celestial">Active Openings</span>
+      </div>
+    </div>
+
+    <div class="celestial-card stat-card">
+      <div class="stat-icon" style="background: rgba(124, 58, 237, 0.1); color: var(--energy-violet);">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+          <circle cx="9" cy="7" r="4"></circle>
+          <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+          <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+        </svg>
+      </div>
+      <div class="stat-info">
+        <span class="stat-value">{{ counts.draft }}</span> 
+        <span class="label-celestial">Drafts</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- CTA Card -->
+  <div class="celestial-card cta-hero inner-glow">
+    <div class="cta-content">
+      <h2 class="heading-celestial">Scale your engineering team.</h2>
+      <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">Reach qualified developers and designers within minutes.</p>
+      <button class="btn-celestial" routerLink="/recruiter/post-job">Post New Job Posting</button>
+    </div>
+    <div class="cta-visual">
+       <!-- Abstract SVG decoration -->
+       <svg width="200" height="200" viewBox="0 0 200 200">
+         <circle cx="100" cy="100" r="80" stroke="var(--royal-blue)" stroke-width="1" fill="none" opacity="0.1" />
+         <circle cx="100" cy="100" r="60" stroke="var(--energy-violet)" stroke-width="1" fill="none" opacity="0.1" />
+       </svg>
+    </div>
+  </div>
+
+  <!-- Recent Postings -->
+  <section style="margin-top: 3rem;">
+    <div class="section-header">
+      <h2 class="label-celestial">Your Recent Postings</h2>
+      <a routerLink="/recruiter/my-jobs" class="view-all">Manage All →</a>
+    </div>
+
+    <div class="jobs-list" *ngIf="!loading">
+      <div *ngFor="let job of recentJobs" class="celestial-card job-row-recruiter animate-fade-in-up">
+        <div class="job-info-brief">
+          <h3 style="font-size: 1rem; margin: 0;">{{ job.title }}</h3>
+          <p style="font-size: 0.75rem; color: var(--text-muted);">{{ job.location }} • {{ job.createdAt | date:'shortDate' }}</p>
+        </div>
+        <div class="mini-stats">
+          <div class="m-stat">
+            <span class="m-val">--</span>
+            <span class="m-lbl">Live</span>
+          </div>
+        </div>
+        <div class="row-actions">
+          <button [routerLink]="['/recruiter/jobs', job.id, 'applicants']" class="btn-outline small">VIEW TALENT</button>
+          <button [routerLink]="['/recruiter/jobs', job.id, 'edit']" class="btn-outline small icon-only">
+             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+               <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+               <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+             </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>

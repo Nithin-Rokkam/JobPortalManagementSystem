@@ -1,0 +1,81 @@
+.centered-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 24px;
+    background: var(--bg-page);
+}
+
+.celestial-card.inner-glow {
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-md);
+}
+
+.heading-celestial {
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.label-celestial {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+.form-input {
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    color: var(--text-primary);
+    padding: 10px 14px;
+    font-size: 14px;
+    width: 100%;
+    transition: border-color var(--t-fast), box-shadow var(--t-fast);
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: var(--brand);
+    box-shadow: 0 0 0 3px rgba(43, 63, 232, 0.10);
+}
+
+.form-input::placeholder {
+    color: var(--text-muted);
+}
+
+.form-input.error {
+    border-color: var(--accent-danger);
+}
+
+.error-text {
+    font-size: 12px;
+    color: var(--accent-danger);
+    margin-top: 2px;
+}
+
+.btn-celestial {
+    background: var(--brand);
+    color: #fff;
+    border: none;
+    border-radius: var(--radius-md);
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background var(--t-fast);
+}
+
+.btn-celestial:hover:not(:disabled) {
+    background: var(--brand-hover);
+}
+
+.btn-celestial:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}

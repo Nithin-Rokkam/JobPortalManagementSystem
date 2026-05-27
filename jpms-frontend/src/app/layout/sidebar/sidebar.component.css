@@ -1,0 +1,129 @@
+.celestial-sidebar {
+  width: 240px;
+  background: var(--bg-surface);
+  border-right: 0.5px solid var(--border);
+  transition: width var(--t-normal), background var(--t-normal);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.celestial-sidebar.collapsed {
+  width: 64px;
+}
+
+/* ── Sidebar Logo ───────────────────────────────────── */
+.sidebar-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 12px 12px;
+  border-bottom: 0.5px solid var(--border);
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.sidebar-logo__img {
+  height: 32px;
+  width: 32px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.sidebar-logo__text {
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--text-primary);
+  white-space: nowrap;
+}
+
+/* ── Nav ────────────────────────────────────────────── */
+.sidebar-nav {
+  padding: 12px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 12px;
+  color: var(--text-secondary);
+  text-decoration: none;
+  border-radius: var(--radius-md);
+  transition: all var(--t-fast);
+  font-weight: 500;
+  font-size: 14px;
+  white-space: nowrap;
+  border: none;
+  background: none;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+}
+
+.nav-item:hover {
+  background: var(--bg-surface-2);
+  color: var(--text-primary);
+}
+
+.nav-item.active {
+  background: var(--row-active-bg);
+  color: var(--brand);
+  border-left: 3px solid var(--brand);
+  padding-left: 9px;
+}
+
+.nav-icon {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  color: inherit;
+}
+
+.nav-label {
+  white-space: nowrap;
+  opacity: 1;
+  transition: opacity var(--t-normal);
+  font-size: 14px;
+}
+
+.collapsed .nav-label {
+  opacity: 0;
+  pointer-events: none;
+  width: 0;
+  overflow: hidden;
+}
+
+.sidebar-footer {
+  padding: 8px;
+  border-top: 0.5px solid var(--border);
+}
+
+.collapse-btn {
+  width: 100%;
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  border-radius: var(--radius-sm);
+  transition: background var(--t-fast), color var(--t-fast);
+}
+
+.collapse-btn:hover {
+  background: var(--bg-surface-2);
+  color: var(--text-primary);
+}
+
+.text-danger {
+  color: var(--accent-danger) !important;
+}
