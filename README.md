@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Joblix — Job Portal Management System (JPMS)
 
 A full-stack, enterprise-grade job portal built on a Spring Boot microservices backend and an Angular 19+ frontend. The system supports three user roles — Job Seeker, Recruiter, and Admin — with JWT-based authentication, event-driven email notifications via RabbitMQ, file uploads via Cloudinary, and a modern "Celestial" UI design system.
@@ -588,3 +589,7 @@ Each microservice has its own detailed README:
 ---
 
 *Joblix — Capgemini Training Sprint 1 | Built with Spring Boot 3.x + Angular 19+*
+=======
+# JobPortalManagementSystem
+Application for Seekers to apply the jobs and the Recruiters for posting the  jobs and an admin to monitor the users and the audit logs
+>>>>>>> dd48e3ce4fc50bc46709e8ee74304deb206141fc
