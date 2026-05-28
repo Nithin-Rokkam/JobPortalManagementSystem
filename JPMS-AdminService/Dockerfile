@@ -3,7 +3,11 @@ ENV TZ=UTC
 WORKDIR /app
 COPY pom.xml .
 COPY src ./src
-RUN mvn clean package -DskipTests -Djacoco.skip=true -q
+RUN mvn clean package -DskipTests -Djacoco.skip=true -q \
+    -Dmaven.wagon.http.retryHandler.count=3 \
+    -Dmaven.wagon.http.connectionTimeOut=120000 \
+    -Dmaven.wagon.http.readTimeOut=120000
+
 
 FROM eclipse-temurin:21-jre
 ENV TZ=UTC
