@@ -25,8 +25,10 @@ public class CorsConfig {
         corsConfig.setAllowedOrigins(Arrays.asList(
                 "http://localhost:4200",
                 "http://127.0.0.1:4200",
+                "http://13.203.136.68",
                 "http://13.203.136.68:4200",
-                "http://joblix.dev"));
+                "http://joblix.dev",
+                "http://www.joblix.dev"));
 
         // Allow all HTTP methods
         corsConfig.setAllowedMethods(Arrays.asList(
